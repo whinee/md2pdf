@@ -38,7 +38,7 @@ help() {
 }
 
 gui() {
-    exec "$APPDIR/m2p"
+    exec "$APPDIR/md2pdf"
     exit 0
 }
 

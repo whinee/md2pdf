@@ -129,6 +129,7 @@ class CDExceptions:
                 - State should be an integer
                 - State should be more than `-1` or less than `{max_state + 1}`"""
 
+
 class KatexExceptions:
     @c_exc_str
     class NotFound(Exception):

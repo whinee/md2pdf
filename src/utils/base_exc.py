@@ -7,6 +7,7 @@ except ImportError:
     from src.utils import types
     from src.utils.style import S, pp
 
+
 def c_exc_str(cls: Type[BaseException]) -> Type[BaseException]:
     """Decorator to add the __str__ method to an exception.
 
@@ -19,10 +20,12 @@ def c_exc_str(cls: Type[BaseException]) -> Type[BaseException]:
 
     old_init: Callable[..., None] = cls.__init__
 
-    def __init__(self: BaseException, *args: types.Args, **kwargs: types.Kwargs) -> None:
+    def __init__(
+        self: BaseException, *args: types.Args, **kwargs: types.Kwargs
+    ) -> None:
         old_init(self, *args, **kwargs)
         pp(S.p_critical(S.t_critical(self.message)))
-        if details:=getattr(self, 'details', None):
+        if details := getattr(self, "details", None):
             print(details)
 
     def __str__(self: BaseException) -> str:
@@ -32,8 +35,8 @@ def c_exc_str(cls: Type[BaseException]) -> Type[BaseException]:
         #     return msg + '\n' + details
         return msg
 
-    cls.__init__ = __init__ # type: ignore[assignment]
-    cls.__str__ = __str__ # type: ignore[assignment]
+    cls.__init__ = __init__  # type: ignore[assignment]
+    cls.__str__ = __str__  # type: ignore[assignment]
     return cls
 
 
@@ -55,11 +58,13 @@ def c_exc(cls: Type[BaseException]) -> Type[BaseException]:
     else:
         exc = Exception
 
-    def __init__(self: Type[BaseException], message: str, details: Optional[str] = None) -> None:
+    def __init__(
+        self: Type[BaseException], message: str, details: Optional[str] = None
+    ) -> None:
         self.message = message
         if details is not None:
-            self.details=details
+            self.details = details
         exc(self.message)
 
-    cls.__init__ = __init__ # type: ignore[assignment, attr-defined, misc, no-any-return]
+    cls.__init__ = __init__  # type: ignore[assignment, attr-defined, misc, no-any-return]
     return c_exc_str(cls)

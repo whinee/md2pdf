@@ -118,18 +118,17 @@ class CustomDict(dict):  # type: ignore[type-arg]
         key = path_ls[0]
         is_not_last = len(path_ls) > 1
 
-
         if tc is dict:
-            if key in elem: # type: ignore[operator]
+            if key in elem:  # type: ignore[operator]
                 if is_not_last:
                     return self.traverse(
                         path=path.replace(key + sep, "", 1),
-                        elem=elem[key], # type: ignore[index]
+                        elem=elem[key],  # type: ignore[index]
                         sep=sep,
                         idx=idx + 1,
                         og_path=og_path,
                     )
-                return 0, elem[key] # type: ignore[index]
+                return 0, elem[key]  # type: ignore[index]
             return 1, {"key": key}
         elif isinstance(elem, list) or isinstance(elem, tuple):
             if len(key) < 0:
@@ -148,7 +147,7 @@ class CustomDict(dict):  # type: ignore[type-arg]
                 if is_not_last:
                     return self.traverse(
                         path=path.replace(key + sep, "", 1),
-                        elem=elem[ls_idx], # type: ignore[index]
+                        elem=elem[ls_idx],  # type: ignore[index]
                         sep=sep,
                         idx=idx + 1,
                         og_path=og_path,
@@ -162,7 +161,7 @@ class CustomDict(dict):  # type: ignore[type-arg]
         )
 
     def dir(self, path: str = DEF_STR, de: Any = DEF_STR, sep: str = "/") -> Any:
-        if (path == DEF_STR) or (path == ''):
+        if (path == DEF_STR) or (path == ""):
             return self
         state, op = self.traverse(path=path, elem=self, sep=sep)
         match state:
@@ -178,6 +177,7 @@ class CustomDict(dict):  # type: ignore[type-arg]
                 raise CDExceptions.API.IndexError(sep=sep, og_path=path, **op)
             case _:
                 CDExceptions.Internals.StateUnexpected(state=state, max_state=1)
+
 
 def test() -> None:
     # Init Test
@@ -234,7 +234,7 @@ def test() -> None:
     # dict - list
     test = CustomDict({"a": ["b", "c"]})
     test.modify("a/1", "d")
-    assert test.modify("a/1", "d") == {"a": ['b', 'd']}
+    assert test.modify("a/1", "d") == {"a": ["b", "d"]}
     assert test.insert("a/1", "d") == {"a": ["b", "d", "c"]}
     test.append("a", "d")
     assert test.append("a", "d") == {"a": ["b", "d", "c", "d"]}

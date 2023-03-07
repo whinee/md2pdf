@@ -1,5 +1,5 @@
 from functools import partial
-from typing import Optional, Any
+from typing import Any, Optional
 
 from .exceptions import c_exc, c_exc_str
 from .utils import ivnd
@@ -46,7 +46,6 @@ class CustomDict(dict):
         idx: int = 0,
         og_path: Optional[str] = None,
     ) -> Any:
-
         og_path = ivnd(og_path, path)
 
         path_ls = path.split("/")

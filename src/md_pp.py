@@ -5,9 +5,9 @@ import re
 import shutil
 import signal
 import subprocess
+import urllib.parse
 from glob import glob
 from typing import Any, Generator
-import urllib.parse
 
 from markdown import Markdown
 from markdown.extensions import Extension
@@ -18,12 +18,12 @@ try:
     from .info import MACHINE, PROJ_ABS_PATH, PSH
     from .utils import exceptions
     from .utils.base_cli import de_rcfg, de_wcfg, get_stg
-    from .utils.utils import run_mp_star, which_ls, dnrp
+    from .utils.utils import dnrp, run_mp_star, which_ls
 except ImportError:
     from src.info import MACHINE, PROJ_ABS_PATH, PSH
     from src.utils import exceptions
     from src.utils.base_cli import de_rcfg, de_wcfg, get_stg
-    from src.utils.utils import run_mp_star, which_ls, dnrp
+    from src.utils.utils import dnrp, run_mp_star, which_ls
 
 # Constants
 KATEX_CMD_NAME = "katex"
@@ -75,6 +75,7 @@ PKG_BIN_DIR = os.path.join(PROJ_ABS_PATH, "katex", "bin")
 # Initialize Variables
 KATEX_CMD_PARTS: list[str] = []
 
+
 def _get_bin_cmd() -> str:
     if bin := shutil.which(KATEX_CMD_NAME):
         return bin
@@ -107,9 +108,9 @@ def _get_bin_cmd() -> str:
 
 
 def get_bin_cmd() -> list[str]:
-    if bin := get_stg("katex_bin", de=None): # type: ignore[arg-type]
+    if bin := get_stg("katex_bin", de=None):  # type: ignore[arg-type]
         bin_cmd: list[str] = bin.split()
-        if 'npx' in bin:
+        if "npx" in bin:
             output_data = subprocess.check_output(
                 bin_cmd + ["--version"], stderr=subprocess.STDOUT
             )
@@ -121,7 +122,7 @@ def get_bin_cmd() -> list[str]:
     cfg = de_rcfg()
     cfg["katex_bin"] = bin
     de_wcfg(cfg)
-    bin_cmd: list[str] = bin.split() # type: ignore[no-redef]
+    bin_cmd: list[str] = bin.split()  # type: ignore[no-redef]
     return bin_cmd
 
 

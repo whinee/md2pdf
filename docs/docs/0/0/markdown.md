@@ -8,7 +8,7 @@
 
 <h2 id="base-implementation"><b><a href="#base-implementation">Base Implementation</a></b></h2>
 
-m2p uses <code><a target="_blank" href="https://github.com/Python-Markdown/markdown">Python-Markdown/markdown</a></code> to convert Markdown to HTML which, apparently, is a Python implementation of <a target="_blank" href="https://daringfireball.net/">John Gruber</a>'s <code><a target="_blank" href="https://daringfireball.net/projects/markdown/">markdown</a></code>
+md2pdf uses <code><a target="_blank" href="https://github.com/Python-Markdown/markdown">Python-Markdown/markdown</a></code> to convert Markdown to HTML which, apparently, is a Python implementation of <a target="_blank" href="https://daringfireball.net/">John Gruber</a>'s <code><a target="_blank" href="https://daringfireball.net/projects/markdown/">markdown</a></code>
 
 According to the cited program's documentation, the specification is implemented as close to the reference specification as possible. In <a target="_blank" href="https://python-markdown.github.io/#differences">this link</a>, you will see difference of the Python implementation and the original implementation.
 
@@ -16,7 +16,7 @@ And oh yes, this is an arguably messy implementation of Markdown, as opposed to 
 
 <h2 id="extended-syntax"><b><a href="#extended-syntax">Extended Syntax</a></b></h2>
 
-m2p extended the base implementation, and hereinunder are the details.
+md2pdf extended the base implementation, and hereinunder are the details.
 
 <h2 id="extended-syntax-math-expression"><b><i><a href="#extended-syntax-math-expression">Math Expression</a></i></b></h2>
 

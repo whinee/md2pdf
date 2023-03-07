@@ -1,13 +1,14 @@
+import os
 import re
 from functools import partial
 from os import path
 from pathlib import Path
-from typing import Optional, Any
-import os
+from typing import Any, Optional
+
 import inquirer
 
+from . import docs, scripts
 from .cd import CustomDict
-from . import scripts, docs
 from .cfg import rcfg, wcfg
 from .md_vars import RMDV, VYML, vrcfg
 from .schema import Config
@@ -100,7 +101,6 @@ def cc():
 
 
 def docs_fn() -> None:
-
     cc()
     scripts.main()
 

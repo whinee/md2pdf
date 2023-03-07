@@ -14,7 +14,7 @@ As used in this Disclaimer, the following terms **SHALL** have the following mea
 
 - **Developer** hereby means the person who has developed the **Project** going by the alias of "whi~nyaan!" in the internet, username of "[whinee](https://www.github.com/whinee)" in "[Github](https://github.com)", username of "[whi_ne#4783](https://www.github.com/whinee)" in "[Discord](https://discord.com/users/848092597822160907)" and rightful owner of the electronic mail address "[whinyaan@protonmail.com](mailto:whinyaan@protonmail.com)", only meant to be used in singular form
 
-- **Project** hereby means the Open Source Project called "[m2p](https://www.github.com/whinee/md2pdf)" developed by the **Developer**, only meant to be used in singular form
+- **Project** hereby means the Open Source Project called "[md2pdf](https://www.github.com/whinee/md2pdf)" developed by the **Developer**, only meant to be used in singular form
 
 - **Website** hereby means a set of interconnected webpages, prepared and maintained as a collection of information for the **Project** by the **Developer**, located at m2p.whinyaan.xyz, only meant to be used in singular form; and
 

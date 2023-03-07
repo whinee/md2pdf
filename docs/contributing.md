@@ -1,5 +1,5 @@
 <h1 align="center" style="font-weight: bold">
-    Contributing to m2p
+    Contributing to md2pdf
 </h1>
 
 First off, thanks for taking the time to contribute! ❤️
@@ -20,7 +20,7 @@ And if you like the project, but just don't have time to contribute, that's fine
 <h2 id="code-of-conduct"><b><a href="#code-of-conduct">Code of Conduct</a></b></h2>
 
 This project and everyone participating in it is governed by the
-[m2p Code of Conduct](coc.md).
+[md2pdf Code of Conduct](coc.md).
 By participating, you are expected to uphold this code. Please report unacceptable behavior
 to <>.
 
@@ -87,7 +87,7 @@ Once it's filed:
 
 <h2 id="i-want-to-contribute-suggesting-enhancements"><b><i><a href="#i-want-to-contribute-suggesting-enhancements">Suggesting Enhancements</a></i></b></h2>
 
-This section guides you through submitting an enhancement suggestion for m2p, **including completely new features and minor improvements to existing functionality**. Following these guidelines will help maintainers and the community to understand your suggestion and find related suggestions.
+This section guides you through submitting an enhancement suggestion for md2pdf, **including completely new features and minor improvements to existing functionality**. Following these guidelines will help maintainers and the community to understand your suggestion and find related suggestions.
 
 <h2 id="i-want-to-contribute-suggesting-enhancements-before-submitting-an-enhancement"><a href="#i-want-to-contribute-suggesting-enhancements-before-submitting-an-enhancement">Before Submitting an Enhancement</a></h2>
 
@@ -104,7 +104,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/whinee
 - Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
 - **Describe the current behavior** and **explain which behavior you expected to see instead** and why. At this point you can also tell which alternatives do not work for you.
 - You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part which the suggestion is related to. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux. <!-- this should only be included if the project has a GUI -->
-- **Explain why this enhancement would be useful** to most m2p users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
+- **Explain why this enhancement would be useful** to most md2pdf users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
 
 <!-- TODO
 You might want to create an issue template for enhancement suggestions that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->

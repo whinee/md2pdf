@@ -112,13 +112,15 @@ def split_text(t: str) -> list[str]:
     return op
 
 
-def text(t: str, *args: list[Any], ca: Optional[bool] = None, **kwargs: dict[str, Any]) -> Group:
+def text(
+    t: str, *args: list[Any], ca: Optional[bool] = None, **kwargs: dict[str, Any]
+) -> Group:
     fn = partial(Text, *args, **kwargs)
     op = []
     for i in split_text(t):
         ip = fn(i)
         op.append(Align.center(ip) if (ca if ca is not None else True) else ip)
-    return Group(*op) # type: ignore
+    return Group(*op)  # type: ignore
 
 
 STYLE_TYPE = {
@@ -145,16 +147,17 @@ for k, v in STYLE_TYPE.items():
     for idx, i in enumerate(COLORS_TYPE[k]["n"]):
         setattr(S, f"{k}{idx}", chalk.hex(i).bold)
         # setattr(S, f"{k}{idx}", partial(v, style=Style(color=i)))
-    for vk, vv in COLORS_TYPE[k]["named"].items(): # type: ignore[union-attr]
-        setattr(S, f"{k}_{vk}", partial(v, style=Style(color=vv))) # type: ignore
+    for vk, vv in COLORS_TYPE[k]["named"].items():  # type: ignore[union-attr]
+        setattr(S, f"{k}_{vk}", partial(v, style=Style(color=vv)))  # type: ignore
 
 for k, v in COLORS.items():
     for idx, i in enumerate(v):
         setattr(C, f"{k}{idx}", i)
 
 
-
-def pp(t: Any, ca: Optional[bool] = None, *args: list[Any], **kwargs: dict[str, Any]) -> None:
+def pp(
+    t: Any, ca: Optional[bool] = None, *args: list[Any], **kwargs: dict[str, Any]
+) -> None:
     """Center rich printable objects, then pretty print it.
 
     Args:
@@ -200,7 +203,7 @@ class ct:
             new_cols.append(Column(title, **attr, justify="center"))
 
         t = Table(*new_cols, **stb, **STYLE_ALL["all"], box=box)
-        for i in rows: # type: ignore[assignment]
+        for i in rows:  # type: ignore[assignment]
             t.add_row(*[str(i) for i in i])
 
         pp(t)

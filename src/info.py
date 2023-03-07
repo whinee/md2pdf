@@ -13,7 +13,7 @@ import msgpack
 warnings.filterwarnings("ignore")
 
 # Constants
-DEF_STR = 'c0VjUmVUX2NPZEUgYnkgd2hpX25l'
+DEF_STR = "c0VjUmVUX2NPZEUgYnkgd2hpX25l"
 
 # Derived Constants
 
@@ -21,7 +21,7 @@ DEF_STR = 'c0VjUmVUX2NPZEUgYnkgd2hpX25l'
 
 PROJ_ABS_PATH: Final[str] = dirname(realpath(__file__))
 
-with open(path.join(PROJ_ABS_PATH, "constants", "const.mp"), 'rb') as f:
+with open(path.join(PROJ_ABS_PATH, "constants", "const.mp"), "rb") as f:
     CONST = msgpack.unpackb(f.read(), raw=False, use_list=True)
 
 PROJECT_NAME = CONST["project_name"]
@@ -82,19 +82,21 @@ except OSError as e:
 MACHINE = platform.machine()
 
 match PLATFORM:
-    case 'win32':
-        PSH = 'win'
+    case "win32":
+        PSH = "win"
         """Platform Short Hand"""
-    case 'darwin':
-        PSH = 'mac'
+    case "darwin":
+        PSH = "mac"
     case _:
         PSH = PLATFORM
 
 match PLATFORM:
-    case 'win32':
+    case "win32":
         import ctypes
 
-        LOCALE = locale.windows_locale[ctypes.windll.kernel32.GetUserDefaultUILanguage()][:2]
+        LOCALE = locale.windows_locale[
+            ctypes.windll.kernel32.GetUserDefaultUILanguage()
+        ][:2]
 
         CFLOP: Final[list[str]] = [
             rf"{os.getcwd()}\{PROJECT_NAME}.yml",
@@ -119,13 +121,13 @@ match PLATFORM:
                         H --> |false| G
         ```
         """
-    case 'darwin' | 'linux':
+    case "darwin" | "linux":
         if _LOCALE := locale.getdefaultlocale()[0]:
-            LOCALE = _LOCALE[:2] # type: ignore[misc, no-redef]
+            LOCALE = _LOCALE[:2]  # type: ignore[misc, no-redef]
         else:
-            LOCALE = 'en' # type: ignore[misc, no-redef]
+            LOCALE = "en"  # type: ignore[misc, no-redef]
 
-        CFLOP = [ # type: ignore[misc]
+        CFLOP = [  # type: ignore[misc]
             f"{os.getcwd()}/{PROJECT_NAME}.yml",
             "~/.config/{PROJECT_NAME}/config.yml",
             "~/.{PROJECT_NAME}",
@@ -133,6 +135,6 @@ match PLATFORM:
         if xch := os.getenv("XDG_CONFIG_HOME"):
             CFLOP.insert(1, f"{xch}/{PROJECT_NAME}/config.yml")
         if _LOCALE := locale.getdefaultlocale()[0]:
-            LOCALE: Final[str] = _LOCALE[:2] # type: ignore[misc, no-redef]
+            LOCALE: Final[str] = _LOCALE[:2]  # type: ignore[misc, no-redef]
     case _:
-        raise Exception(f'Platform not Supported: {PLATFORM}')
+        raise Exception(f"Platform not Supported: {PLATFORM}")

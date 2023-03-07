@@ -1,15 +1,11 @@
 <h1 align="center" style="font-weight: bold">
-    m2p
+    md2pdf
 </h1>
-
----
 
 <!-- Description. Preferably 1 sentence long. -->
 <h2 align="center" style="font-weight: bold">
     Markdown to PDF converter
 </h2>
-
----
 
 <p align="center">
     <a href="https://github.com/whinee/md2pdf/issues">
@@ -60,23 +56,29 @@ Website: [m2p.whinyaan.xyz](https://m2p.whinyaan.xyz)
 
 ---
 
-To be updated, be sure to watch this repository and join the [Discord Support Server](https://discord.com/invite/JbAtUxGcJZ) for MangDL.
+To be updated, be sure to watch this repository and join the [Discord Support Server](https://discord.com/invite/JbAtUxGcJZ) for this and other projects.
 
 Interested in commissioning projects? Inquire through Discord(<a target="_blank" href="https://discord.com/users/848092597822160907">whi_ne#4783</a>) or through e-mail(<a target="_blank" href="mailto:whinyaan@protonmail.com">whinyaan@protonmail.com</a>). Price starts at 30 USD.
 
 
 <div class="toc"><h2 id="toc"><b><a href="#toc">Table of Contents</a></b></h2>
-<ul><li><a href="#downloads">Downloads</a></li><li><a href="#what-s-this">What’s this?</a><ul><li><a href="#what-s-this-supported-oses">Supported OSes</a></li></ul></li><li><a href="#usage">Usage</a></li><li><a href="#getting-started">Getting Started</a></li><li><a href="#advantages">Advantages</a></li><li><a href="#disadvantages">Disadvantages</a></li><li><a href="#translations">Translations</a></li><li><a href="#known-issues-and-limitations">Known Issues and Limitations</a></li><li><a href="#considerations">Considerations</a></li><li><a href="#contributions">Contributions</a></li><li><a href="#license">License</a><ul><li><a href="#license-mit">MIT</a></li></ul></li><li><a href="#attribution">Attribution</a><ul><li><a href="#attribution-mit-logo">MIT Logo</a></li><li><a href="#attribution-icons">Icons</a></li></ul></li><li><a href="#further-reading">Further Reading</a></li></ul></div>
+<ul><li><a href="#important">Important</a></li><li><a href="#downloads">Downloads</a></li><li><a href="#what-s-this">What’s this?</a><ul><li><a href="#what-s-this-supported-oses">Supported OSes</a></li></ul></li><li><a href="#usage">Usage</a></li><li><a href="#getting-started">Getting Started</a></li><li><a href="#advantages">Advantages</a></li><li><a href="#disadvantages">Disadvantages</a></li><li><a href="#translations">Translations</a></li><li><a href="#known-issues-and-limitations">Known Issues and Limitations</a></li><li><a href="#considerations">Considerations</a></li><li><a href="#contributions">Contributions</a></li><li><a href="#license">License</a><ul><li><a href="#license-mit">MIT</a></li></ul></li><li><a href="#attribution">Attribution</a><ul><li><a href="#attribution-mit-logo">MIT Logo</a></li><li><a href="#attribution-icons">Icons</a></li></ul></li><li><a href="#further-reading">Further Reading</a></li></ul></div>
+
+<h2 id="important"><b><a href="#important">Important</a></b></h2>
+
+md2pdf is still in Unreleased ALpha Development Stage.
+
+Using the program at this stage is not recommended.
 
 <h2 id="downloads"><b><a href="#downloads">Downloads</a></b></h2>
 
 Since people are looking for the download first, here you go:
 
-Follow [this link](https://m2p.whinyaan.xyz/installation) to install m2p in your machine.
+Follow [this link](https://m2p.whinyaan.xyz/installation) to install md2pdf in your machine.
 
 <h2 id="what-s-this"><b><a href="#what-s-this">What’s this?</a></b></h2>
 
-m2p is a [Markdown](docs/0/0/markdown.md) to PDF converter that can also do a lot of stuff:
+md2pdf is a [Markdown](docs/0/0/markdown.md) to PDF converter that can also do a lot of stuff:
 
 - Headers and Footers
     - Can be in Markdown or HTML format
@@ -121,7 +123,6 @@ Please refer to [this link](docs/0/0/contribute/translations.md) to learn more o
 <!-- Mention the issus and limitations of this repository. Preferably 1-5 sentences long. -->
 <h2 id="known-issues-and-limitations"><b><a href="#known-issues-and-limitations">Known Issues and Limitations</a></b></h2>
 
-- Headers and Footers are kinda broken
 - This program can not be run in termux due to an inherent bug in AOSP that the said org's developers refuses to fix even if it will only take (apparently) a change in a single line of code (I forgot where the relevant Stackoverflow link is stored at, nor do I know the keywords for searching it up)
 
 <h2 id="considerations"><b><a href="#considerations">Considerations</a></b></h2>
@@ -134,7 +135,7 @@ If you want to help, check the [TODO](TODO.md) of the developer and the [contrib
 
 For the contribution guidelines, visit [this link](contribution.md).
 
-For contributing in the latest version of m2p, visit [this link](docs/0/0/contribute/index.md)
+For contributing in the latest version of md2pdf, visit [this link](docs/0/0/contribute/index.md)
 
 <!-- License section. Leave unchanged except when changing the style altogether. -->
 <h2 id="license"><b><a href="#license">License</a></b></h2>
@@ -142,7 +143,7 @@ For contributing in the latest version of m2p, visit [this link](docs/0/0/contri
 ### <a target="_blank" href="https://choosealicense.com/licenses/mit/">MIT</a>
 
 Copyright for portions of project <a target=_blank
-href="https://github.com/whinee/m2p">m2p</a> are held by [Julien Maupetit, Github account <a target=_blank
+href="https://github.com/whinee/md2pdf">md2pdf</a> are held by [Julien Maupetit, Github account <a target=_blank
 href="https://github.com/jmaupetit">jmaupetit</a> owner, 2016-2021] as part of project
 <a target=_blank href="https://github.com/jmaupetit/md2pdf">md2pdf</a>, by [c4ffein, Github account <a target=_blank
 href="https://github.com/c4ffein">c4ffein</a> owner, 2021-2022] as part of project
@@ -161,7 +162,7 @@ href="https://github.com/whinee">whinee</a> owner, 2022] as part of project
 <a target=_blank href="https://github.com/Pirate-Kings/YAMHL">YAMHL</a>.
 
 All other copyright for project <a target=_blank
-href="https://github.com/whinee/m2p">m2p</a> are held by [Github
+href="https://github.com/whinee/md2pdf">md2pdf</a> are held by [Github
 Account <a target=_blank href="https://github.com/whinee">whinee</a> Owner, 2023].
 
 Check the [LICENSE](LICENSE.md) for more details.

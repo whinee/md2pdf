@@ -1,7 +1,7 @@
 import base64
-from datetime import date
 import os
 import shutil
+from datetime import date
 
 from .cfg import rcfg
 from .utils import vls_str
@@ -43,6 +43,7 @@ USER = GLOBAL["user"]
 # Initialize
 cholder_ls = []
 
+
 # Functions
 def b64(name: str) -> str:
     with open(f"./docs/assets/images/icons/{name}", "rb") as f:
@@ -53,10 +54,10 @@ def vrcfg(file: str):
     return rcfg(os.path.join(*VER_DIR, f"{file}.yml"))
 
 
-if os.path.isdir('docs'):
-    shutil.rmtree('docs')
-    os.makedirs('docs')
-shutil.copytree('dev/raw_docs/assets/', 'docs/assets/')
+if os.path.isdir("docs"):
+    shutil.rmtree("docs")
+    os.makedirs("docs")
+shutil.copytree("dev/raw_docs/assets/", "docs/assets/")
 
 if LICENSE["cholder"]:
     for c, mp in LICENSE["cholder"].items():

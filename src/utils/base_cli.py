@@ -5,8 +5,7 @@ import typing
 import warnings
 from pathlib import Path
 from textwrap import wrap
-from typing import (Any, Callable, Final, Optional, Sequence, Type, TypeVar,
-                    overload)
+from typing import Any, Callable, Final, Optional, Sequence, Type, TypeVar, overload
 
 import click
 import msgpack
@@ -15,9 +14,12 @@ from prompt_toolkit.key_binding import KeyBindings, KeyPressEvent
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import BaseStyle, merge_styles
 from questionary import utils
-from questionary.constants import (DEFAULT_KBI_MESSAGE,
-                                   DEFAULT_QUESTION_PREFIX,
-                                   DEFAULT_SELECTED_POINTER, DEFAULT_STYLE)
+from questionary.constants import (
+    DEFAULT_KBI_MESSAGE,
+    DEFAULT_QUESTION_PREFIX,
+    DEFAULT_SELECTED_POINTER,
+    DEFAULT_STYLE,
+)
 from questionary.prompts import common
 from questionary.prompts.common import Choice
 from tabulate import tabulate
@@ -486,7 +488,6 @@ class cao:
         return inner
 
     def wrap(self, func: Callable[..., Any]) -> Callable[..., Any]:
-
         """
         Args:
         - func (`Callable[..., Any]`): Function to be wrapped.
@@ -518,6 +519,7 @@ def command(
 
     return cao(group).wrap
 
+
 def select(
     message: str,
     choices: Sequence[str | Choice | dict[str, Any]] | dict[str, Any],
@@ -530,10 +532,10 @@ def select(
     ret_err: Optional[bool] = None,
     **kwargs: dict[str, Any],
 ) -> tuple[bool, Any]:
-    class _CEIQ(ExtInquirerControl): # type: ignore[misc]
+    class _CEIQ(ExtInquirerControl):  # type: ignore[misc]
         pass
 
-    class _CEQ(ExtQuestion): # type: ignore[misc]
+    class _CEQ(ExtQuestion):  # type: ignore[misc]
         pass
 
     _LANG_C = globals.LANG_C
@@ -558,10 +560,10 @@ def select(
     cd = False
     if type(choices).__mro__[-2] is dict:
         cd = True
-        oc = choices.copy() # type: ignore[union-attr]
-        final_choices: Sequence[str | Choice | dict[str, Any]] = list(choices.keys()) # type: ignore[union-attr]
+        oc = choices.copy()  # type: ignore[union-attr]
+        final_choices: Sequence[str | Choice | dict[str, Any]] = list(choices.keys())  # type: ignore[union-attr]
     else:
-        final_choices = choices # type: ignore[assignment]
+        final_choices = choices  # type: ignore[assignment]
 
     if style is not None:
         style = merge_styles([DEFAULT_STYLE, style])
@@ -584,7 +586,7 @@ def select(
         _instruction = instruction
 
         if cd:
-            _val = oc[choice] # type: ignore[index]
+            _val = oc[choice]  # type: ignore[index]
 
             if type(_val).__mro__[-2] is dict:
                 _msg = _val.get("message", _msg)
@@ -610,7 +612,7 @@ def select(
         else:
             tokens.append(("class:instruction", f"({_instruction})"))
 
-        return tokens # type: ignore[return-value]
+        return tokens  # type: ignore[return-value]
 
     layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
 
@@ -659,6 +661,7 @@ def select(
             res = res.get("value", res)
     return err, res
 
+
 def init(idx: int) -> None:
     cm = rcfg(os.path.join(dnrp(__file__, 2), "constants", "cf_tpl.mp"))
 
@@ -693,10 +696,12 @@ def init(idx: int) -> None:
     globals.CFG_PATH = CFLOP[idx]
     wcfg(CFLOP[idx], cm)
 
+
 for i in CFLOP:
     if os.path.exists(str(i)):
         globals.CFG_PATH = i
         break
+
 
 def de_rcfg() -> CustomDict:
     """Return parsed configuration file, fetched from the CFLOP.
@@ -715,17 +720,19 @@ def de_wcfg(value: dict[Any, Any] | list[Any]) -> None:
     """
     wcfg(globals.CFG_PATH, value)
 
+
 def get_stg(path: str, **kwargs: types.Kwargs) -> Optional[Any]:
     return de_rcfg().dir(path, **kwargs)
 
-if globals.CFG_PATH == '':
-    for i in Path(os.path.join(dnrp(__file__, 2), "constants", "lang")).rglob("*.mp"): # type: ignore[assignment]
+
+if globals.CFG_PATH == "":
+    for i in Path(os.path.join(dnrp(__file__, 2), "constants", "lang")).rglob("*.mp"):  # type: ignore[assignment]
         globals.LANG_C[os.path.splitext(i.name)[0]] = msgpack.unpackb(
             i.read_bytes(), use_list=True
         )
 
     match PLATFORM:
-        case 'darwin' | 'linux':
+        case "darwin" | "linux":
             if VARIANT == "appimage":
                 init(1)
             else:
@@ -734,4 +741,6 @@ if globals.CFG_PATH == '':
             init(0)
 else:
     lang: str = de_rcfg()["lang"]
-    globals.LANG_C = rcfg(os.path.join(dnrp(__file__, 2), "constants", "lang", lang + ".mp"))
+    globals.LANG_C = rcfg(
+        os.path.join(dnrp(__file__, 2), "constants", "lang", lang + ".mp")
+    )

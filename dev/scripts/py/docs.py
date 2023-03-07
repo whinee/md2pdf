@@ -1,12 +1,13 @@
 import json
+import os
 import re
 import shutil
 from functools import partial
 from io import StringIO
-from os import listdir, path
+from os import listdir
 from os.path import dirname as dn
 from pathlib import Path
-from typing import Optional, Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import frontmatter
 import panflute
@@ -33,6 +34,9 @@ ul{
 AW = '<a href="#{id}">{content}</a>'
 HW = '<h{n} id="{id}">{title}</h{n}>\n'
 HA_RSTYLE = ["<b>{}</b>", "<b><i>{}</i></b>", "{}", "<i>{}</i>"]
+H1 = '<h1 align="center" style="font-weight: bold">\n    {}\n</h1>\n\n'
+H1_MD = H1 + "{}\n"
+H1_LINK_MD = H1.format('<a target="_blank" href="{}">{}</a>') + "{}\n"
 
 # Constants
 RE_MDSE = r"(?<=# {key} start\n).+(?=\n\s*# {key} end)"
@@ -69,6 +73,7 @@ H1_STYLE = HA_RSTYLE[0]
 # Variable Initialization
 HA_STYLE = {}
 
+
 # Class Initialization
 class Constants:
     pass
@@ -93,6 +98,7 @@ for i, j in cycle_2ls(range(HA_VNS, HA_VNE + 1), HA_RSTYLE):
 
 
 yaml.add_representer(str, str_presenter)
+
 
 # Functions
 def _sh_inner(toc_ls, res_ls, elem, iid) -> None:
@@ -133,8 +139,8 @@ def docs_dir(mn: str, absolute: bool = True, api=False) -> str:
     if api:
         rel_ls.insert(2, "api")
         rel_ls.insert(0, "docs")
-    rel = path.join(*rel_ls)
-    abs = path.join(PDOC["op"], rel)
+    rel = os.path.join(*rel_ls)
+    abs = os.path.join(PDOC["op"], rel)
     inmd(abs)
     if absolute:
         return abs
@@ -281,7 +287,7 @@ def main(rmv: Dict[Any, Any] = {}):
         res_ls = []
         tp = False
 
-        out = path.join(docs_pdir, *rip.parts[2:-1], f"{rip.stem}.md")
+        out = os.path.join(docs_pdir, *rip.parts[2:-1], f"{rip.stem}.md")
 
         print(f"Generating {out}")
 
@@ -296,21 +302,12 @@ def main(rmv: Dict[Any, Any] = {}):
         if title := rf.get("title"):
             fm["title"] = title
             if link := rf.get("link"):
-                md = """<h1 align="center" style="font-weight: bold">
-    <a target="_blank" href="{}">{}</a>
-</h1>\n\n{}\n""".format(
-                    link, title, md
-                )
+                md = H1_LINK_MD.format(link, title, md)
             else:
-                md = """<h1 align="center" style="font-weight: bold">
-    {}
-</h1>\n\n{}\n""".format(
-                    title, md
-                )
+                md = H1_MD.format(title, md)
 
         for k, v in d.items():
-            md = md.replace('{{' + k + '}}', str(v))
-
+            md = md.replace("{{" + k + "}}", str(v))
 
         panflute.run_filter(
             style_header_init(hls, pf_set_element()),
@@ -341,15 +338,15 @@ def main(rmv: Dict[Any, Any] = {}):
             makos.append(str(i))
 
     for i in MAKO["gen"]["path"]:
-        ip = path.join(DOCS["input"], i)
-        if path.isfile(ip):
+        ip = os.path.join(DOCS["input"], i)
+        if os.path.isfile(ip):
             makos.append(ip)
         else:
             print(f"{ip} not found")
 
     for ip in makos:
         pip = Path(ip)
-        op = path.join(docs_pdir, *pip.parts[2:-1], f"{pip.stem}.md")
+        op = os.path.join(docs_pdir, *pip.parts[2:-1], f"{pip.stem}.md")
         mytemplate = Template(filename=ip)
         tpl_rd = mytemplate.render(
             **{
@@ -364,9 +361,19 @@ def main(rmv: Dict[Any, Any] = {}):
 
     ndd = {}
     u_ls = sorted(listdir(base), reverse=True)
+    with open(os.path.join(docs_pdir, op_base, "index.md"), "w") as f:
+        print("here")
+        f.write(H1.format("All Version") + "\n".join(f"- [{u}.x.x.x]" for u in u_ls))
     for u in u_ls:
-        for d in sorted(listdir(path.join(base, u)), reverse=True):
-            ndd[f"{u}.{d}"] = f"{op_base}/{u}/{d}/"
+        d_ls = sorted(listdir(os.path.join(base, u)), reverse=True)
+        with open(
+            os.path.join(os.path.join(docs_pdir, op_base, u), "index.md"), "w"
+        ) as f:
+            f.write(
+                H1.format(f"{u}.x.x.x]") + "\n".join(f"- [{u}.{d}.x.x]" for d in d_ls)
+            )
+        for d in d_ls:
+            ndd[f"{u}.{d}"] = os.path.join(op_base, u, d)
 
     lk = list(ndd.keys())[-1]
     ndd[f"{lk} (Current)"] = ndd.pop(lk)

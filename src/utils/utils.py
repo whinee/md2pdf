@@ -17,8 +17,11 @@ from time import strftime, strptime
 from typing import Any, Callable, Final, Generator, Optional
 
 import arrow
-from questionary.constants import (DEFAULT_KBI_MESSAGE, INDICATOR_SELECTED,
-                                   INDICATOR_UNSELECTED)
+from questionary.constants import (
+    DEFAULT_KBI_MESSAGE,
+    INDICATOR_SELECTED,
+    INDICATOR_UNSELECTED,
+)
 from questionary.prompts.common import Choice, InquirerControl, Separator
 from questionary.question import Question
 from rich import print
@@ -68,7 +71,8 @@ class CallbackGetResult:
     def get(self) -> tuple[None] | tuple[Any, ...]:
         return self.args
 
-class ExtInquirerControl(InquirerControl): # type: ignore[misc]
+
+class ExtInquirerControl(InquirerControl):  # type: ignore[misc]
     answer_text = "Answer"
 
     def _get_choice_tokens(self) -> list[Any]:
@@ -116,7 +120,7 @@ class ExtInquirerControl(InquirerControl): # type: ignore[misc]
                     )
                 )
             else:
-                shortcut = choice.get_shortcut_title() if self.use_shortcuts else "" # type: ignore[no-untyped-call]
+                shortcut = choice.get_shortcut_title() if self.use_shortcuts else ""  # type: ignore[no-untyped-call]
 
                 if selected:
                     if self.use_indicator:
@@ -158,7 +162,7 @@ class ExtInquirerControl(InquirerControl): # type: ignore[misc]
             answer = ""
 
             answer += (
-                current.title if isinstance(current.title, str) else current.title[0][1] # type: ignore[index]
+                current.title if isinstance(current.title, str) else current.title[0][1]  # type: ignore[index]
             )
 
             tokens.append(("class:text", f"  {self.answer_text}: " + answer))
@@ -167,10 +171,10 @@ class ExtInquirerControl(InquirerControl): # type: ignore[misc]
         return tokens
 
 
-class ExtQuestion(Question): # type: ignore[misc]
+class ExtQuestion(Question):  # type: ignore[misc]
     kbi = DEFAULT_KBI_MESSAGE
 
-    def ask(self, patch_stdout: Optional[bool] = None, **kwargs: dict[str, Any]) -> tuple[bool, Any]: # type: ignore[override]
+    def ask(self, patch_stdout: Optional[bool] = None, **kwargs: dict[str, Any]) -> tuple[bool, Any]:  # type: ignore[override]
         """Ask the question synchronously and return user response.
 
         Args:
@@ -191,6 +195,7 @@ class ExtQuestion(Question): # type: ignore[misc]
         except KeyboardInterrupt:
             print("\n{}\n".format(self.kbi))
             return False, None
+
 
 # Functions
 def dnrp(file: str, n: Optional[int] = None) -> str:
@@ -474,6 +479,7 @@ def sanitize_text(s: str) -> str:
     """
     return unicodedata.normalize("NFKD", CCHARS_RE.sub("", s)).strip()
 
+
 def str2int(s: str) -> Optional[int]:
     """If given string is decimal, convert string to integer, else return False.
 
@@ -483,11 +489,12 @@ def str2int(s: str) -> Optional[int]:
     Returns:
         bool: _description_
     """
-    if s[0] in ('-', '+') and s[1:].isdecimal():
+    if s[0] in ("-", "+") and s[1:].isdecimal():
         return int(s)
     elif s.isdecimal():
         return int(s)
     return None
+
 
 def squery(
     query: str,

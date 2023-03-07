@@ -2,11 +2,12 @@ import shlex
 from itertools import cycle
 from os import makedirs, path
 from subprocess import call
-from typing import Optional, Any, Iterable
+from typing import Any, Iterable, Optional
 
 # Constants
 
 PR = ["alpha", "beta", "rc"]
+
 
 # Functions
 def cycle_2ls(a: list[Any], b: list[Any]) -> Iterable:

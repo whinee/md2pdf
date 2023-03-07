@@ -1,6 +1,6 @@
 # Do Not Modify!
 # info start
-site_name: m2p
+site_name: md2pdf
 site_url: https://m2p.whinyaan.xyz
 repo_url: https://github.com/whinee/md2pdf
 site_description: None
@@ -87,5 +87,5 @@ nav:
   # Do Not Modify!
   - Documentation:
   # nav docs start
-    - 0.0 (Current): docs/0/0/
+    - 0.0 (Current): docs/0/0
   # nav docs end

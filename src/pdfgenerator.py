@@ -18,16 +18,22 @@ UNITS_TO_PX: Final[dict[str, int | float]] = {
 UNITS_TO_PX["cm"] = CM_TO_PX = (DPI * 25.2) / 64
 UNITS_TO_PX["mm"] = MM_TO_PX = CM_TO_PX / 10
 UNITS_TO_PX["Q"] = MM_TO_PX / 4
-OVERLAY_LAYOUT_TPL: Final[str] = """
+OVERLAY_LAYOUT_TPL: Final[
+    str
+] = """
 @page {size: %s; margin: 0;}
 header {position: fixed; top: 0; left: 0; right: 0;}
 footer {position: fixed; bottom: 0; left: 0; right: 0;}
 """
-PRINT_LAYOUT_TPL: Final[str] = """
+PRINT_LAYOUT_TPL: Final[
+    str
+] = """
 @page {{size: {size}; margin: {margin};}}
 @page :nth(1) {{size: {size}; margin: {first_margin};}}
 """
-COMPUTE_ELEMENT_HF_TPL: Final[str] = """
+COMPUTE_ELEMENT_HF_TPL: Final[
+    str
+] = """
 footer, header {{counter-increment: page {} pages {};}}
 """
 
@@ -205,8 +211,7 @@ class PDFGenerator:
             element_height = element_html.height
         return ceil(element_height)
 
-    def _apply_overlay_on_main(self, main_doc): # type: ignore[no-untyped-def]
-
+    def _apply_overlay_on_main(self, main_doc):  # type: ignore[no-untyped-def]
         for page_number, page in enumerate(main_doc.pages, start=1):
             page_body = get_element(page._page_box.all_children(), "body")
             if page_number == 1:
@@ -249,7 +254,9 @@ class PDFGenerator:
             stylesheets=[
                 CSS(
                     string=PRINT_LAYOUT_TPL.format(
-                        size=self.size, margin=comp_margin, first_margin=comp_first_margin
+                        size=self.size,
+                        margin=comp_margin,
+                        first_margin=comp_first_margin,
                     )
                 ),
                 *self.stylesheets,

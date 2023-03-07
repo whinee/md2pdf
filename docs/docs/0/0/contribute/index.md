@@ -2,4 +2,4 @@
     For Contributors
 </h1>
 
-- [Translating m2p](translation.md)
+- [Translating md2pdf](translation.md)
