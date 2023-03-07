@@ -363,14 +363,18 @@ def main(rmv: Dict[Any, Any] = {}):
     u_ls = sorted(listdir(base), reverse=True)
     with open(os.path.join(docs_pdir, op_base, "index.md"), "w") as f:
         print("here")
-        f.write(H1.format("All Version") + "\n".join(f"- [{u}.x.x.x]" for u in u_ls))
+        f.write(
+            H1.format("All Version")
+            + "\n".join(f"- [Version {u}.x.x.x]({u}/index.md)" for u in u_ls)
+        )
     for u in u_ls:
         d_ls = sorted(listdir(os.path.join(base, u)), reverse=True)
         with open(
             os.path.join(os.path.join(docs_pdir, op_base, u), "index.md"), "w"
         ) as f:
             f.write(
-                H1.format(f"{u}.x.x.x]") + "\n".join(f"- [{u}.{d}.x.x]" for d in d_ls)
+                H1.format(f"Version {u}.x.x.x")
+                + "\n".join(f"- [Version {u}.{d}.x.x]({d}/index.md)" for d in d_ls)
             )
         for d in d_ls:
             ndd[f"{u}.{d}"] = os.path.join(op_base, u, d)
