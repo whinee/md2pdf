@@ -1,0 +1,175 @@
+<h1 align="center" style="font-weight: bold">
+    {{project_name}}
+</h1>
+
+---
+
+<!-- Description. Preferably 1 sentence long. -->
+<h2 align="center" style="font-weight: bold">
+    {{desc}}
+</h2>
+
+---
+
+<p align="center">
+    <a href="https://github.com/{{organization}}/{{repo_name}}/issues">
+        <img src="https://img.shields.io/github/issues/{{organization}}/{{repo_name}}.svg?style=flat-square&logo=data:image/png;base64,{{issues_b64}}">
+    </a>
+    <a href="https://github.com/{{organization}}/{{repo_name}}/network/members">
+        <img src="https://img.shields.io/github/forks/{{organization}}/{{repo_name}}.svg?style=flat-square&logo=data:image/png;base64,{{forks_b64}}">
+    </a>
+    <a href="https://github.com/{{organization}}/{{repo_name}}/stargazers">
+        <img src="https://img.shields.io/github/stars/{{organization}}/{{repo_name}}.svg?style=flat-square&logo=data:image/png;base64,{{stars_b64}}">
+    </a>
+    <a href="https://github.com/{{organization}}/{{repo_name}}/graphs/contributors">
+        <img src="https://img.shields.io/github/contributors/{{organization}}/{{repo_name}}.svg?style=flat-square&logo=data:image/png;base64,{{contributors_b64}}">
+    </a>
+    <a href="https://{{site}}/license.html">
+        <img src="https://img.shields.io/badge/LICENSE-A31F34?style=flat-square&logoWidth=25&logo=data:image/png;base64,{{license_b64}}">
+    </a>
+</p>
+<p align="center">
+    <a href="https://app.codacy.com/gh/{{organization}}/{{repo_name}}/dashboard?branch=master">
+        <img alt="Codacy Badge" src="https://img.shields.io/codacy/grade/{{codacy_id}}?style=flat-square">
+    </a>
+    <a href="https://github.com/{{organization}}/{{repo_name}}/releases">
+        <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/{{organization}}/{{repo_name}}?include_prereleases&style=flat-square">
+    </a>
+    <a href="https://github.com/{{organization}}/{{repo_name}}/releases">
+        <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/{{organization}}/{{repo_name}}/test.yml?branch=main&label=Build&style=flat-square">
+    </a>
+</p>
+<p align="center">
+    <a target="_blank" href="https://discord.com/invite/{{dc_inv}}">
+        <img src="https://invidget.switchblade.xyz/{{dc_inv}}">
+    </a>
+</p>
+
+---
+
+<!-- Motto section. Preferably 2-5 sentences long. -->
+<h4 align="center">
+{{motto}}
+</h4>
+
+---
+
+Github: [github.com/{{organization}}/{{repo_name}}](https://github.com/{{organization}}/{{repo_name}})
+
+Website: [{{site}}](https://{{site}})
+
+---
+
+To be updated, be sure to watch this repository and join the [Discord Support Server](https://discord.com/invite/{{dc_inv}}) for MangDL.
+
+Interested in commissioning projects? Inquire through Discord(<a target="_blank" href="https://discord.com/users/{{dc_uid}}">{{dc_acc}}</a>) or through e-mail(<a target="_blank" href="{{mail_link}}">{{mail_acc}}</a>). Price starts at 30 USD.
+
+## Important
+
+{{project_name}} is still in Unreleased ALpha Development Stage.
+
+Using the program at this stage is not recommended.
+
+## Downloads
+
+Since people are looking for the download first, here you go:
+
+Follow [this link](https://{{site}}/installation) to install {{project_name}} in your machine.
+
+## What's this?
+
+{{project_name}} is a [Markdown](docs/{{ver_user}}/{{ver_dev}}/markdown.md) to PDF converter that can also do a lot of stuff:
+
+- Headers and Footers
+    - Can be in Markdown or HTML format
+    - Support for first page header and footer
+- Print output HTML
+- Programmatic Usage
+
+### Supported OSes
+
+- Windows
+- MacOS
+- Linux
+
+<!-- Mention examples of application of this repository. -->
+## Usage
+
+<i><font color="#ED5E5E">
+    This section is not yet complete.
+</font></i>
+
+## Getting Started
+
+The instructions will get you a copy of the project up and running on your local machine for development and testing purposes., visit [this link](docs/{{ver_user}}/{{ver_dev}}/getting-started)
+
+## Advantages
+
+- Standardized Styles
+- Consistent Results
+- Programmatic Usage
+
+## Disadvantages
+
+- This program does not guarantee that you will be able to write faster, just be able to write in markdown (effectively plaintext) and produce consistent results (assuming that you use the same text, settings, stylesheet/s, and whatnot)
+- Have to link pictures online in order to attach one in the document, unlike in fancy word editors like Microsoft Word or LibreOffice Writer
+
+## Translations
+
+This program is translation ([i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization#Naming)) ready!
+
+Please refer to [this link](docs/{{ver_user}}/{{ver_dev}}/contribute/translations.md) to learn more on how to create a translation for this program.
+
+<!-- Mention the issus and limitations of this repository. Preferably 1-5 sentences long. -->
+## Known Issues and Limitations
+
+- This program can not be run in termux due to an inherent bug in AOSP that the said org's developers refuses to fix even if it will only take (apparently) a change in a single line of code (I forgot where the relevant Stackoverflow link is stored at, nor do I know the keywords for searching it up)
+
+## Considerations
+
+I want to implement more features as to extend the markdown specification, and in [this link](considerations.md), you can see the following considerations to be made for future feature implementations.
+
+If you want to help, check the [TODO](TODO.md) of the developer and the [contribution guidelines](contribution.md).
+
+## Contributions
+
+For the contribution guidelines, visit [this link](contribution.md).
+
+For contributing in the latest version of {{project_name}}, visit [this link](docs/{{ver_user}}/{{ver_dev}}/contribute/index.md)
+
+<!-- License section. Leave unchanged except when changing the style altogether. -->
+## License
+
+### <a target="_blank" href="https://choosealicense.com/licenses/mit/">MIT</a>
+
+{{cholder}}
+
+Check the [LICENSE](LICENSE.md) for more details.
+
+## Attribution
+
+### MIT Logo
+
+<a target="_blank" href="https://commons.wikimedia.org/wiki/File:MIT_logo.svg">Massachusetts Institute of Technology</a> (vectorized by <a target="_blank" href="https://en.wikipedia.org/wiki/User:Mysid">Mysid</a>, modified by [{{user}}](https://github.com/{{user}})), Public domain, via Wikimedia Commons
+
+### Icons
+
+<a target="_blank" href="https://icons8.com/icon/102502/exclamation-mark">Exclamation Mark</a>, <a target="_blank" href="https://icons8.com/icon/33294/code-fork">Code Fork</a>, <a target="_blank" href="https://icons8.com/icon/85185/star">Star</a>, <a target="_blank" href="https://icons8.com/icon/34095/group">Group</a>, <a target="_blank" href="https://icons8.com/icon/87276/code">Code</a>, and <a href="https://icons8.com/icon/30888/discord">Discord</a> icons by <a target="_blank" href="https://icons8.com">Icons8</a>
+
+<sub>
+    <i>
+        <b>NOTE:</b> If a reference or source material is not attributed properly or not at all, please kindly message me at Discord: <a target="_blank" href="https://discord.com/users/{{dc_uid}}">{{dc_acc}}</a> or create a pull request so I can properly give credit to their respective authors.
+    </i>
+</sub>
+
+## Further Reading
+
+- [Frequently Asked Questions](faq.md)
+- [License Agreement](license.md)
+- [Latest Documentation ({{ver_user}}.{{ver_dev}}.x.x)](docs/{{ver_user}}/{{ver_dev}}/index.md)
+- [All Documentation](docs/index.md)
+- [Changelog](changelog.md)
+- [Latest Bump](latest-bump.md)
+- [Latest Commit](latest-commit.md)
+- [Notes for {{author}}](notes-to-self.md)
+- [{{author}}'s diary](diary.md)

@@ -1,0 +1,19 @@
+# TODO
+
+
+<div class="toc"><h2 id="toc"><b><a href="#toc">Table of Contents</a></b></h2>
+<ul><li><a href="#todo">Todo</a></li><li><a href="#in-progress">In Progress</a></li><li><a href="#done">Done</a></li></ul></div>
+
+<h2 id="todo"><b><a href="#todo">Todo</a></b></h2>
+
+- [ ] n-column support
+- [ ] GUI
+- [ ] Custom Help Function (to only compute help page's width when help is actually called; the CLI is actually already fast enough that this might not be necessary, but is just a mere novelty)
+
+<h2 id="in-progress"><b><a href="#in-progress">In Progress</a></b></h2>
+
+- [ ] Custom mermaid.js renderer (will be done after the GUI, as the HUI will be written in JS, and the rendered will be using JS too)
+
+<h2 id="done"><b><a href="#done">Done</a></b></h2>
+
+- [x] Custom KaTex renderer (as the best one for Weasyprint use, [mbarkhau/markdown-katex](https://github.com/mbarkhau/markdown-katex) is so dang slow)

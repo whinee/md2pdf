@@ -1,0 +1,490 @@
+/*
+
+Code Syntax Highlighting
+
+On a Linux machine, run the following command to get this CSS file:
+
+```
+clear;python -c 'import re,sys;from cssbeautifier.css.beautifier import beautify;from pygments.formatters import HtmlFormatter;*a,b=sys.orig_argv;print("/\u002a\n\nCode Syntax Highlighting\n\nOn a Linux machine, run the following command to get this CSS file:\n\n```\nclear;"," ".join(a)," \u0027"+b+"\u0027\n```\n\nRequirements:\n\n- Python 3\n- Python Packages:\n  - cssbeautifier\n  - Pygments\n\n\nArguments:\n\nThis (kind of) script accepts two parameters: `style` and `selector`.\nThe `style` is the style of the code to be highlighted. For demo, visit https://pygments.org/demo/\nThe `selector` is the CSS selector for the container that contains the tokens.\nTo change the arguments, modify the last line of the command above.\n\nOr... you know... just run the following command:\n\n```\npygmentize -f html -S github-dark -a .code-hilite\n```\n\n\u002a/\n\n",sep="");generate=lambda style,selector:(print(beautify(re.sub(r"(.+) (\/\*.+\*\/)","\\2\\n\\1",HtmlFormatter(style=style).get_style_defs(selector)).strip())))
+
+generate("github-dark", ".code-hilite")'
+```
+
+Requirements:
+
+- Python 3
+- Python Packages:
+  - cssbeautifier
+  - Pygments
+
+
+Arguments:
+
+This (kind of) script accepts two parameters: `style` and `selector`.
+The `style` is the style of the code to be highlighted. For demo, visit https://pygments.org/demo/
+The `selector` is the CSS selector for the container that contains the tokens.
+To change the arguments, modify the last line of the command above.
+
+Or... you know... just run the following command:
+
+```
+pygmentize -f html -S github-dark -a .code-hilite
+```
+
+*/
+
+
+pre {
+    line-height: 125%;
+}
+
+td.linenos .normal {
+    color: #6e7681;
+    background-color: #0d1117;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+span.linenos {
+    color: #6e7681;
+    background-color: #0d1117;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+td.linenos .special {
+    color: #c9d1d9;
+    background-color: #6e7681;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+span.linenos.special {
+    color: #c9d1d9;
+    background-color: #6e7681;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.code-hilite .hll {
+    background-color: #6e7681
+}
+
+.code-hilite {
+    background: #0d1117;
+    color: #c9d1d9
+}
+
+/* Comment */
+.code-hilite .c {
+    color: #8b949e;
+    font-style: italic
+}
+
+/* Error */
+.code-hilite .err {
+    color: #f85149
+}
+
+/* Escape */
+.code-hilite .esc {
+    color: #c9d1d9
+}
+
+/* Generic */
+.code-hilite .g {
+    color: #c9d1d9
+}
+
+/* Keyword */
+.code-hilite .k {
+    color: #ff7b72
+}
+
+/* Literal */
+.code-hilite .l {
+    color: #a5d6ff
+}
+
+/* Name */
+.code-hilite .n {
+    color: #c9d1d9
+}
+
+/* Operator */
+.code-hilite .o {
+    color: #ff7b72;
+    font-weight: bold
+}
+
+/* Other */
+.code-hilite .x {
+    color: #c9d1d9
+}
+
+/* Punctuation */
+.code-hilite .p {
+    color: #c9d1d9
+}
+
+/* Comment.Hashbang */
+.code-hilite .ch {
+    color: #8b949e;
+    font-style: italic
+}
+
+/* Comment.Multiline */
+.code-hilite .cm {
+    color: #8b949e;
+    font-style: italic
+}
+
+/* Comment.Preproc */
+.code-hilite .cp {
+    color: #8b949e;
+    font-weight: bold;
+    font-style: italic
+}
+
+/* Comment.PreprocFile */
+.code-hilite .cpf {
+    color: #8b949e;
+    font-style: italic
+}
+
+/* Comment.Single */
+.code-hilite .c1 {
+    color: #8b949e;
+    font-style: italic
+}
+
+/* Comment.Special */
+.code-hilite .cs {
+    color: #8b949e;
+    font-weight: bold;
+    font-style: italic
+}
+
+/* Generic.Deleted */
+.code-hilite .gd {
+    color: #ffa198;
+    background-color: #490202
+}
+
+/* Generic.Emph */
+.code-hilite .ge {
+    color: #c9d1d9;
+    font-style: italic
+}
+
+/* Generic.Error */
+.code-hilite .gr {
+    color: #ffa198
+}
+
+/* Generic.Heading */
+.code-hilite .gh {
+    color: #79c0ff;
+    font-weight: bold
+}
+
+/* Generic.Inserted */
+.code-hilite .gi {
+    color: #56d364;
+    background-color: #0f5323
+}
+
+/* Generic.Output */
+.code-hilite .go {
+    color: #8b949e
+}
+
+/* Generic.Prompt */
+.code-hilite .gp {
+    color: #8b949e
+}
+
+/* Generic.Strong */
+.code-hilite .gs {
+    color: #c9d1d9;
+    font-weight: bold
+}
+
+/* Generic.Subheading */
+.code-hilite .gu {
+    color: #79c0ff
+}
+
+/* Generic.Traceback */
+.code-hilite .gt {
+    color: #ff7b72
+}
+
+/* Generic.Underline */
+.code-hilite .g-Underline {
+    color: #c9d1d9;
+    text-decoration: underline
+}
+
+/* Keyword.Constant */
+.code-hilite .kc {
+    color: #79c0ff
+}
+
+/* Keyword.Declaration */
+.code-hilite .kd {
+    color: #ff7b72
+}
+
+/* Keyword.Namespace */
+.code-hilite .kn {
+    color: #ff7b72
+}
+
+/* Keyword.Pseudo */
+.code-hilite .kp {
+    color: #79c0ff
+}
+
+/* Keyword.Reserved */
+.code-hilite .kr {
+    color: #ff7b72
+}
+
+/* Keyword.Type */
+.code-hilite .kt {
+    color: #ff7b72
+}
+
+/* Literal.Date */
+.code-hilite .ld {
+    color: #79c0ff
+}
+
+/* Literal.Number */
+.code-hilite .m {
+    color: #a5d6ff
+}
+
+/* Literal.String */
+.code-hilite .s {
+    color: #a5d6ff
+}
+
+/* Name.Attribute */
+.code-hilite .na {
+    color: #c9d1d9
+}
+
+/* Name.Builtin */
+.code-hilite .nb {
+    color: #c9d1d9
+}
+
+/* Name.Class */
+.code-hilite .nc {
+    color: #f0883e;
+    font-weight: bold
+}
+
+/* Name.Constant */
+.code-hilite .no {
+    color: #79c0ff;
+    font-weight: bold
+}
+
+/* Name.Decorator */
+.code-hilite .nd {
+    color: #d2a8ff;
+    font-weight: bold
+}
+
+/* Name.Entity */
+.code-hilite .ni {
+    color: #ffa657
+}
+
+/* Name.Exception */
+.code-hilite .ne {
+    color: #f0883e;
+    font-weight: bold
+}
+
+/* Name.Function */
+.code-hilite .nf {
+    color: #d2a8ff;
+    font-weight: bold
+}
+
+/* Name.Label */
+.code-hilite .nl {
+    color: #79c0ff;
+    font-weight: bold
+}
+
+/* Name.Namespace */
+.code-hilite .nn {
+    color: #ff7b72
+}
+
+/* Name.Other */
+.code-hilite .nx {
+    color: #c9d1d9
+}
+
+/* Name.Property */
+.code-hilite .py {
+    color: #79c0ff
+}
+
+/* Name.Tag */
+.code-hilite .nt {
+    color: #7ee787
+}
+
+/* Name.Variable */
+.code-hilite .nv {
+    color: #79c0ff
+}
+
+/* Operator.Word */
+.code-hilite .ow {
+    color: #ff7b72;
+    font-weight: bold
+}
+
+/* Punctuation.Marker */
+.code-hilite .pm {
+    color: #c9d1d9
+}
+
+/* Text.Whitespace */
+.code-hilite .w {
+    color: #6e7681
+}
+
+/* Literal.Number.Bin */
+.code-hilite .mb {
+    color: #a5d6ff
+}
+
+/* Literal.Number.Float */
+.code-hilite .mf {
+    color: #a5d6ff
+}
+
+/* Literal.Number.Hex */
+.code-hilite .mh {
+    color: #a5d6ff
+}
+
+/* Literal.Number.Integer */
+.code-hilite .mi {
+    color: #a5d6ff
+}
+
+/* Literal.Number.Oct */
+.code-hilite .mo {
+    color: #a5d6ff
+}
+
+/* Literal.String.Affix */
+.code-hilite .sa {
+    color: #79c0ff
+}
+
+/* Literal.String.Backtick */
+.code-hilite .sb {
+    color: #a5d6ff
+}
+
+/* Literal.String.Char */
+.code-hilite .sc {
+    color: #a5d6ff
+}
+
+/* Literal.String.Delimiter */
+.code-hilite .dl {
+    color: #79c0ff
+}
+
+/* Literal.String.Doc */
+.code-hilite .sd {
+    color: #a5d6ff
+}
+
+/* Literal.String.Double */
+.code-hilite .s2 {
+    color: #a5d6ff
+}
+
+/* Literal.String.Escape */
+.code-hilite .se {
+    color: #79c0ff
+}
+
+/* Literal.String.Heredoc */
+.code-hilite .sh {
+    color: #79c0ff
+}
+
+/* Literal.String.Interpol */
+.code-hilite .si {
+    color: #a5d6ff
+}
+
+/* Literal.String.Other */
+.code-hilite .sx {
+    color: #a5d6ff
+}
+
+/* Literal.String.Regex */
+.code-hilite .sr {
+    color: #79c0ff
+}
+
+/* Literal.String.Single */
+.code-hilite .s1 {
+    color: #a5d6ff
+}
+
+/* Literal.String.Symbol */
+.code-hilite .ss {
+    color: #a5d6ff
+}
+
+/* Name.Builtin.Pseudo */
+.code-hilite .bp {
+    color: #c9d1d9
+}
+
+/* Name.Function.Magic */
+.code-hilite .fm {
+    color: #d2a8ff;
+    font-weight: bold
+}
+
+/* Name.Variable.Class */
+.code-hilite .vc {
+    color: #79c0ff
+}
+
+/* Name.Variable.Global */
+.code-hilite .vg {
+    color: #79c0ff
+}
+
+/* Name.Variable.Instance */
+.code-hilite .vi {
+    color: #79c0ff
+}
+
+/* Name.Variable.Magic */
+.code-hilite .vm {
+    color: #79c0ff
+}
+
+/* Literal.Number.Integer.Long */
+.code-hilite .il {
+    color: #a5d6ff
+}

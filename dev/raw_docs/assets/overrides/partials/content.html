@@ -1,0 +1,79 @@
+{% set re_tc = page.content | get_toc %}
+
+<!-- Table of contents -->
+{% if not "toc.integrate" in features %}
+    {% if page.meta and page.meta.hide %}
+        {% set hidden = "hidden" if "toc" in page.meta.hide %}
+    {% endif %}
+    {% set title = lang.t("toc.title") %}
+    {% if config.mdx_configs.toc and config.mdx_configs.toc.title %}
+        {% set title = config.mdx_configs.toc.title %}
+    {% endif %}
+    <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" {{ hidden }}>
+        <div class="md-sidebar__scrollwrap">
+            <div class="md-sidebar__inner">
+                <nav class="md-nav md-nav--secondary" aria-label="{{ title }}">
+                    <!--
+                        Hack: check whether the content contains a h1 headline. If it does, the
+                        top-level anchor must be skipped, since it would be redundant to the link
+                        to the current page that is located just above the anchor. Therefore we
+                        directly continue with the children of the anchor.
+                    -->
+
+                    <!-- Table of contents title and list -->
+                    <label class="md-nav__title" for="__toc">
+                        <span class="md-nav__icon md-icon"></span>
+                        Table of contents
+                    </label>
+                    {% if re_tc[0] %}
+                        {{ re_tc[1] }}
+                    {% else %}
+                        {% set toc = page.toc %}
+                        {% set first = toc | first %}
+                        {% if first and first.level == 1 %}
+                            {% set toc = first.children %}
+                        {% endif %}
+                        {% if toc %}
+                            <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+                                {% for toc_item in toc %}
+                                    {% include "partials/toc-item.html" %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="md-content" data-md-component="content">
+    <article class="md-content__inner md-typeset">
+        <!-- Tags -->
+        {% if "tags" in config.plugins %}
+            {% include "partials/tags.html" %}
+        {% endif %}
+
+        <!--
+            Hack: check whether the content contains a h1 headline. If it
+            doesn't, the page title (or respectively site name) is used
+            as the main headline.
+        -->
+        {% if not "\x3ch1" in page.content %}<h1>{{ page.title | d(config.site_name, true)}}</h1>{% endif %}
+
+        <!-- Markdown content -->
+        {% if re_tc[0] %}
+            {{ re_tc[2] }}
+        {% else %}
+            {{ page.content }}
+        {% endif %}
+
+        <!-- Source file information -->
+        {% if page and page.meta and (
+            page.meta.git_revision_date_localized or
+            page.meta.revision_date
+            ) %}
+            {% include "partials/source-file.html" %}
+        {% endif %}
+    </article>
+</div>

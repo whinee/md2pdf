@@ -1,0 +1,41 @@
+<h1 align="center" style="font-weight: bold">
+    r/offmychest
+</h1>
+
+Written below are rants and lessons I have learned in making this project, and whatnot. Basically, I do not know, I just want to get it out of my chest.
+
+
+<div class="toc"><h2 id="toc"><b><a href="#toc">Table of Contents</a></b></h2>
+<ul><li><a href="#katex-support">KaTeX Support</a></li></ul></div>
+
+<h2 id="katex-support"><b><a href="#katex-support">KaTeX Support</a></b></h2>
+
+For this project, I planned it to ship with a KaTeX support.
+
+I have only found a single python-markdown extension that is also compatible with Weasyprint, and that is [markdown-katex](https://github.com/mbarkhau/markdown-katex) by [mbarkhau](https://github.com/mbarkhau). However, it is so dang slow.
+
+From my testing, it takes about 200 seconds (or roughly over 3 mins) to convert a markdown file with around 5-10 formulae in it to a 200 kb PDF file, which is about a kbps. However, that is a shitty metric, as there is an image in there, but you get the point, It is slow as fuck.
+
+Now, what I did is attempt to rewrite [mbarkhau](https://github.com/mbarkhau)'s implementation of KaTeX for python-markdown. Built it from the ground up, taking motivation from the original project and some other extensions along the way. Heavily rebuilding the logic behind the things that I figured out takes up most of the time.
+
+I narrowed it down to two things that slows it down the most: the preprocessor and postprocessor functions. I figured out that the iterator for feeding KaTeX formulae into the KaTeX binary took the longest as the process persists for quite a while on my machine's process monitoring tool. And as such, I made that process multithreaded.
+
+Weeks after almost achieving feature-parity with the original project, I encountered an error. It was not of my program, but of the python-markdown's. And as such, I dug up the code that caused that error and extracted that to my program to be able to modify the code and remove the snippet that causes the error in the first place. And of course, that affected the rendering process.
+
+There's no more hope. I did something wrong, and I can not track down where it went wrong.
+
+Then, it finally hit me. The problem is when I attempted to rebuild the already perfect python-markdown KaTeX implementation. I just need to make it multithreaded. And while I still need to extract the stuff to make it work with the other stuff that I plan to add, I still only need to modify about 20% of the original project. I am so fucking dumb.
+
+Or so I thought, two weeks later, after doing just that, it's still slow. And what I mean by slow is that I can run the program, wash the plate I used for eating the leftover cake for like about a minute or two, make myself a cup of coffee, and come back to that damn thing still running! Luckily, I narrowed it down to the very root cause of it all: the logic that searches for the KaTeX binary in the machine.
+
+I do not know how or why the heck is it so slow. In any case, I replaced it with a shutil's implementation of `which`, modified to work with the extension. And fortunately, it worked! The logic still looks the same as the old one, but the damn thing runs from 30 secs down to sub-five seconds, depending where the binary is at. Like, whaaaaaat?!?!
+
+What is the moral of the story then? That someone's code might actually be the best solution for the problem. But if it does not work, then do not try to rebuild it from the ground up. See first if you can modify some parts of it to work with your problem. Then if it does not work, then proceed to rebuilding it. As often times, that solution might be the best solution for that exact problem, but not for *your* own, exact problem.
+
+Or is that it?
+
+Maybe I just wanted to rant about the stupid weeks I have wasted for this little thing to fucking work? Or is it because I just wanted to flex how much I have optimized a single thing?
+
+I do not fucking know, but I sure did flex'd to my friends about how I *"optimized"* a program to run 40x faster. I mean, where is the lie?
+
+Now, where am I again? Oh, right, KaTeX support. Yay, finally added! UwU

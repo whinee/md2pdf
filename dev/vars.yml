@@ -1,0 +1,146 @@
+docs:
+  input: dev/raw_docs
+  op: docs
+
+pdoc:
+  project: src
+  op: docs
+  tpl: dev/constants/tpl/pdoc
+
+mako:
+  gen:
+    path:
+      - changelog.mako
+      - latest-bump.mako
+      - latest-commit.mako
+      - latest-release-notes.mako
+    glob:
+      - docs/**/**/config.mako
+      - docs/**/**/index.mako
+
+md_vars:
+  global:
+    project_name: m2p
+    repo_name: md2pdf
+    site: m2p.whinyaan.xyz
+    organization: whinee
+    author: whi~nyaan!
+    user: whinee
+    year: 2023
+    codacy_id: 502ba440287b41b2bd8875ec340b7c51
+    wakatime_id: c355e5b6-46c1-4616-be40-bffc807ffbb8
+    wakatime: dhtjprazfe
+    dc_acc: whi_ne#4783
+    dc_uid: 848092597822160907
+    dc_inv: JbAtUxGcJZ
+    mail_acc: whinyaan@protonmail.com
+    mail_link: mailto:whinyaan@protonmail.com
+  local: {}
+
+rules:
+  del:
+  repl:
+    # 'src="https://{{site}}/assets':
+    #   - 'src="./assets'
+    # "src='https://{{site}}/assets":
+    #   - "src='./assets"
+    # "](https://{{site}}/assets":
+    #   - "](./assets"
+    'src="http://{{site}}/assets':
+      - 'src="./assets'
+    "src='http://{{site}}/assets":
+      - "src='./assets"
+    "](http://{{site}}/assets":
+      - "](./assets"
+
+requirements:
+  dev: dev/req.txt
+  prod: requirements.txt
+
+development:
+  venv:
+    requirements:
+      - prod
+      - dev
+
+license:
+  year: 2023
+  type: MIT
+  cholder:
+    Julien Maupetit:
+      user: jmaupetit
+      platform: Github
+      projects:
+        jmaupetit:
+          md2pdf:
+            year: 2016-2021
+            platform: Github
+    c4ffein:
+      platform: Github
+      projects:
+        c4ffein:
+          txt2pdf:
+            year: 2021-2022
+            platform: Github
+    Simon Sapin:
+      platform: Github
+      user: SimonSapin
+      projects:
+        Kozea:
+          WeasyPrint:
+            year: 2011-2023
+            platform: Github
+    Pallets:
+      platform: Github
+      user: pallets
+      projects:
+        pallets:
+          click:
+            year: 2014-2022
+            platform: Github
+    mbarkhau:
+      platform: Github
+      user: mbarkhau
+      projects:
+        mbarkhau:
+          markdown-katex:
+            year: 2019-2021
+            platform: Github
+    Python-Markdown:
+      platform: Github
+      user: Python-Markdown
+      projects:
+        Python-Markdown:
+          markdown:
+            year: 2007-2023
+            platform: Github
+    whi_ne:
+      user: whinee
+      platform: Github
+      projects:
+        MangDL:
+          MangDL:
+            year: 2021-2022
+            platform: Github
+        Pirate-Kings:
+          YAMHL:
+            year: 2022
+            platform: Github
+
+fetch:
+  project_name: md 2 pdf
+  system: |-
+    PF_INFO="os host kernel uptime pkgs memory" PF_COL1=69 PF_COL2=70 PF_SEP=": " pfetch
+  project: |-
+    onefetch --no-palette --no-bots -d languages lines_of_code size --show-logo never -a emacs-lisp
+  types:
+    Project Source: |-
+      onefetch --no-palette --no-bots --show-logo never -T programming markup prose data -d git_info project head pending version created dependencies authors last_change contributors repo commits size license
+    Core: |-
+      onefetch --no-palette --no-bots --show-logo never -T programming data -e "./*.py" "*.sh" "dev/" "site/" -d git_info project head pending version created dependencies authors last_change contributors repo commits size license
+    Constants: |-
+      onefetch --no-palette --no-bots --show-logo never -T data -e "*.json" "dev/raw_docs/" "dev/scripts" "dev/site" "dev/test" "docs/" "hyaku/" -d git_info project head pending version created dependencies authors last_change contributors repo commits size license
+    Documentation: |-
+      onefetch --no-palette --no-bots --show-logo never -T data markup prose -e "*.json" "dev/constants/" "dev/scripts/" "dev/site/" "dev/test/" "dev/vars.yml" "src/" -d git_info project head pending version created dependencies authors last_change contributors repo commits size license
+    Dev Utils: |-
+      onefetch --no-palette --no-bots --show-logo never -T programming data -e "./*.py" "hyaku/" "site/" -d git_info project head pending version created dependencies authors last_change contributors repo commits size license

@@ -1,0 +1,159 @@
+name: Build
+
+on:
+  push:
+    paths:
+      - version.yml
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Python3.10
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.10"
+      - name: Build markdown
+        run: |-
+          python "dev/scripts/py/rn_md.py"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 0.0.0.0-alpha.0
+          release_name: m2p release v0.0.0.0-alpha.0
+          body_path: .md
+          draft: false
+          prerelease: True
+  linux:
+    name: Linux
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Python3.10
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.10"
+      - name: Build
+        run: |-
+          NODE_ENV=production &&
+          (
+            yarn &
+            python -m pip install -r dev/constants/req.txt &
+            ( [ "$NODE_ENV" = "development" ] && rm -rf dist/ squashfs-root/ tmp/ ura.AppImage ) &
+            wait
+          ) &&
+          mkdir tmp/ &&
+          (
+              cp -r m2p/** tmp/ &
+              wget -O ./tmp/python.AppImage "$(wget -qSO - "https://api.github.com/repos/niess/python-appimage/releases/tags/python3.10" 2>/dev/null | grep -E "browser_download_url.*x86_64" | cut -d '"' -f4 | tail -1)" >/dev/null &
+              wget -O ./tmp/tool.AppImage https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage >/dev/null &
+              python -c "from dev.scripts.py.eb import main;main('linux','tmp/cfg.yml')" &
+              wait
+          ) &&
+          chmod +x ./tmp/tool.AppImage &&
+          chmod +x ./tmp/python.AppImage &&
+          ./tmp/python.AppImage --appimage-extract >/dev/null &&
+          mv squashfs-root tmp/python/ &&
+          (
+              rm -f ./tmp/python.AppImage &
+              python -c "import re
+          F='tmp/gui/main.js'
+          with open(F,'r') as f:i=f.read()
+          i=re.sub(r'const scriptPath.+',f'const scriptPath = path.join(__dirname, \\'../\\')',i)
+          with open(F,'w') as f:f.write(re.sub(r'const pythonPath.+',f'const pythonPath = path.join(__dirname, \\'../python/opt/python3.10/bin/python3.10\\')',i))" &
+              ./tmp/python/usr/bin/pip3 install --upgrade pip --no-warn-script-location --no-cache-dir --disable-pip-version-check &
+              ./tmp/python/usr/bin/pip3 uninstall wheel -y --no-cache-dir --disable-pip-version-check &
+              wait
+          ) &&
+          ./tmp/python/usr/bin/pip3 install --no-warn-script-location --no-cache-dir --disable-pip-version-check -I -r requirements.txt &&
+          yarn electron-builder --config "tmp/cfg.yml" --publish never &&
+          ./dist/m2p.AppImage --appimage-extract >/dev/null &&
+          python -c "import re
+          with open('dev/constants/tpl/scripts/AppRun') as f:i=f.read()
+          with open('squashfs-root/AppRun','w') as f:f.write(re.sub(r'(?<=PN=)(.+)','\"m2p\"',i,1))" &&
+          (
+            ./tmp/tool.AppImage squashfs-root ./dist/m2p.AppImage
+            exit 0
+          ) &&
+          ( [ "$NODE_ENV" = "development" ] && cp ./dist/m2p.AppImage ./m2p.AppImage && rm -rf dist/ squashfs-root/ tmp/ || exit 0 ) &&
+          exit 0
+      - name: Upload m2p.AppImage
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.release.outputs.upload_url}}
+          asset_path: ./dist/m2p.AppImage
+          asset_name: m2p.AppImage
+          asset_content_type: application/octet
+      - name: Upload m2p-compressed.AppImage
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.release.outputs.upload_url}}
+          asset_path: ./dist/m2p-compressed.AppImage
+          asset_name: m2p-compressed.AppImage
+          asset_content_type: application/octet
+  win:
+    name: Windows
+    needs: release
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Python3.10
+        uses: actions/setup-python@v1
+        with:
+          python-version: "3.10"
+      - name: Build
+        run: |-
+          # Remove-Item dist\ -Recurse -Force
+          # Remove-Item tmp\ -Recurse -Force
+          python -m pip install -r dev\constants\req.txt
+          yarn
+
+          New-Item -itemtype Directory -path 'tmp\python'
+          Copy-Item -Path 'm2p\**' -Destination 'tmp\' -recurse -Force
+          Set-Location tmp\
+          Invoke-WebRequest 'https://bootstrap.pypa.io/get-pip.py' -o get-pip.py
+          Set-Location python
+          Invoke-WebRequest 'https://www.python.org/ftp/python/3.10.0/python-3.10.0-embed-amd64.zip' -o python.zip
+          tar -xf python.zip
+          Remove-Item python.zip
+          Remove-Item python310._pth
+          Set-Location ..
+          .\python\python get-pip.py
+          Remove-Item get-pip.py
+          Set-Location ..
+
+          .\tmp\python\python -m pip uninstall wheel -y --no-cache-dir --disable-pip-version-check
+          .\tmp\python\python -m pip install --upgrade pip --no-warn-script-location --no-cache-dir --disable-pip-version-check
+          .\tmp\python\python -m pip install --no-warn-script-location --no-cache-dir --disable-pip-version-check -I -r requirements.txt
+
+          python -c "from dev.scripts.py.eb import main;main('win','tmp\cfg.yml')"
+          python -c "import re;F='tmp\\gui\\main.js'
+          with open(F,'r') as f:i=f.read()
+          i=re.sub(r'const scriptPath.+',f'const scriptPath = path.join(__dirname, \'..\\\\\\\\\')',i,count=1)
+          with open(F,'w') as f:f.write(re.sub(r'const pythonPath.+',f'const pythonPath = path.join(__dirname, \'..\\\\\\\\python\\\\\\\\python\')',i))"
+          yarn electron-builder --config "tmp\cfg.yml" --publish never
+      - name: Upload m2p.exe
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.release.outputs.upload_url}}
+          asset_path: ./dist/m2p.exe
+          asset_name: m2p.exe
+          asset_content_type: application/octet

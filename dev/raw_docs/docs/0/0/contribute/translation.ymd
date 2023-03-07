@@ -1,0 +1,295 @@
+---
+title: Translations
+---
+
+## Summary
+
+While there are no future plans for expanding to the global audience, of which most does not speak English, this application is ready for internationalization.
+
+## Definition of Terms
+
+[i18n](https://en.wikipedia.org/wiki/Internationalization_and_localization#Naming) (abbreviation, [numeronym](https://en.wikipedia.org/wiki/Numeronym)): stands for internationalization; process of designing a software application so that it can be adapted to various languages and regions without engineering changes
+
+## Translation Directory
+
+The files that contain the translations can be located at `./dev/constants/version/{u}/{d}/lang/`
+
+whereas:
+
+- `{u}` refers to the `user` version that uses the constants under this directory
+- `{d}` refers to the `dev` version that uses the constants under this directory
+
+<details>
+<summary>Notes:</summary>
+
+For more information, visit the <a href="notes-to-self.md#versioning-system">notes for {{author}}</a>.
+
+</details>
+
+## Notes for Translators
+
+For those who want to translate this application, please read all of the following text.
+
+### Rule of Thumb
+
+This is written by the author with no consideration for other languages. And as such, recommendations and suggestions are highly appreciated.
+
+- Any technical terminologies should be left untranslated, unless noted by the author (developer) otherwise.
+- Any technical phrase that cannot be translated properly to the target language should be translated without oversimplifying; Oversimplification might lead to a misunderstanding
+- Unless the tone affects the meaning of the text or unless stated otherwise, translators should not preserve the author's tone and should translate it with a neutral tone
+
+### Variables
+
+You might see a text that is enclosed in a bracket, like the following:
+
+```txt
+{version}
+```
+
+These are variables, and are replaced with information in the application before displaying them to the user.
+
+So, our example would be displayed to the users as such:
+
+```txt
+69.4.20
+```
+
+As you can see, it is crucial for displaying information to the users.
+
+When translating a piece of text, make sure to put these variables in an appropriate place, and do not translate its name.
+
+As an example, we will translate this English text:
+
+```txt
+Thank you for using {app_name}!
+```
+
+To Tagalog:
+
+<!--- cSpell:disable -->
+```txt
+Sa paggamit ng {app_name}, ako ay taos-pusong nagpapasalamat sa iyong pagtangkilik!
+```
+<!--- cSpell:enable -->
+
+The variable's name is not translated.
+
+In this next example, the variable is already in a fixed position:
+
+```txt
+{app_name} version: {version}
+```
+
+The Tagalog translation should look like this:
+
+<!--- cSpell:disable -->
+```txt
+bersyon ng {app_name}: {version}
+```
+<!--- cSpell:enable -->
+
+The `app_name` variable changed places to translate properly. However, there is no need for `version` to do so, as it is formatted.
+
+## Translation File
+
+A translation file can be found under the [translation directory](#translation-directory).
+
+Whereas, its name is ISO 639-1 language code that corresponds to its contained translations.
+
+### Structure
+
+#### metadata
+
+Metadata of the translation.
+
+##### version
+
+Version of the translation.
+
+###### For The Author
+
+Given a version number `major`.`minor`.`patch`, bump the:
+
+- `major` version when you make a significant change in the contents of a text or the description along side it, that you think it warrants a change in all of the translations.
+
+- `minor` version when you make a change in the contents of a text or the description along side it, which does not warrant a change in all of the translations. Example are modifying text to use much more understandable words.
+
+- `patch` version when you fix a typographical error in a text. This might induce a change in other translation, but does not warrant otherwise.
+
+Changing the schema, or any key names shall warrant a `dev` version bump for the application. You break the english text for this application, you fix every other translation.
+
+###### For The Translators
+
+As the app is written in English, follow the latest version of the english text.
+
+The translation will be bumped as per the specification written [here](#translation-file-structure-metadata-version-for-the-author).
+
+If you updated your translations to match that of the current English translation, change the version to the current version of the English translation.
+
+##### contributors
+
+List of translation contributors' information, for attribution purposes.
+
+###### name
+
+Name of the contributor.
+
+It can be an alias, nickname, or a full name. As long as you are happy with being credited using that name, I have no problem with it.
+
+Obscene and/or offensive names however will be apprehended. Otherwise, be creative.
+
+###### desc
+
+Describe yourself.
+
+If you're getting credited, go all out. You can even advertise your personal project. As long as the contents are not obscene or offensive, I'm fine with it.
+
+###### links
+
+Dictionary of links to your contacts, social media, and whatnot.
+
+####### anilist
+
+Anilist username.
+
+Example:
+
+```yaml
+anilist: whinyaan
+```
+
+Links to https://anilist.co/user/whinyaan.
+
+####### discord
+
+Key-value pairs of Discord tag and their snowflake.
+
+Example:
+
+```yaml
+discord:
+    whi_ne#4783:
+        848092597822160907
+```
+
+Links to [whi_ne#4783](https://discord.com/users/848092597822160907).
+
+####### email
+
+List of electronic mail addresses.
+
+Example:
+
+```yaml
+email:
+    - whinyaan@protonmail.com
+```
+
+Links to [whinyaan@protonmail.com](mailto:whinyaan@protonmail.com).
+
+####### github
+
+Github username.
+
+Example:
+
+```yaml
+github: whinee
+```
+
+Links to https://github.com/whinee.
+
+####### reddit
+
+Reddit username.
+
+Example:
+
+```yaml
+reddit: whi-nyaan
+```
+
+Links to https://reddit.com/user/whi-nyaan.
+
+####### twitter
+
+Twitter username.
+
+Example:
+
+```yaml
+twitter: whi_nyaan
+```
+
+Links to https://twitter.com/whi_nyaan.
+
+#### splash
+
+Dictionary of random stuff to be displayed at startup of the application.
+
+Example:
+
+```yml
+music_artist_rec:
+    str: Listen to Kanro! https://kanromusic.com
+    desc: Author's music artist recommendation
+```
+
+##### str
+
+The actual splash message.
+
+##### desc
+
+Description of the splash message. Might be useful to keep the translation accurate at an acceptable margin. Will not be displayed.
+
+##### tln
+
+Stands for translators' notes, used by translators to describe to the next translators any compromises done to translate the text to a certain language, or whatnot.
+
+#### text
+
+Dictionary of scopes, classes, and keys (dictionary) of text to display in the application.
+
+Example:
+
+```yml
+cli:
+    init:
+        choose_language:
+            str: Choose language
+            desc: |-
+                Choose app language
+```
+
+##### {scope}
+
+There are three scopes allowed, but only the first two are applicable:
+
+- common
+- cli
+- gui
+
+The first scope is class of keys that can be used in both the CLI and GUI versions of the app. This includes the description and motto of the program, prompts like `yes` or `no`, and whatnot. The rest is self-explanatory.
+
+###### {class}
+
+This is where keys are categorized. For example, keys that convey information regarding the application can be put under the `info` class, while the keys that are used for prompting the users can be put under the `prompt` class.
+
+####### {key}
+
+This is the name of the key. There is no general naming convention, but the developer seems to have one in her mind.
+
+######## str
+
+The string in the language defined by the language file.
+
+######## desc
+
+Description of the key. Might be useful to keep the translation accurate at an acceptable margin. Will not be displayed.
+
+######## tln
+
+Stands for translators' notes, used by translators to describe to the next translators any compromises done to translate the text to a certain language, or whatnot.
+
+

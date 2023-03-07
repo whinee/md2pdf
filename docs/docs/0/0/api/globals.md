@@ -1,0 +1,1 @@
+# **[src](index.md).[globals](globals.md)**

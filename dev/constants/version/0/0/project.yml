@@ -1,0 +1,7 @@
+init_file: src/__init__.py
+const_dir: src/constants
+lang_dir: '{const_dir}/lang'
+cp:
+  cmd:
+    dir: '{const_dir}/cmd'
+docstrings:

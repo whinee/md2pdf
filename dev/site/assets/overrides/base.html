@@ -1,0 +1,242 @@
+{% import "partials/language.html" as lang with context %}
+<!doctype html>
+<html lang="{{ lang.t('language') }}" class="no-js" />
+<head>
+    {% block site_meta %}
+        <meta name="apple-mobile-web-app-title" content="whi_ne" />
+        <meta name="twitter:title" content="whi_ne" />
+        <meta property="og:site_name" content="whi_ne" />
+        <meta property="og:title" content="whi_ne" />
+        <meta name="author" content="whi_ne" />
+
+        {% if page.meta and page.meta.description %}
+            {% set desc = page.meta.description %}
+        {% elif config.site_description %}
+            {% set desc = config.site_description %}
+        {% endif %}
+        <meta name="description" content="{{ desc }}" />
+        <meta property="og:description" content="{{ desc }}" />
+
+        <meta name="twitter:site:domain" content="{{ config.site_url }}" />
+        <meta name="twitter:url" content="https://{{ config.site_url }}" />
+        <meta property="og:url" content="https://{{ config.site_url }}" />
+        <link rel="canonical" href="https://{{ config.site_url }}" />
+
+        <meta name="twitter:card" content="/assets/images/banner.png" />
+        <meta name="twitter:image" content="/assets/images/banner.png" />
+        <meta property="og:image" content="/assets/images/banner.png" />
+        <meta property="og:image:width" content="1280" />
+        <meta property="og:image:height" content="800" />
+
+        <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico" />
+        <link rel="apple-touch-icon"
+              sizes="180x180"
+              href="/assets/images/favicon.ico"/>
+
+        <meta property="og:type" content="website" />
+        <meta charset="UTF-8" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="Expires" content="-1" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport"
+              content="width=device-width,initial-scale=1,user-scalable=no"/>
+    {% endblock site_meta %}
+    {% block htmltitle %}
+        {% if page.meta and page.meta.title %}
+            <title>{{ page.meta.title }} - {{ config.site_name }}</title>
+        {% elif page.title and not page.is_homepage %}
+            <title>{{ page.title | striptags }} - {{ config.site_name }}</title>
+        {% else %}
+            <title>{{ config.site_name }}</title>
+        {% endif %}
+    {% endblock htmltitle %}
+    {% block styles %}
+        <link rel="stylesheet"
+              href="{{ 'assets/stylesheets/main.20d9efc8.min.css' | url }}"/>
+        {% if config.theme.palette %}
+            {% set palette = config.theme.palette %}
+            <link rel="stylesheet"
+                  href="{{ 'assets/stylesheets/palette.cbb835fc.min.css' | url }}"/>
+            {% if palette.primary %}
+                {% import "partials/palette.html" as map %}
+                {% set primary = map.primary(
+                palette.primary | replace(" ", "-") | lower
+                ) %}
+                <meta name="theme-color" content="{{ primary }}" />
+            {% endif %}
+        {% endif %}
+        {% include "partials/icons.html" %}
+    {% endblock styles %}
+    {% block libs %}
+    {% endblock libs %}
+    {% block fonts %}
+        {% if config.theme.font != false %}
+            {% set text = config.theme.font.text | d("Roboto", true) %}
+            {% set code = config.theme.font.code | d("Roboto Mono", true) %}
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+            <link rel="stylesheet"
+                  href="https://fonts.googleapis.com/css?family={{ text | replace(' ', '+') + ':300,300i,400,400i,700,700i%7C' + code | replace(' ', '+') + ':400,400i,700,700i' }}&display=fallback"/>
+            <style>
+                :root {
+                    --md-text-font:"{{ text }}";
+                    --md-code-font:"{{ code }}"
+                }
+            </style>
+        {% endif %}
+    {% endblock fonts %}
+    {% for path in config.extra_css %}<link rel="stylesheet" href="{{ path | url }}" />{% endfor %}
+    {% include "partials/javascripts/base.html" %}
+    {% block analytics %}
+        {% include "partials/integrations/analytics.html" %}
+    {% endblock analytics %}
+    {% if page.meta and page.meta.meta %}
+        {% for tag in page.meta.meta %}
+            <meta {% for key, value in tag.items() %} {{ key }}="{{ value }}" {% endfor %} />
+        {% endfor %}
+    {% endif %}
+    {% block extrahead %}
+    {% endblock extrahead %}
+</head>
+{% set direction = config.theme.direction or lang.t('direction') %}
+{% if config.theme.palette %}
+    {% set palette = config.theme.palette %}
+    {% if not palette is mapping %}
+        {% set palette = palette | first %}
+    {% endif %}
+    {% set scheme = palette.scheme | replace(" ", "-") | lower %}
+    {% set primary = palette.primary | replace(" ", "-") | lower %}
+    {% set accent = palette.accent | replace(" ", "-") | lower %}
+    <body dir="{{ direction }}"
+          data-md-color-scheme="{{ scheme }}"
+          data-md-color-primary="{{ primary }}"
+          data-md-color-accent="{{ accent }}"/>
+{% else %}
+    <body dir="{{ direction }}">
+    {% endif %}
+    {% set features = config.theme.features or [] %}
+    {% if not config.theme.palette is mapping %}
+        {% include "partials/javascripts/palette.html" %}
+    {% endif %}
+    <input class="md-toggle"
+           data-md-toggle="drawer"
+           type="checkbox"
+           id="__drawer"
+           autocomplete="off"/>
+    <input class="md-toggle"
+           data-md-toggle="search"
+           type="checkbox"
+           id="__search"
+           autocomplete="off"/>
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+        {% if page.toc | first is defined %}
+            {% set skip = page.toc | first %}
+            <a href="{{ skip.url | url }}" class="md-skip">{{ lang.t('skip.link.title') }}</a>
+        {% endif %}
+    </div>
+    {% block header %}
+        {% include "partials/header.html" %}
+    {% endblock header %}
+    <div class="md-container" data-md-component="container">
+        {% block hero %}
+        {% endblock hero %}
+        {% block tabs %}
+            {% if not "navigation.tabs.sticky" in features %}
+                {% if "navigation.tabs" in features %}
+                    {% include "partials/tabs.html" %}
+                {% endif %}
+            {% endif %}
+        {% endblock tabs %}
+        <main class="md-main" data-md-component="main">
+            <div class="md-main__inner md-grid">
+                {% block site_nav %}
+                    {% if nav %}
+                        {% if page.meta and page.meta.hide %}
+                            {% set hidden = "hidden" if "navigation" in page.meta.hide %}
+                        {% endif %}
+                        <div class="md-sidebar md-sidebar--primary"
+                            data-md-component="sidebar" data-md-type="navigation" {{ hidden
+                            }}>
+                            <div class="md-sidebar__scrollwrap">
+                                <div class="md-sidebar__inner">{% include "partials/nav.html" %}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endblock site_nav %}
+                {% block content %}
+                    {% include "partials/content.html" %}
+                {% endblock content %}
+                {% include "partials/javascripts/content.html" %}
+            </div>
+            {% if "navigation.top" in features %}
+                <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+                    {% include ".icons/material/arrow-up.svg" %}
+                    {{ lang.t('top.title') }}
+                </a>
+            {% endif %}
+        </main>
+        {% block footer %}
+            {% include "partials/footer.html" %}
+        {% endblock footer %}
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+        <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    {% if config.extra.consent %}
+        <div class="md-consent" data-md-component="consent" id="__consent" hidden>
+            <div class="md-consent__overlay"></div>
+            <aside class="md-consent__inner">
+                <form class="md-consent__form md-grid md-typeset" name="consent">
+                    {% include "partials/consent.html" %}
+                </form>
+            </aside>
+        </div>
+        {% include "partials/javascripts/consent.html" %}
+    {% endif %}
+    {% block config %}
+        {%- set app = {
+        "base": base_url,
+        "features": features,
+        "translations": {},
+        "search": "assets/javascripts/workers/search.5bf1dace.min.js" | url
+        } -%}
+        {%- if config.extra.version -%}
+            {%- set _ = app.update({ "version": config.extra.version }) -%}
+        {%- endif -%}
+        {%- if config.extra.tags -%}
+            {%- set _ = app.update({ "tags": config.extra.tags }) -%}
+        {%- endif -%}
+        {%- set translations = app.translations -%}
+        {%- for key in [
+            "clipboard.copy",
+            "clipboard.copied",
+            "search.config.lang",
+            "search.config.pipeline",
+            "search.config.separator",
+            "search.placeholder",
+            "search.result.placeholder",
+            "search.result.none",
+            "search.result.one",
+            "search.result.other",
+            "search.result.more.one",
+            "search.result.more.other",
+            "search.result.term.missing",
+            "select.version.title"
+            ] -%}
+            {%- set _ = translations.update({ key: lang.t(key) }) -%}
+        {%- endfor -%}
+        <script id="__config" type="application/json">
+            {
+                {
+                    -app | tojson -
+                }
+            }
+        </script>
+    {% endblock config %}
+    {% block scripts %}
+        <script src="{{ 'assets/javascripts/bundle.6079f66d.min.js' | url }}"></script>
+        {% for path in config.extra_javascript %}<script src="{{ path | url }}"></script>{% endfor %}
+    {% endblock scripts %}
+</body>
+</html>

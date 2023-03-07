@@ -1,0 +1,9 @@
+version: 1.0.0
+config:
+  lang:
+    type: str
+    pap: lang
+    default: en
+    abbr: Language
+    desc: |-
+      Language of the program.

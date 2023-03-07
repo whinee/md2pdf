@@ -1,0 +1,230 @@
+@media print {
+    hr {
+        width: 0;
+        clear: both;
+        page-break-after: always;
+    }
+}
+
+:root {
+    --font-size: 10pt;
+    --small-font-size: 7pt;
+}
+
+body {
+    margin: 0;
+    background-color: white;
+    font-family: Arial;
+    color: #000;
+    line-height: 1;
+    font-size: var(--font-size);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+h1 {
+    font-size: 200%;
+}
+
+h1:not(:first-child, hr+h1, h1+h1, h2+h1, h3+h1, h4+h1, h5+h1, h6+h1) {
+    margin-top: 30px;
+}
+
+h2 {
+    font-size: 180%;
+}
+
+h2:not(:first-child, hr+h2, h1+h2, h2+h2, h3+h2, h4+h2, h5+h2, h6+h2) {
+    margin-top: 25px;
+}
+
+h3 {
+    font-size: 160%;
+}
+
+h3:not(:first-child, hr+h3, h1+h3, h2+h3, h3+h3, h4+h3, h5+h3, h6+h3) {
+    margin-top: 20px;
+}
+
+h4 {
+    font-size: 140%;
+}
+
+h4:not(:first-child, hr+h4, h1+h4, h2+h4, h3+h4, h4+h4, h5+h4, h6+h4) {
+    margin-top: 15px;
+}
+
+h5 {
+    font-size: 120%;
+}
+
+h5:not(:first-child, hr+h5, h1+h5, h2+h5, h3+h5, h4+h5, h5+h5, h6+h5) {
+    margin-top: 10px;
+}
+
+h6 {
+    font-size: 100%;
+}
+
+h6:not(:first-child, hr+h6, h1+h6, h2+h6, h3+h6, h4+h6, h5+h6, h6+h6) {
+    margin-top: 20px;
+}
+
+p {
+    line-height: 150%;
+    font-weight: 400;
+    text-align: justify;
+}
+
+a {
+    color: grey;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+a:hover {
+    text-decoration: blink;
+    color: purple;
+}
+
+a:visited {
+    color: black;
+}
+
+ol, ul {
+    padding: 0;
+    margin-bottom: 10px;
+    justify-content: center;
+    vertical-align: middle;
+    line-height: 1.2;
+}
+
+li ol li, li ul li {
+    margin-left: 0.5in;
+}
+
+ol:only-child, ul:only-child {
+    margin: 0;
+}
+
+ol:not(:first-child), ul:not(:first-child) {
+    margin: 5px 0;
+}
+
+li {
+    margin: 3px 0 0 0;
+}
+
+pre {
+    padding: 0px 24px;
+    max-width: 800px;
+    white-space: pre-wrap;
+}
+
+code {
+    font-family: ComicCodeLigatures, monospace;
+    line-height: 1.2;
+    font-size: 13px;
+    /* color: #fff; */
+    background: #bbb;
+    padding: 2px 4px;
+    border-radius: 5px;
+}
+
+aside {
+    display: block;
+    float: right;
+    width: 390px;
+}
+
+blockquote {
+    border-left: .4em solid #222;
+    padding: 0 1em;
+    margin-left: 0;
+}
+
+blockquote cite {
+    line-height: 20px;
+}
+
+blockquote cite:before {
+    content: '\2014 \00A0';
+}
+
+hr {
+    text-align: left;
+    margin: 0 auto 0 0;
+    color: #999;
+}
+
+br {
+    line-height: 50%;
+}
+
+sub, sup {
+    font-size: var(--small-font-size);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table, th, td {
+    border: 1px solid;
+}
+
+table p {
+    line-height: 100%;
+    margin: 0;
+}
+
+th * {
+    font-weight: bold;
+}
+
+th, td {
+    padding: 5px;
+    text-align: center !important;
+    vertical-align: middle;
+}
+
+td ul {
+    text-align: left;
+}
+
+table ul, table ol {
+    padding-left: .1in;
+}
+
+p:has(img[style*="width"]) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    width: 100%;
+}
+
+.katex img {
+    object-fit: fill;
+    padding: unset;
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: inherit;
+}

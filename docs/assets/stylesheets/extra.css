@@ -1,0 +1,42 @@
+.md-main__inner {
+    max-width: 76.25em;
+}
+
+.md-sidebar--secondary {
+    visibility: hidden;
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+@media screen and (min-width: 76.25em) {
+    .md-sidebar {
+        visibility: hidden;
+        display: none;
+        width: 0;
+        height: 0;
+    }
+}
+
+nav div.toc a {
+    color: var(--md-typeset-a-color);
+    word-break: break-word;
+}
+
+nav div.toc a:focus, nav div.toc a:hover {
+    color: var(--md-accent-fg-color);
+}
+
+nav div.toc a, nav div.toc a::before {
+    transition: color 125ms;
+}
+
+.md-sidebar__scrollwrap {
+    overflow-y: scroll;
+    height: 75vh;
+}
+
+nav div.toc ul {
+    margin-left: 0px !important;
+    padding-left: 15px !important;
+}

@@ -1,0 +1,274 @@
+# cSpell:locale en,en
+metadata:
+  version: 0.0.1
+  # Translation contributors' information, for attribution purposes.
+  contributors:
+    - name: whi~nyaan!
+      desc: |-
+        Hello, I'm whi~nyaan!, author of this application.
+        I hope that you like this app!
+      links:
+        anilist: whinyaan             # Anilist username            https://anilist.co/user/whinyaan
+        discord:                      # Discord Accounts            multiple accounts allowed! (dict)
+          whi_ne#1119:                # Discord tag                 as is
+            848092597822160907        # Discord user snowflake      https://discord.com/users/848092597822160907
+        email:                        # Electronic mail addresses   multiple emails allowed! (list)
+          - whinyaan@protonmail.com   # Electronic mail address     mailto:whinyaan@protonmail.com
+          - whinyaan@gmail.com        # Alternative address         mailto:whinyaan@gmail.com
+        github: whinee                # Github username             https://github.com/whinee
+        reddit: whi-nyaan             # Reddit username             https://reddit.com/user/whi-nyaan
+        twitter: whi_nyaan            # Twitter username            https://twitter.com/whi_nyaan
+
+text:
+
+  common:
+
+    info:
+
+      desc:
+        str: |-
+          Markdown to PDF converter
+
+      motto:
+        str: |-
+          For writing faster? No. For writing with *class*? Yusss
+        desc: motto of the project
+
+    prompt:
+      'yes':
+        str: yes
+      'no':
+        str: no
+
+    # splash:
+
+    #   donate:
+    #     str: |-
+    #       Consider donating to the project: {donation_link}
+    #     desc: Dev's plea for donation
+
+    #   music_artist_rec:
+    #     str: Listen to Kanro! (https://kanromusic.com)
+    #     desc: Dev's music artist recommendation
+
+    #   gib_nitro:
+    #     str: Y'know, I kinda' want some discord nitro right now~
+    #     desc: Dev's plea for a discord nitro on her discord account
+
+    # crash:
+
+    #   first_crash:
+    #     str: |-
+    #       Reporting crashes like this is helpful for the developers of Hyaku as it can help mitigate this exact problem, and even more.
+
+    #       I am however legally required to ask for your permission, as a beloved user for this app for your consent to send crash reports to the developers.
+
+    #       If you choose to send a crash report, the following will be sent:
+    #       - Hyaku version
+    #       - Hyaku variant (portable, installable, PyPi package, etc.)
+    #       - Operating system
+    #       - Python version; and
+    #       - Traceback
+
+    #       The collected data is publicized, excluding the traceback, as it may contain the user's machine name and user name, which by modern standards is private.
+
+    #       For more information, visit https://cab.hyaku.download/info, https://hyaku.download/privacy-policy, and https://hyaku.download/disclaimer
+
+    #       For browsing existing Crash and Bug reports, go to https://cab.hyaku.download/
+
+    #       For frequently asked questions, visit https://hyaku.download/faq/
+
+    #       Do you consent to reporting this crash?
+    #     desc: |-
+    #       Text displayed after the first application crash experienced by the user
+
+    #   first_crash_no:
+    #     str: |-
+    #       Thank you for using this app, regardless. If you ever changed your mind regarding this matter, you can just run the following command:
+
+    #       {reg_cmd}
+
+    #       To report this crash in GitHub, copy the following text and raise a new issue at https://github.com/hyaku-dl/hyaku/issues/new:
+
+    #       Additional info:
+    #         Hyaku version: {hyaku_ver}
+    #         Hyaku variant: {hyaku_var}
+    #         Operating system: {os}
+    #         Python version: {python_ver}
+    #         Traceback: {traceback}
+    #     desc: |-
+    #       Text displayed after `common/crash/first_crash` is displayed, and when the user did not agree to report the crash
+
+    #   first_crash_yes:
+    #     str: |-
+    #       Thank you for your cooperation. To avoid abuse of the service however, we need the users to register to my website using an e-mail address. Do you still want to continue?
+    #     desc: |-
+    #       Text displayed after `common/crash/first_crash` is displayed, and when the user agreed to report the crash
+
+  cli:
+
+    init:
+
+      choose_language:
+        str: Choose language
+        desc: |-
+          Choose app language
+
+    prompt:
+
+      answer:
+        str: |-
+          Answer
+
+      list_instruction:
+        str: |-
+          Use up and down arrow keys to navigate, press enter key to choose
+
+    general:
+      kbi:
+        str: |-
+          Cancelled by user
+
+      below_min_width:
+        str: |-
+          Your terminal width is well below than the bare minimum
+
+          {terminal_width} instead of {min_terminal_width} and above
+
+          Consider resizing
+
+      below_recc_width:
+        str: |-
+          Your terminal width is below than the recommended
+
+          {terminal_width} instead of {recc_terminal_width} and above
+
+    katex:
+      not_installed_msg:
+        str: |-
+          KaTeX binary is not found and/or is not supported in this platform.
+
+      not_installed_no_solution:
+        str: |-
+          It seems that the program can not detect this machine's platform or is unable to find a way to install KaTeX in this machine. Fret not, as I have the following outline to follow on how to install KaTeX:
+
+          1. Install Node.js: https://nodejs.org/en/download/
+          2. Install KaTeX through Node.js Package Manager (npm): https://katex.org/docs/node.html#npm
+
+      not_installed_tpl:
+        str: |-
+          Fret not, the program detected that you are in {platform}, and you can follow the instructions below on how to install KaTeX.
+
+          {instruction}
+
+      not_installed_win:
+        str: |-
+          1. Copy the following text, excluding the three backticks (`) enclosing the text:
+          ```
+          Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+          ```
+
+          ---
+
+          2. Press `Windows` + `R` (Press `Windows` and `R` keys simultaneously)
+
+          ---
+
+          3. A window with a title `Run` should appear. Focus to the said window in the `Open:` text field by hovering the mouse towards the said text field and left-clicking the mouse and type `powershell`.
+
+          ---
+
+          4. Press `Ctrl` + `Shift` + `Enter` (Press `Ctrl`, `Shift`, and `Enter` keys simultaneously).
+
+          ---
+
+          5. A window with a title `User Account Control` should appear.
+
+          ---
+
+          6. Focus to the said window and press the `Yes` button by hovering the mouse towards the said button and left-clicking the mouse.
+
+          ---
+
+          7. A window named `Administrator: Windows Powershell`. Focus to said window by hovering the mouse towards the said window and left-clicking the mouse. Then, press `Ctrl` + `V` (Press `Ctrl` and `V` keys simultaneously).
+
+          ---
+
+          8. Restart your computer, then login to the user account to which you have done this instructions.
+
+          ---
+
+          9. Copy the following text, excluding the three backticks (`) enclosing the text:
+          ```
+          choco install nodejs -y; npm install katex
+          ```
+
+          ---
+
+          10. Repeat step 2-7.
+
+          ---
+
+          If the window `Administrator: Windows Powershell` seems to hang up, focus to said window by hovering the mouse towards the said window and left-clicking the mouse, then press `Enter` until something happens.
+
+          If you have managed to install this program, but is not able to make this work, I apologize for the enormous effort you have made to make it through to this part. However, it seems that it is not enough. As a Linux user, I would not be able to help, nor would I want to even if I have the ability to do so. Windows has traumatized me to the point of despair, extreme paranoia, and mania. I do not wish for Windows to touch me ever again. Thank you for attempting to use this program, but it seems that this is our farewell. I wish you nothing but the best, kind stranger.
+        desc: |-
+          Meant to sound like a condescending Linux user, like the author is (or maybe was) at the time of writing. When translating this text, please remove all of the unnecessary comments such as the author's use of a Linux machine and whatnot.
+
+      not_installed_mac:
+        str: |-
+          1. Open your preferred terminal and run the following command:
+          ```
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+          ```
+
+          ---
+
+          2. Next, for OS X 10.13 (High Sierra) or younger, run the following command:
+          ```
+          echo 'export PATH="/usr/local/opt/python/libexec/bin:$PATH"' >> ~/.profile
+          ```
+
+          And for OS X 10.12 (Sierra) or older, use the following command instead:
+          ```
+          echo 'export PATH=/usr/local/bin:/usr/local/sbin:$PATH' >> ~/.profile
+          ```
+
+          ---
+
+          3. Afterwards, install the rest of the prerequisites by running the following command:
+          ```
+          brew install node
+          ```
+
+          ---
+
+          4. Then, install katex with npm by running the following command:
+          ```
+          npm install katex
+          ```
+
+          ---
+
+          If you have managed to install this program, but is not able to make this work, I apologize for the enormous effort you have made to make it through to this part. As a poor Linux user rocking an 11-year old thinkpad, I do not have access to any Mac machines that I can test this program in, along with problems that might come in the way. Thank you for attempting to use this program, but it seems that this is our farewell. I wish you nothing but the best, kind stranger.
+        desc: |-
+          Meant to sound like a condescending Linux user, like the author is (or maybe was) at the time of writing. When translating this text, please remove all of the unnecessary comments such as the author's use of a Linux machine and Thinkpad laptop and whatnot.
+
+      not_installed_linux:
+        str: |-
+          Lookie look, you are rocking a Linux machine, I know you can do it!
+
+          Prerequites:
+          - Node.js
+              - npm
+
+          ---
+
+          1. Open your preferred terminal and run the following command:
+          ```
+          npm install katex
+          ```
+
+          ---
+        desc: |-
+          Meant to sound condescending. When translating this text, feel free to remove condescending tone
