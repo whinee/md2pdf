@@ -163,7 +163,7 @@ def get_header_id(h: panflute.Header) -> str:
 def pf_set_element():
     ld = -1
 
-    def inner(d, lvl, elem, og_lvl: Optional[int] = None):
+    def inner(d: list[Any], lvl: int, elem, og_lvl: Optional[int] = None):
         global ld
         if og_lvl is None:
             og_lvl = lvl
@@ -223,7 +223,7 @@ def style_header(toc_ls, res_ls):
     return inner
 
 
-def style_header_init(hls, se):
+def style_header_init(hls, se, lower_than_four):
     def inner(elem, doc):
         if isinstance(elem, panflute.Header):
             se(hls, elem.level - 2, elem)
@@ -310,7 +310,7 @@ def main(rmv: Dict[Any, Any] = {}):
             md = md.replace("{{" + k + "}}", str(v))
 
         panflute.run_filter(
-            style_header_init(hls, pf_set_element()),
+            style_header_init(hls, pf_set_element(), "####" in md),
             doc=panflute.load(StringIO(md_data)),
         )
         style_header(toc_ls, res_ls)(hls)
@@ -346,7 +346,8 @@ def main(rmv: Dict[Any, Any] = {}):
 
     for ip in makos:
         pip = Path(ip)
-        op = os.path.join(docs_pdir, *pip.parts[2:-1], f"{pip.stem}.md")
+        stem = "README" if pip.stem == "index" else pip.stem
+        op = os.path.join(docs_pdir, *pip.parts[2:-1], f"{stem}.md")
         mytemplate = Template(filename=ip)
         tpl_rd = mytemplate.render(
             **{
@@ -361,20 +362,20 @@ def main(rmv: Dict[Any, Any] = {}):
 
     ndd = {}
     u_ls = sorted(listdir(base), reverse=True)
-    with open(os.path.join(docs_pdir, op_base, "index.md"), "w") as f:
+    with open(os.path.join(docs_pdir, op_base, "README.md"), "w") as f:
         print("here")
         f.write(
             H1.format("All Version")
-            + "\n".join(f"- [Version {u}.x.x.x]({u}/index.md)" for u in u_ls)
+            + "\n".join(f"- [Version {u}.x.x.x]({u}/README.md)" for u in u_ls)
         )
     for u in u_ls:
         d_ls = sorted(listdir(os.path.join(base, u)), reverse=True)
         with open(
-            os.path.join(os.path.join(docs_pdir, op_base, u), "index.md"), "w"
+            os.path.join(os.path.join(docs_pdir, op_base, u), "README.md"), "w"
         ) as f:
             f.write(
                 H1.format(f"Version {u}.x.x.x")
-                + "\n".join(f"- [Version {u}.{d}.x.x]({d}/index.md)" for d in d_ls)
+                + "\n".join(f"- [Version {u}.{d}.x.x]({d}/README.md)" for d in d_ls)
             )
         for d in d_ls:
             ndd[f"{u}.{d}"] = os.path.join(op_base, u, d)

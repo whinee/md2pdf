@@ -25,6 +25,9 @@
     </a>
 </p>
 <p align="center">
+    <a href="https://wakatime.com/badge/user/c355e5b6-46c1-4616-be40-bffc807ffbb8/project/c7ba73de-30be-46ad-a260-bd2dca7d591c">
+        <img alt="wakatime" src="https://wakatime.com/badge/user/c355e5b6-46c1-4616-be40-bffc807ffbb8/project/c7ba73de-30be-46ad-a260-bd2dca7d591c.svg?style=flat-square">
+    </a>
     <a href="https://app.codacy.com/gh/whinee/md2pdf/dashboard?branch=master">
         <img alt="Codacy Badge" src="https://img.shields.io/codacy/grade/502ba440287b41b2bd8875ec340b7c51?style=flat-square">
     </a>
@@ -66,7 +69,7 @@ Interested in commissioning projects? Inquire through Discord(<a target="_blank"
 
 <h2 id="important"><b><a href="#important">Important</a></b></h2>
 
-md2pdf is still in Unreleased ALpha Development Stage.
+md2pdf is still in Unreleased Alpha Development Stage.
 
 Using the program at this stage is not recommended.
 
@@ -74,7 +77,7 @@ Using the program at this stage is not recommended.
 
 Since people are looking for the download first, here you go:
 
-Follow [this link](https://m2p.whinyaan.xyz/installation) to install md2pdf in your machine.
+Follow [this link](docs/0/0/installation.md) to install md2pdf in your machine.
 
 <h2 id="what-s-this"><b><a href="#what-s-this">What’s this?</a></b></h2>
 

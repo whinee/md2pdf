@@ -25,6 +25,9 @@ title: '{{project_name}}'
     </a>
 </p>
 <p align="center">
+    <a href="https://wakatime.com/badge/user/{{wakatime_user_id}}/project/{{wakatime_project_id}}">
+        <img alt="wakatime" src="https://wakatime.com/badge/user/{{wakatime_user_id}}/project/{{wakatime_project_id}}.svg?style=flat-square">
+    </a>
     <a href="https://app.codacy.com/gh/{{organization}}/{{repo_name}}/dashboard?branch=master">
         <img alt="Codacy Badge" src="https://img.shields.io/codacy/grade/{{codacy_id}}?style=flat-square">
     </a>
@@ -62,7 +65,7 @@ Interested in commissioning projects? Inquire through Discord(<a target="_blank"
 
 ## Important
 
-{{project_name}} is still in Unreleased ALpha Development Stage.
+{{project_name}} is still in Unreleased Alpha Development Stage.
 
 Using the program at this stage is not recommended.
 
@@ -70,7 +73,7 @@ Using the program at this stage is not recommended.
 
 Since people are looking for the download first, here you go:
 
-Follow [this link](https://{{site}}/installation) to install {{project_name}} in your machine.
+Follow [this link](docs/{{ver_user}}/{{ver_dev}}/installation.md) to install {{project_name}} in your machine.
 
 ## What's this?
 

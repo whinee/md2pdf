@@ -1,6 +1,6 @@
 . dev/scripts/sh/source.sh
 
-convert() {
+m2p() {
     python src/main.py $1
 }
 
@@ -11,9 +11,9 @@ menu() {
             shift
             "menu_$cmd" "$@"
         else
-            pyenv/bin/python -c "from dev.scripts.py.main import main;main('$1')"
+            t "$1" "$1 failed" pyenv/bin/python -c "from dev.scripts.py.main import main;main('$1')"
         fi
     else
-        pyenv/bin/python -c "from dev.scripts.py.main import main;main()"
+        t "menu" "menu failed" pyenv/bin/python -c "from dev.scripts.py.main import main;main()"
     fi
 }

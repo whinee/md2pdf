@@ -1,0 +1,134 @@
+---
+title: Installating {{project_name}}
+---
+
+## Windows
+
+1. Copy the following text:
+
+    ```ps1
+    Set-ExecutionPolicy Bypass -Scope Process -Force
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+    iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+    ```
+
+2. Press `Win`. An interface should pop up as shown below:
+
+    ![1](/docs/assets/images/prerequisites/python/windows/1.png)
+
+3. Search for settings by typing "`Settings`" in the text field as shown below:
+
+    ![2](/docs/assets/images/prerequisites/python/windows/2.png)
+
+    Press `Enter`.
+
+4. A window should pop up as shown below:
+
+    ![3](/docs/assets/images/prerequisites/python/windows/3.png)
+
+
+    Press "`Apps`" in the selection below.
+
+5. You should be redirected to "`Apps & Features`" as shown below:
+
+    ![4](/docs/assets/images/prerequisites/python/windows/4.png)
+
+    Below the subtitle "`Apps & Features`", press the hyperlink "`App execution aliases`".
+
+6. You should be redirected to "`App execution aliases`" as shown below:
+
+    ![5](/docs/assets/images/prerequisites/python/windows/5.png)
+
+    Toggle the "`App installer`" for both "`python.exe`" and "`python3.exe`". Exit the settings app.
+
+7. Press `Windows` + `R` (Press `Windows` and `R` keys simultaneously)
+
+8. A window with a title `Run` should appear. Focus to the said window in the `Open:` text field by hovering the mouse towards the said text field and left-clicking the mouse and type `powershell` as shown below:
+
+    ![](/docs/assets/images/run_box_ps.png)
+
+9. Press `Ctrl` + `Shift` + `Enter` (Press `Ctrl`, `Shift`, and `Enter` keys simultaneously).
+
+10. A window with a title `User Account Control` should appear as shown below:
+
+    ![](/docs/assets/images/UAC_ps.png)
+
+11. Focus to the said window and press the `Yes` button by hovering the mouse towards the said button and left-clicking the mouse. A window named `Administrator: Windows Powershell` should pop-up.
+
+12. Focus to the window named `Administrator: Windows Powershell` window by hovering the mouse towards the said window and left-clicking the mouse. Then, press `Ctrl` + `V` (Press `Ctrl` and `V` keys simultaneously).
+
+    If the window `Administrator: Windows Powershell` seems to hang up, focus to said window by hovering the mouse towards the said window and left-clicking the mouse, then press `Enter` five times every minute or so until something happens.
+
+13. Restart your computer, then login to the user account to which you have done the above instructions at.
+
+14. Copy the following text:
+
+    ```ps1
+    choco install nodejs -y
+    npm install katex
+    ```
+
+15. Repeat step 7-12.
+
+16. <font color="#2aba0f">[RECOMMENDED]</font> Use Python environment
+
+    It is recommended to use a Python environment to isolate the dependencies installed to the main Python installation which other programs might use, as this will reduce the chance of incompatible dependency version collisions.
+
+    Change directory to where you want to put the Python environment, by replacing the `<dir>` in the following text to your desired directory in your machine, and copy the text"
+
+    ```ps1
+    cd <dir>
+    python3 -m venv pyenv
+    .\pyenv\Scripts\activate
+    ```
+
+    Repeat step 12.
+
+17. Copy the following text:
+
+    ```
+    python3 -m pip install w{{pip}}
+    ```
+
+    And you have installed 
+
+## Mac
+
+1. Open your preferred terminal and run the following command:
+
+    ```sh
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    ```
+
+2. Next, for OS X 10.13 (High Sierra) or younger, run the following command:
+
+    ```
+    echo 'export PATH="/usr/local/opt/python/libexec/bin:$PATH"' >> ~/.profile
+    ```
+
+And for OS X 10.12 (Sierra) or older, use the following command instead:
+```
+echo 'export PATH=/usr/local/bin:/usr/local/sbin:$PATH' >> ~/.profile
+```
+
+3. Afterwards, install the rest of the prerequisites by running the following command:
+```
+brew install node
+```
+
+4. Then, install katex with npm by running the following command:
+
+    ```
+    npm install katex
+    ```
+
+## Linux
+
+### Arch
+
+1. Open your preferred terminal and run the following command:
+```
+sudo pacman -Syyu --noconfirm curl
+```
+
+
