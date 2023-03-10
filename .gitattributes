@@ -1,1 +1,5 @@
 dev/site/** linguist-generated
+src/katex/** linguist-generated
+
+dev/constants/tpl/pdoc/** linguist-documentation
+docs/** linguist-documentation
