@@ -10,6 +10,4 @@ Yet 'nother fucking oopsies...
 
 ## **Changes**
 
-### **Fixed**
 
-- `dev/scripts/py/main.py`'s `push` function to call `docs` function. GAAAAAAAAAAAAHH! <!-- cspell: disable-line -->

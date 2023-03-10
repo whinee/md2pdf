@@ -166,7 +166,7 @@ def katex2html(marker: str, tex: str) -> tuple[str, str]:  # type: ignore[return
             err_msg = f"Error processing '{tex}': {output}"
             raise Exception(err_msg)
         return marker, htmlsvg2img(stdout)
-    except Exception as e:
+    except Exception as e:  # nosec B110
         pass
 
 
@@ -178,7 +178,7 @@ def mdblocks_katex2img(mdblocks: dict[str, str]) -> list[Any]:
 
 def make_marker_id(text: str) -> str:
     data = text.encode("utf-8")
-    return hashlib.md5(data).hexdigest()
+    return hashlib.md5(data, usedforsecurity=False).hexdigest()
 
 
 class WhExtension(Extension):  # type: ignore[misc]
