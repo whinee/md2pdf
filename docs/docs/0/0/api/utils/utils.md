@@ -450,7 +450,7 @@ If given string is decimal, convert string to integer, else return False.
 Given a command, mode, and a PATH string, return the path which conforms to the given mode on the PATH, or None if there is no such file.
 
 Notes:
-- Yoinked from shutil. 
+- Yoinked from shutil.
 - `mode` defaults to os.F_OK | os.X_OK. `path` defaults to the result
 of os.environ.get("PATH"), or can be overridden with a custom search
 path.

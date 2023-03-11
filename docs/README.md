@@ -29,7 +29,7 @@
         <img alt="wakatime" src="https://wakatime.com/badge/user/c355e5b6-46c1-4616-be40-bffc807ffbb8/project/c7ba73de-30be-46ad-a260-bd2dca7d591c.svg?style=flat-square">
     </a>
     <a href="https://app.codacy.com/gh/whinee/md2pdf/dashboard">
-        <img alt="Codacy Badge" src="https://img.shields.io/codacy/grade/502ba440287b41b2bd8875ec340b7c51?style=flat-square">
+        <img alt="Codacy Badge" src="https://img.shields.io/codacy/grade/ad76078b89514f75ba385a19efe19941?style=flat-square">
     </a>
     <a href="https://github.com/whinee/md2pdf/releases">
         <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/whinee/md2pdf?include_prereleases&style=flat-square">
