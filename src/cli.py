@@ -48,15 +48,18 @@ ccli = command(cli)
 
 
 def mc(raw_MD: str, MD_path: str, hf: bool | None = None) -> str | None:
-    """Markdown chooser.
+    """
+    Markdown chooser.
 
     Return first argument that is not `None` and convert it into HTML.
 
     Args:
+    ----
     - raw_MD (`str`): Raw Markdown string.
     - MD_path (`str`): Path to Markdown file.
 
     Returns:
+    -------
     `string`: Raw HTML string.
     """
 
@@ -73,7 +76,8 @@ def mc(raw_MD: str, MD_path: str, hf: bool | None = None) -> str | None:
 def hmc(
     raw_HTML: str, HTML_path: str, raw_MD: str, MD_path: str, hf: bool | None = None
 ) -> str:
-    """HTML or Markdown chooser.
+    """
+    HTML or Markdown chooser.
 
     Return first argument that is not `None` and convert it into HTML, if it is not already.
 
@@ -134,11 +138,13 @@ def convert(  # type: ignore[no-untyped-def]
     orientation,
     margin,
 ) -> None:
-    """Converts input markdown to styled HTML and renders it to a PDF file.
+    """
+    Converts input markdown to styled HTML and renders it to a PDF file.
 
     Arguments are explained in the CLI help page.
 
-    Notes:
+    Notes
+    -----
     - The following is the precedence order of header and footer application (`>` means "precedes"):
         - For header:
             `header_raw` > `header_path` > `md_header_raw` > `md_header_path`

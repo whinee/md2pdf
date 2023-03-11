@@ -1,6 +1,7 @@
 # **[src](../index.md).[utils](../utils.md).[exceptions](exceptions.md)**
 
     
+`Common` exceptions are raised if an error occured and it is of the `Common` exception's common variant of error.
 
     
 <h2><b><a href="#class" id="class">Classes</a></b></h2>

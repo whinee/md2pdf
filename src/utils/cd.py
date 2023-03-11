@@ -51,7 +51,8 @@ class CustomDict(dict):  # type: ignore[type-arg]
         idx: int = 0,
         og_path: Optional[str] = None,
     ) -> tuple[int, Any | dict[str, int]] | Any:
-        """_summary_
+        """
+        _summary_.
 
         Return States
         | State \||                              Return Type \||                       Description |

@@ -1,10 +1,17 @@
 # TODO
 
+## Legend
+
+### Tags
+
+- **feat**: Feature 
+
 ## Todo
 
-- [ ] n-column support
-- [ ] GUI
-- [ ] Custom Help Function (to only compute help page's width when help is actually called; the CLI is actually already fast enough that this might not be necessary, but is just a mere novelty)
+- [ ] [docs] 
+- [ ] [feat] n-column support
+- [ ] [feat] GUI
+- [ ] [feat] Custom Help Function (to only compute help page's width when help is actually called; the CLI is actually already fast enough that this might not be necessary, but is just a mere novelty)
 
 ## In Progress
 

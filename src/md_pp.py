@@ -93,7 +93,7 @@ def _get_bin_cmd() -> str:
             try:
                 npx_cmd = NPX_KATEX_FMT.format(i)
                 output_data = subprocess.check_output(
-                    npx_cmd.split() + ["--version"], stderr=subprocess.STDOUT
+                    [*npx_cmd.split(), "--version"], stderr=subprocess.STDOUT
                 )
                 output_text = output_data.decode("utf-8")
                 if SEMVER_RE.match(output_text.strip()) is None:
@@ -112,7 +112,7 @@ def get_bin_cmd() -> list[str]:
         bin_cmd: list[str] = bin.split()
         if "npx" in bin:
             output_data = subprocess.check_output(
-                bin_cmd + ["--version"], stderr=subprocess.STDOUT
+                [*bin_cmd, "--version"], stderr=subprocess.STDOUT
             )
             if SEMVER_RE.match(output_data.decode("utf-8").strip()) is not None:
                 return bin_cmd
@@ -166,7 +166,7 @@ def katex2html(marker: str, tex: str) -> tuple[str, str]:  # type: ignore[return
             err_msg = f"Error processing '{tex}': {output}"
             raise Exception(err_msg)
         return marker, htmlsvg2img(stdout)
-    except Exception as e:  # nosec B110
+    except Exception:  # nosec B110
         pass
 
 

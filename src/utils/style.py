@@ -158,7 +158,8 @@ for k, v in COLORS.items():
 def pp(
     t: Any, ca: Optional[bool] = None, *args: list[Any], **kwargs: dict[str, Any]
 ) -> None:
-    """Center rich printable objects, then pretty print it.
+    """
+    Center rich printable objects, then pretty print it.
 
     Args:
     - t (`Any`): Rich printable object to be centered, then pretty printed.
@@ -174,7 +175,8 @@ def pp(
 class ct:
     @staticmethod
     def group(*ls: ConsoleRenderable | RichCast | str) -> Group:
-        """Group given list of rich printable objects.
+        """
+        Group given list of rich printable objects.
 
         Returns:
         `Group`: Group of rich printable objects
@@ -186,7 +188,8 @@ class ct:
 
     @staticmethod
     def table(cols: list[str], rows: list[list[str]]) -> None:
-        """Print table from given list of str and list of list of strings for the columns and rows respectively.
+        """
+        Print table from given list of str and list of list of strings for the columns and rows respectively.
 
         Args:
         - cols (`list[str]`): List of string for column labels.

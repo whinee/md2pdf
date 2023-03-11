@@ -1,4 +1,19 @@
-from __future__ import unicode_literals
+"""
+Hereunder resides functions for constructing CLI for this program.
+
+> This module heavily documents my descent to madness.
+>
+> An unholy amalgamation of megalamonia, depression, God complex, and impostor syndrome filled my broken heart.
+>
+> This file is the digital manifestation of my mental woes.
+>
+> Masochistic tendencies fuelling my coding sessions.
+>
+> I wish upon this abyss to not touch this file ever again.
+
+whi~nyaan! ― 2023
+
+"""
 
 import os
 import typing
@@ -40,22 +55,6 @@ except ImportError:
     from src.utils.utils import ExtInquirerControl, ExtQuestion, dnrp, fill_ls
 
 warnings.filterwarnings("ignore")
-
-"""
-
-This module heavily documents my descent to madness.
-
-An unholy amalgamation of megalamonia, depression, God complex, and impostor syndrome filled my broken heart.
-
-This file is the digital manifestation of my mental woes.
-
-Masochistic tendencies fuelling my coding sessions.
-
-I wish upon this abyss to not touch this file ever again.
-
-    whi~nyaan! ― 2023
-
-"""
 
 # Constants
 CLICK_CMD_OPTIONS_EXAMPLE_INDICATOR: Final[str] = "Ex.: "
@@ -222,6 +221,8 @@ class cao:
 
     def __init__(self, group: Group) -> None:
         """
+        Initialize object.
+
         Args:
         - group (`Group`): Command group of the command to be under.
 
@@ -231,7 +232,8 @@ class cao:
         self.group: Group = group
 
     def command(self) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        """The command wrapper.
+        """
+        The command wrapper.
 
         Returns:
         `Callable[[Callable[..., Any]], Callable[..., Any]]`
@@ -279,7 +281,8 @@ class cao:
         return inner
 
     def arguments(self) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        """The arguments wrapper.
+        """
+        The arguments wrapper.
 
         Returns:
         `Callable[[Callable[..., Any]], Callable[..., Any]]`
@@ -305,7 +308,9 @@ class cao:
         return inner
 
     def options(self) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-        """The options wrapper.
+        """
+        The options wrapper.
+
         My God in heaven, I'm agnostic, but please save me from all evil. Amen.
 
         Returns:
@@ -489,6 +494,8 @@ class cao:
 
     def wrap(self, func: Callable[..., Any]) -> Callable[..., Any]:
         """
+        Wrap given function with corresponding click decorators.
+
         Args:
         - func (`Callable[..., Any]`): Function to be wrapped.
 
@@ -508,7 +515,8 @@ class cao:
 def command(
     group: Group,
 ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
-    """Wrapper for click commands.
+    """
+    Wrapper for click commands.
 
     Args:
     - group (`Group`): Command group of the command to be under.
@@ -704,7 +712,8 @@ for i in CFLOP:
 
 
 def de_rcfg() -> CustomDict:
-    """Return parsed configuration file, fetched from the CFLOP.
+    """
+    Return parsed configuration file, fetched from the CFLOP.
 
     Returns:
     `dict[Any, Any]`: _description_
@@ -713,7 +722,8 @@ def de_rcfg() -> CustomDict:
 
 
 def de_wcfg(value: dict[Any, Any] | list[Any]) -> None:
-    """Write given value to the configuration file, fetched from the CFLOP.
+    """
+    Write given value to the configuration file, fetched from the CFLOP.
 
     Args:
     - value (`dict[Any, Any] | list[Any]`): dictionary to overwrite the configuration file, fetched from the CFLOP.

@@ -1,6 +1,19 @@
 # **[src](../index.md).[utils](../utils.md).[base_cli](base_cli.md)**
 
     
+Hereunder resides functions for constructing CLI for this program.
+
+> This module heavily documents my descent to madness.
+>
+> An unholy amalgamation of megalamonia, depression, God complex, and impostor syndrome filled my broken heart.
+>
+> This file is the digital manifestation of my mental woes.
+>
+> Masochistic tendencies fuelling my coding sessions.
+>
+> I wish upon this abyss to not touch this file ever again.
+
+whi~nyaan! ― 2023
 
     
 <h2><b><a href="#func" id="func">Functions</a></b></h2>
@@ -255,6 +268,8 @@ To customize the command class used, set the
     
 Returns wrappers for a click command evaluated from the given arguments.
 
+Initialize object.
+
     
 <h3><b><i><a href="#class-cao-args" id="class-cao-args">Args:</a></i></b></h3>
 
@@ -330,6 +345,7 @@ The command wrapper.
 
     
 The options wrapper.
+
 My God in heaven, I'm agnostic, but please save me from all evil. Amen.
 
     
@@ -347,6 +363,7 @@ My God in heaven, I'm agnostic, but please save me from all evil. Amen.
 ```
 
     
+Wrap given function with corresponding click decorators.
 
     
 <h3><i><a href="#class-cao-func-wrap-args" id="class-cao-func-wrap-args">Args:</a></i></h3>

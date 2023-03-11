@@ -1,3 +1,5 @@
+"""`Common` exceptions are raised if an error occured and it is of the `Common` exception's common variant of error."""
+
 from typing import Any, Optional
 
 try:
@@ -10,17 +12,14 @@ except ImportError:
     from src.info import PLATFORM, PSH, TW
     from src.utils.base_exc import c_exc, c_exc_str
 
-"""
-`Common` exceptions are raised if an error occured and it is of the `Common` exception's common variant of error.
-"""
-
 
 class GeneralExceptions:
     class ValidationError:
         @c_exc_str
         class FileNotFound(FileNotFoundError):
             def __init__(self, fp: str) -> None:
-                """Raised when a file in a given path is not found.
+                """
+                Raised when a file in a given path is not found.
 
                 Args:
                 - parameter (`fp`): Path of the file that can not be found.
@@ -32,7 +31,8 @@ class GeneralExceptions:
             def __init__(
                 self, parameter: str, argument: Any, specification: str
             ) -> None:
-                """Raised when a parameter is required to be of specification, but is not followed.
+                """
+                Raised when a parameter is required to be of specification, but is not followed.
 
                 Args:
                 - parameter (`str`): Name of the parameter.
@@ -50,7 +50,8 @@ class GeneralExceptions:
         def __init__(
             self, prerequisite: str, inst_instruction: Optional[str] = None
         ) -> None:
-            """Raised when a prerequisite is needed by the program, but is not installed in the machine.
+            """
+            Raised when a prerequisite is needed by the program, but is not installed in the machine.
 
             Args:
             - prerequisite (`str`): Name of the prerequisite.
@@ -63,7 +64,8 @@ class CLIExceptions:
     @c_exc_str
     class TerminalTooThin(Exception):
         def __init__(self, min_width: int) -> None:
-            """Raised when terminal is too thin for content to be rendered.
+            """
+            Raised when terminal is too thin for content to be rendered.
 
             Args:
             - min_width (`int`): Required minimum terminal width.
@@ -74,7 +76,8 @@ class CLIExceptions:
         @c_exc_str
         class OptionRequired(Exception):
             def __init__(self, option: str) -> None:
-                """Raised when an option is required but no argument is passed.
+                """
+                Raised when an option is required but no argument is passed.
 
                 Args:
                 - option (`str`): Required option with no arguments passed into it.
@@ -117,7 +120,8 @@ class CDExceptions:
     class Internals:
         class StateUnexpected(IndexError):
             def __init__(self, state: Any, max_state: int) -> None:
-                """Raised when the state passed in between functions is not of type `int` or exceeds the bounds of possible states.
+                """
+                Raised when the state passed in between functions is not of type `int` or exceeds the bounds of possible states.
 
                 Args:
                 - state (`Any`): Faulty state.

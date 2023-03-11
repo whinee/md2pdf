@@ -9,7 +9,8 @@ except ImportError:
 
 
 def c_exc_str(cls: Type[BaseException]) -> Type[BaseException]:
-    """Decorator to add the __str__ method to an exception.
+    """
+    Decorator to add the __str__ method to an exception.
 
     Args:
     - cls (`BaseException`): The exception to add the __str__ method to.
@@ -20,28 +21,27 @@ def c_exc_str(cls: Type[BaseException]) -> Type[BaseException]:
 
     old_init: Callable[..., None] = cls.__init__
 
-    def __init__(
-        self: BaseException, *args: types.Args, **kwargs: types.Kwargs
-    ) -> None:
+    def init(self: BaseException, *args: types.Args, **kwargs: types.Kwargs) -> None:
         old_init(self, *args, **kwargs)
         pp(S.p_critical(S.t_critical(self.message)))
         if details := getattr(self, "details", None):
             print(details)
 
-    def __str__(self: BaseException) -> str:
+    def str_fn(self: BaseException) -> str:
         msg: str = self.message
         # details: str=getattr(self, 'details')
         # if details:
         #     return msg + '\n' + details
         return msg
 
-    cls.__init__ = __init__  # type: ignore[assignment]
-    cls.__str__ = __str__  # type: ignore[assignment]
+    cls.__init__ = init  # type: ignore[assignment]
+    cls.__str__ = str_fn  # type: ignore[assignment]
     return cls
 
 
 def c_exc(cls: Type[BaseException]) -> Type[BaseException]:
-    """Decorator to raise a custom exception.
+    """
+    Decorator to raise a custom exception.
 
     This function gives the class an __init__ function that raises the exception.
     If the class does not inherit from any Exception, it will be automatically inherit from Exception.

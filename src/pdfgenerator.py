@@ -123,7 +123,8 @@ class PDFGenerator:
         size: str,
         margin: list[str],
     ):
-        """Initialize PDF Generator.
+        """
+        Initialize PDF Generator.
 
         Notes:
         - The `size` and `margin` arguments are applied to the PDF like CSS does. See https://developer.mozilla.org/en-US/docs/Web/CSS/@page/size and https://developer.mozilla.org/en-US/docs/Web/CSS/margin#syntax respectively for more details.
@@ -166,7 +167,8 @@ class PDFGenerator:
     def _compute_element(
         self, element: str, element_string: str, page: int, pages: int
     ):
-        """Compute element in HTML.
+        """
+        Compute element in HTML.
 
         Args:
         - element (`str`): Element's name.
@@ -194,7 +196,8 @@ class PDFGenerator:
     def _compute_overlay_element(
         self, element: str, element_string: Optional[str]
     ) -> int:
-        """Compute overlay element.
+        """
+        Compute overlay element.
 
         Set self.`element`_body, self.`element`_height to element's content and height, else if element is not found, set to `None`, `0` respectively.
 
@@ -231,7 +234,8 @@ class PDFGenerator:
                 ).all_children()
 
     def render_pdf(self) -> bytes:
-        """Return the rendered PDF.
+        """
+        Return the rendered PDF.
 
         Returns:
         `bytes`: The rendered PDF.

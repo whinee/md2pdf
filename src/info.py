@@ -76,7 +76,7 @@ try:
     TW = get_terminal_size().columns
     """Stands for terminal width.
     """
-except OSError as e:
+except OSError:
     TW = 0
 
 MACHINE = platform.machine()

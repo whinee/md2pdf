@@ -49,10 +49,12 @@ Return first argument that is not `None` and convert it into HTML.
     
 <h3><b><i><a href="#func-mc-args" id="func-mc-args">Args:</a></i></b></h3>
 
+----
 - raw_MD (`str`): Raw Markdown string.
 - MD_path (`str`): Path to Markdown file.
 
     
 <h3><b><i><a href="#func-mc-returns" id="func-mc-returns">Returns:</a></i></b></h3>
 
+-------
 `string`: Raw HTML string.

@@ -85,7 +85,7 @@ Custom dictionary.
 ```
 
     
-_summary_
+_summary_.
 
 Return States
 | State \||                              Return Type \||                       Description |

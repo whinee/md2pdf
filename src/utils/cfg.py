@@ -38,7 +38,8 @@ class ExtensionNotSupported(NotImplementedError):
 
 
 def pcfg(d: str, type: str) -> CustomDict:
-    """Parse the given string as the given type.
+    """
+    Parse the given string as the given type.
 
     Args:
     - d (`str`): String to parse.
@@ -55,7 +56,8 @@ def pcfg(d: str, type: str) -> CustomDict:
 
 
 def dcfg(value: dict[str, Any], ext: str) -> str:
-    """Dump the given value to a string with the given extension.
+    """
+    Dump the given value to a string with the given extension.
 
     Args:
     - value (`dict`): Value to dump to a string.
@@ -72,7 +74,8 @@ def dcfg(value: dict[str, Any], ext: str) -> str:
 
 
 def rcfg(file: str) -> CustomDict:
-    """Read the contents of a file with the given file name.
+    """
+    Read the contents of a file with the given file name.
 
     Args:
     - file (`str`): File name of the file to read the contents of.
@@ -90,7 +93,8 @@ def rcfg(file: str) -> CustomDict:
 
 
 def wcfg(file: str, value: dict[Any, Any] | list[Any]) -> None:
-    """Write the given value to a file with the given file name.
+    """
+    Write the given value to a file with the given file name.
 
     Args:
     - file (`str`): File name of the file to write the value to.

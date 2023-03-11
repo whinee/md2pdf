@@ -158,7 +158,7 @@ Fill given list (`ls`) with `filler` up to `length`.
 ```
 
     
-"If Not `os.path.isdir`, Make Directories"
+"If Not `os.path.isdir`, Make Directories".
 
     
 <h3><b><i><a href="#func-inmd-args" id="func-inmd-args">Args:</a></i></b></h3>
@@ -215,7 +215,7 @@ If Var is None, return Default else var.
 ```
 
     
-Literal Evaluation
+Literal Evaluation.
 
     
 <h3><b><i><a href="#func-le-args" id="func-le-args">Args:</a></i></b></h3>
@@ -237,7 +237,7 @@ Literal Evaluation
 ```
 
     
-No operation
+No operation.
 
     
 
@@ -283,7 +283,7 @@ Iterate through the dictionary, find the values in the given string and replace 
 ```
 
     
-Return First Non-None
+Return First Non-None.
 
 Return the first argument that is not `None`, else return `None`.
 
@@ -443,17 +443,29 @@ If given string is decimal, convert string to integer, else return False.
 <h3><b><a href="#func-which_ls" id="func-which_ls">which_ls</a></b></h3>
 
 ```python
-(cmd: str, mode: Optional[int] = None, path: str | None = None) ‑> Union[tuple[str], tuple[str, ...], ForwardRef(None)]
+(cmd: str, mode: Optional[int] = 1, path: str | None = '/home/whine/whi_ne/3/projects/personal/tools/md2pdf-rewrite/pyenv/bin:/home/whine/bin:/home/whine/whi_ne/2/.local:/home/whine/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin') ‑> Union[tuple[str], tuple[str, ...], ForwardRef(None)]
 ```
 
     
-Yoinked from shutil. Given a command, mode, and a PATH string, return the path which
-conforms to the given mode on the PATH, or None if there is no such
-file.
+Given a command, mode, and a PATH string, return the path which conforms to the given mode on the PATH, or None if there is no such file.
 
-`mode` defaults to os.F_OK | os.X_OK. `path` defaults to the result
+Notes:
+- Yoinked from shutil. 
+- `mode` defaults to os.F_OK | os.X_OK. `path` defaults to the result
 of os.environ.get("PATH"), or can be overridden with a custom search
 path.
+
+    
+<h3><b><i><a href="#func-which_ls-args" id="func-which_ls-args">Args:</a></i></b></h3>
+
+- cmd (`str`): Executable to look for.
+- mode (`Optional[int]`, optional): Executable permissions to look for. Defaults to `os.F_OK | os.X_OK`.
+- path (`Optional[str]`, optional): The PATH to where the executable can be found. Defaults to `os.environ.get("PATH", None)`.
+
+    
+<h3><b><i><a href="#func-which_ls-returns" id="func-which_ls-returns">Returns:</a></i></b></h3>
+
+`Optional[types.TupleStr]`: List of path where executable is found at.
 
     
 <h2><b><a href="#class" id="class">Classes</a></b></h2>

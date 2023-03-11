@@ -241,6 +241,9 @@ def yield_text(mod):
     if sm:
         header = []
         idx_path = docs_dir(mod.name, api=True)
+
+        print(f"Generating {idx_path}")
+
         m, *ls = mod.name.split(".")
         for idx, i in enumerate(ls[::-1]):
             header.append(f'[{i}]({"../" * idx}{i}.md)')
@@ -328,6 +331,7 @@ def main(rmv: Dict[Any, Any] = {}):
 
     for module_name, yt in yield_text(PROJECT):
         _dd = docs_dir(module_name, api=True)
+        print(f"Generating {_dd}")
         with open(_dd, "w") as f:
             f.write(yt)
 
@@ -363,7 +367,6 @@ def main(rmv: Dict[Any, Any] = {}):
     ndd = {}
     u_ls = sorted(listdir(base), reverse=True)
     with open(os.path.join(docs_pdir, op_base, "README.md"), "w") as f:
-        print("here")
         f.write(
             H1.format("All Version")
             + "\n".join(f"- [Version {u}.x.x.x]({u}/README.md)" for u in u_ls)
