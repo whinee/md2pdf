@@ -23,7 +23,7 @@ Given a version number `user`.`dev`.`minor`.`patch`, increment the:
 
 If in doubt, please **DO** visit [semver.org](https://semver.org/).
 
-<h2 id="versioning-system-version-bump-guides"><b><i><a href="#versioning-system-version-bump-guides">Version Bump Guides</a></i></b></h2>
+<h3 id="versioning-system-version-bump-guides"><b><a href="#versioning-system-version-bump-guides">Version Bump Guides</a></b></h3>
 
 - **ANY** change in the user interface/experience SHALL induce a `user` version bump.
 - **ANY** change in the schema shall induce a `dev` version bump.

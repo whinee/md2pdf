@@ -18,7 +18,7 @@ And oh yes, this is an arguably messy implementation of Markdown, as opposed to 
 
 md2pdf extended the base implementation, and hereinunder are the details.
 
-<h2 id="extended-syntax-math-expression"><b><i><a href="#extended-syntax-math-expression">Math Expression</a></i></b></h2>
+<h3 id="extended-syntax-math-expression"><b><a href="#extended-syntax-math-expression">Math Expression</a></b></h3>
 
 [KaTeX](https://katex.org) expressions are supported in this program. You just need to surround it in a code block, with the language set as `math`. An example of this is the following:
 

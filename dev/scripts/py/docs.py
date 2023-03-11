@@ -33,7 +33,8 @@ ul{
 
 AW = '<a href="#{id}">{content}</a>'
 HW = '<h{n} id="{id}">{title}</h{n}>\n'
-HA_RSTYLE = ["<b>{}</b>", "<b><i>{}</i></b>", "{}", "<i>{}</i>"]
+HA_DEF_STYLE = "<b>{}</b>"
+HA_RSTYLE = [HA_DEF_STYLE, "<b><i>{}</i></b>", "{}", "<i>{}</i>"]
 H1 = '<h1 align="center" style="font-weight: bold">\n    {}\n</h1>\n\n'
 H1_MD = H1 + "{}\n"
 H1_LINK_MD = H1.format('<a target="_blank" href="{}">{}</a>') + "{}\n"
@@ -101,25 +102,6 @@ yaml.add_representer(str, str_presenter)
 
 
 # Functions
-def _sh_inner(toc_ls, res_ls, elem, iid) -> None:
-    op = []
-    for i in elem.content.walk(noop):
-        if isinstance(i, panflute.Str):
-            op.append(i.text)
-
-    level, fs = HA_STYLE[elem.level]
-    t = " ".join(op)
-    a = AW.format(id=iid, content=t)
-    toc_ls.append(f'{"    " * (elem.level - 2)}- {a}')
-    elem.identifier = ""
-    res_ls.append(
-        [
-            pfelem2md(elem, elem.doc),
-            HW.format(n=level, id=iid, title=fs.format(a)),
-        ]
-    )
-
-
 def dd(
     od: Dict[str, List[str]], *dicts: List[Dict[str, List[str]]]
 ) -> Dict[str, List[str]]:
@@ -197,8 +179,49 @@ def rules_fn(rules: Dict[Any, Any]) -> Dict[str, List[str]]:
     return dd({"": rules.get("del", [])}, rules["repl"])
 
 
-def style_header(toc_ls, res_ls):
-    _si = partial(_sh_inner, toc_ls, res_ls)
+def sh_ltf_inner(toc_ls, res_ls, elem, iid) -> None:
+    op = []
+    for i in elem.content.walk(noop):
+        if isinstance(i, panflute.Str):
+            op.append(i.text)
+
+    level, fs = HA_STYLE[elem.level]
+    t = " ".join(op)
+    a = AW.format(id=iid, content=t)
+    toc_ls.append(f'{"    " * (elem.level - 2)}- {a}')
+    elem.identifier = ""
+    res_ls.append(
+        [
+            pfelem2md(elem, elem.doc),
+            HW.format(n=level, id=iid, title=fs.format(a)),
+        ]
+    )
+
+
+def sh_inner(toc_ls, res_ls, elem, iid) -> None:
+    op = []
+    for i in elem.content.walk(noop):
+        if isinstance(i, panflute.Str):
+            op.append(i.text)
+
+    level = elem.level
+    t = " ".join(op)
+    a = AW.format(id=iid, content=t)
+    toc_ls.append(f'{"    " * (level - 2)}- {a}')
+    elem.identifier = ""
+    res_ls.append(
+        [
+            pfelem2md(elem, elem.doc),
+            HW.format(n=level, id=iid, title=HA_DEF_STYLE.format(a)),
+        ]
+    )
+
+
+def style_header(toc_ls, res_ls, lower_than_four):
+    if lower_than_four:
+        _si = partial(sh_ltf_inner, toc_ls, res_ls)
+    else:
+        _si = partial(sh_inner, toc_ls, res_ls)
 
     def inner(item, parent=None):
         id_ls = []
@@ -223,7 +246,7 @@ def style_header(toc_ls, res_ls):
     return inner
 
 
-def style_header_init(hls, se, lower_than_four):
+def style_header_init(hls, se):
     def inner(elem, doc):
         if isinstance(elem, panflute.Header):
             se(hls, elem.level - 2, elem)
@@ -313,10 +336,10 @@ def main(rmv: Dict[Any, Any] = {}):
             md = md.replace("{{" + k + "}}", str(v))
 
         panflute.run_filter(
-            style_header_init(hls, pf_set_element(), "####" in md),
+            style_header_init(hls, pf_set_element()),
             doc=panflute.load(StringIO(md_data)),
         )
-        style_header(toc_ls, res_ls)(hls)
+        style_header(toc_ls, res_ls, "####" in md)(hls)
 
         for k, v in res_ls:
             if not tp:

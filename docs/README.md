@@ -89,7 +89,7 @@ md2pdf is a [Markdown](docs/0/0/markdown.md) to PDF converter that can also do a
 - Print output HTML
 - Programmatic Usage
 
-<h2 id="what-s-this-supported-oses"><b><i><a href="#what-s-this-supported-oses">Supported OSes</a></i></b></h2>
+<h3 id="what-s-this-supported-oses"><b><a href="#what-s-this-supported-oses">Supported OSes</a></b></h3>
 
 - Windows
 - MacOS
@@ -172,11 +172,11 @@ Check the [LICENSE](LICENSE.md) for more details.
 
 <h2 id="attribution"><b><a href="#attribution">Attribution</a></b></h2>
 
-<h2 id="attribution-mit-logo"><b><i><a href="#attribution-mit-logo">MIT Logo</a></i></b></h2>
+<h3 id="attribution-mit-logo"><b><a href="#attribution-mit-logo">MIT Logo</a></b></h3>
 
 <a target="_blank" href="https://commons.wikimedia.org/wiki/File:MIT_logo.svg">Massachusetts Institute of Technology</a> (vectorized by <a target="_blank" href="https://en.wikipedia.org/wiki/User:Mysid">Mysid</a>, modified by [whinee](https://github.com/whinee)), Public domain, via Wikimedia Commons
 
-<h2 id="attribution-icons"><b><i><a href="#attribution-icons">Icons</a></i></b></h2>
+<h3 id="attribution-icons"><b><a href="#attribution-icons">Icons</a></b></h3>
 
 <a target="_blank" href="https://icons8.com/icon/102502/exclamation-mark">Exclamation Mark</a>, <a target="_blank" href="https://icons8.com/icon/33294/code-fork">Code Fork</a>, <a target="_blank" href="https://icons8.com/icon/85185/star">Star</a>, <a target="_blank" href="https://icons8.com/icon/34095/group">Group</a>, <a target="_blank" href="https://icons8.com/icon/87276/code">Code</a>, and <a href="https://icons8.com/icon/30888/discord">Discord</a> icons by <a target="_blank" href="https://icons8.com">Icons8</a>
 

@@ -6,7 +6,7 @@
 
 <h2 id="legend"><b><a href="#legend">Legend</a></b></h2>
 
-<h2 id="legend-tags"><b><i><a href="#legend-tags">Tags</a></i></b></h2>
+<h3 id="legend-tags"><b><a href="#legend-tags">Tags</a></b></h3>
 
 - **feat**: Feature 
 

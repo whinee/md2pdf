@@ -42,17 +42,17 @@ By using the **Project** and/or the **Website**, the **User** agrees and confirm
 
 The **Developer** only intends to use this **Project** only for educational purposes.
 
-<h2 id="disclaimer-revisions-and-errata"><b><i><a href="#disclaimer-revisions-and-errata">Revisions and Errata</a></i></b></h2>
+<h3 id="disclaimer-revisions-and-errata"><b><a href="#disclaimer-revisions-and-errata">Revisions and Errata</a></b></h3>
 
 The materials and resources in this **Website** and the **Project** **MAY** include technical, typographical, or photographic errors. The **Developer** does not promise that any of the materials in this **Website** and the **Project** are accurate, complete, or current. The said **Developer** **MAY** change the materials contained on its Website at any time without notice. The **Developer** does not make any commitment to update the materials.
 
-<h2 id="disclaimer-dmca-and-copyright-infringements"><b><i><a href="#disclaimer-dmca-and-copyright-infringements">DMCA and Copyright Infringements</a></i></b></h2>
+<h3 id="disclaimer-dmca-and-copyright-infringements"><b><a href="#disclaimer-dmca-and-copyright-infringements">DMCA and Copyright Infringements</a></b></h3>
 
 The contents served by the **Project** is publicly accessible through the Internet. In case of copyright infringement, please direct the complaints, claims, and possible criminal charges against to the respective file hosts and content providers, not to the **Project** nor to the **Developer**, as the **Developer** is not affiliated with them, at any way, shape or form.
 
 The **Project** is a program that serves contents like a normal browser do through scraping 3rd-party websites that are publicly accessible via any regular web browser, however it does less requests than a normal browser would, and is sophisticated enough to serve the content how the **Developer** would want to. It is the responsibility of the **Users** to avoid any actions that might violate the laws governing their locality.
 
-<h2 id="disclaimer-the-developer"><b><i><a href="#disclaimer-the-developer">The Developer</a></i></b></h2>
+<h3 id="disclaimer-the-developer"><b><a href="#disclaimer-the-developer">The Developer</a></b></h3>
 
 The **Project** is created in good faith that this will only serve an educational purpose for the **Developer** and the **Users** and will only be used for that said purpose.
 
