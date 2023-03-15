@@ -5,5 +5,5 @@ src/katex/** linguist-generated
 docs/** linguist-generated
 *.sh linguist-generated
 
-dev/constants/tpl/pdoc/** linguist-documentation
+dev/constants/tpl/** linguist-documentation
 src/assets/** linguist-documentation
