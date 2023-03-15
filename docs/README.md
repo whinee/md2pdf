@@ -132,11 +132,11 @@ Please refer to [this link](docs/0/0/contribute/translations.md) to learn more o
 
 I want to implement more features as to extend the markdown specification, and in [this link](considerations.md), you can see the following considerations to be made for future feature implementations.
 
-If you want to help, check the [TODO](TODO.md) of the developer and the [contribution guidelines](contribution.md).
+If you want to help, check the [TODO](TODO.md) of the developer and the [contribution guidelines](contributing.md).
 
 <h2 id="contributions"><b><a href="#contributions">Contributions</a></b></h2>
 
-For the contribution guidelines, visit [this link](contribution.md).
+For the contribution guidelines, visit [this link](contributing.md).
 
 For contributing in the latest version of md2pdf, visit [this link](docs/0/0/contribute/index.md)
 

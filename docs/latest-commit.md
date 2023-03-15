@@ -6,10 +6,8 @@
 ## **Summary**
 
 <!-- cspell: disable-next-line -->
-Yet 'nother fucking oopsies...
+If nothing is mentioned below, assume nothing noteworthy got commited.
 
 ## **Changes**
 
-### **Added**
 
-- bot for latest commits and bumps
