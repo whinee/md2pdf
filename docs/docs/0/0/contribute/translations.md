@@ -26,7 +26,7 @@ whereas:
 <details>
 <summary>Notes:</summary>
 
-For more information, visit the <a href="notes-to-self.md#versioning-system">notes for whi~nyaan!</a>.
+For more information, visit the <a href="/notes-to-self.md">notes for whi~nyaan!</a>.
 
 </details>
 

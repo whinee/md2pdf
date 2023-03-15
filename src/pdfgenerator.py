@@ -1,12 +1,28 @@
 # From https://weasyprint.readthedocs.io/en/stable/tips-tricks.html
 # Modified to accept CSS
 
+import logging
+import sys
 from math import ceil
 from typing import Final, Optional
 
 from weasyprint import CSS, HTML
 
+# Register Loggers
+formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
+
+handler = logging.StreamHandler(sys.stdout)
+handler.setLevel(logging.WARNING)
+
+logger = logging.getLogger("weasyprint")
+logger.setLevel(logging.WARNING)
+
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
 # Constants
+EXT_VERTICAL_MARGIN = 10
+
 # https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Values_and_units#lengths
 DPI: Final[int] = 96
 UNITS_TO_PX: Final[dict[str, int | float]] = {
@@ -42,6 +58,8 @@ UNITS: Final[list[str]] = list(UNITS_TO_PX.keys())
 
 
 def calc_margin(margin: list[float], header_height: int, footer_height: int) -> str:
+    header_height += EXT_VERTICAL_MARGIN
+    footer_height += EXT_VERTICAL_MARGIN
     match len(margin):
         case 1:
             tm = margin[0]
@@ -183,6 +201,11 @@ class PDFGenerator:
         html = HTML(string=element_string, base_url=self.base_url)
         element_doc = html.render(
             stylesheets=[
+                CSS(
+                    string="footer, header {margin:"
+                    + " ".join(f"{i}px" for i in self.margin)
+                    + ";}"
+                ),
                 CSS(string=self.overlay_layout),
                 CSS(string=COMPUTE_ELEMENT_HF_TPL.format(page, pages)),
                 *self.stylesheets,

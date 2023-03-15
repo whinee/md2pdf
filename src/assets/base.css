@@ -1,12 +1,5 @@
-@media print {
-    hr {
-        width: 0;
-        clear: both;
-        page-break-after: always;
-    }
-}
-
 :root {
+    /* Preset Font Sizes */
     --font-size: 10pt;
     --small-font-size: 7pt;
 }
@@ -14,12 +7,22 @@
 body {
     margin: 0;
     background-color: white;
-    font-family: Arial;
     color: #000;
+    font-family: Arial;
     line-height: 1;
     font-size: var(--font-size);
 }
 
+/* Hedge header's and footer's margin */
+header> :first-child, footer> :first-child {
+    margin-top: 0;
+}
+
+header> :last-child, footer> :last-child {
+    margin-bottom: 0;
+}
+
+/* Headings */
 h1,
 h2,
 h3,
@@ -28,56 +31,57 @@ h5,
 h6 {
     font-weight: 600;
     text-align: center;
+    padding: 0;
     margin: 0;
     margin-bottom: var(--font-size);
-    padding: 0;
 }
 
 h1 {
     font-size: 200%;
 }
 
-h1:not(:first-child, hr+h1, h1+h1, h2+h1, h3+h1, h4+h1, h5+h1, h6+h1) {
-    margin-top: 50px;
-}
-
 h2 {
     font-size: 180%;
-}
-
-h2:not(:first-child, hr+h2, h1+h2, h2+h2, h3+h2, h4+h2, h5+h2, h6+h2) {
-    margin-top: 45px;
 }
 
 h3 {
     font-size: 160%;
 }
 
-h3:not(:first-child, hr+h3, h1+h3, h2+h3, h3+h3, h4+h3, h5+h3, h6+h3) {
-    margin-top: 40px;
-}
-
 h4 {
     font-size: 140%;
-}
-
-h4:not(:first-child, hr+h4, h1+h4, h2+h4, h3+h4, h4+h4, h5+h4, h6+h4) {
-    margin-top: 30px;
 }
 
 h5 {
     font-size: 120%;
 }
 
-h5:not(:first-child, hr+h5, h1+h5, h2+h5, h3+h5, h4+h5, h5+h5, h6+h5) {
-    margin-top: 25px;
-}
-
 h6 {
     font-size: 100%;
 }
 
-h6:not(:first-child, hr+h6, h1+h6, h2+h6, h3+h6, h4+h6, h5+h6, h6+h6) {
+/* If a heading is not the first child or preceded by a header, pagebreak, horizontal rule, and heading, apply a top margin. */
+h1:not(:first-child, header+h1, div.pagebreak+h1, hr+h1, h1+h1, h2+h1, h3+h1, h4+h1, h5+h1, h6+h1) {
+    margin-top: 50px;
+}
+
+h2:not(:first-child, header+h2, div.pagebreak+h2, hr+h2, h1+h2, h2+h2, h3+h2, h4+h2, h5+h2, h6+h2) {
+    margin-top: 45px;
+}
+
+h3:not(:first-child, header+h3, div.pagebreak+h3, hr+h3, h1+h3, h2+h3, h3+h3, h4+h3, h5+h3, h6+h3) {
+    margin-top: 40px;
+}
+
+h4:not(:first-child, header+h4, div.pagebreak+h4, hr+h4, h1+h4, h2+h4, h3+h4, h4+h4, h5+h4, h6+h4) {
+    margin-top: 30px;
+}
+
+h5:not(:first-child, header+h5, div.pagebreak+h5, hr+h5, h1+h5, h2+h5, h3+h5, h4+h5, h5+h5, h6+h5) {
+    margin-top: 25px;
+}
+
+h6:not(:first-child, header+h6, div.pagebreak+h6, hr+h6, h1+h6, h2+h6, h3+h6, h4+h6, h5+h6, h6+h6) {
     margin-top: 20px;
 }
 
@@ -111,18 +115,26 @@ ol, ul {
     line-height: 150%;
 }
 
+body>ul, body>ol {
+    padding: 0 0 0 14px
+}
+
+/* If list is inside a list, add a margin to left */
 li ol li, li ul li {
     margin-left: 0.5in;
 }
 
+/* If an ordered and unordered list is the only child, apply no margin */
 ol:only-child, ul:only-child {
     margin: 0;
 }
 
+/* If an ordered and unordered list is not the first child, apply margin on both sides */
 ol:not(:first-child), ul:not(:first-child) {
     margin: 20px 0;
 }
 
+/* If list item is not the first child, apply top margin. */
 li:not(:first-child) {
     margin-top: .3em;
 }
@@ -137,7 +149,6 @@ code {
     font-family: ComicCodeLigatures, monospace;
     line-height: 1.5;
     font-size: 13px;
-    /* color: #fff; */
     background: #bbb;
     padding: 2px 4px;
     border-radius: 5px;
@@ -180,6 +191,9 @@ sub, sup {
 table {
     width: 100%;
     border-collapse: collapse;
+}
+
+h1:not(:first-child) {
     margin-top: 20px;
 }
 
@@ -192,17 +206,25 @@ table p {
     margin: 0;
 }
 
-th * {
+th {
     font-weight: bold;
 }
 
 th, td {
     padding: 5px;
-    text-align: center !important;
+    text-align: center;
     vertical-align: middle;
 }
 
-td ul {
+th[align="left"], td[align="left"] {
+    text-align: left;
+}
+
+th[align="right"], td[align="right"] {
+    text-align: right;
+}
+
+td ol, td ul {
     text-align: left;
 }
 
@@ -223,7 +245,6 @@ p:has(img), p img {
 
 .katex img {
     object-fit: fill;
-    padding: unset;
     display: block;
     position: absolute;
     width: 100%;

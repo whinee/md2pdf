@@ -1,4 +1,3 @@
-import warnings
 from typing import Any, Final
 
 from markdown import markdown
@@ -18,8 +17,6 @@ except ImportError:
     from src.utils import exceptions
     from src.utils.base_cli import command, command_group
     from src.utils.utils import file_exists
-
-warnings.filterwarnings("ignore")
 
 # Constants
 CSS_SCALABLE_SIZE_LS: Final[list[str]] = ["auto", "portrait", "landscape"]

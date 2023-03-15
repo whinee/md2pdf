@@ -23,7 +23,7 @@ VERSIONS_NAME = [
     "Pre-release identifier",
     "Pre-release version",
 ]
-DE_PUSH_MSG = "For info, check `docs/latest commit.md` or this commit's comments"
+DE_PUSH_MSG = "For info, check `docs/latest-commit.md` or this commit's comments"
 PUSH_CMD = 'git commit -am "{}"'
 RE_MOD_DS = r"(def {}\(.*?:\s*?\n(\s+)(([\'\"])\4\4)).+?(?=\s*(?:Args:|Returns:|Raises:|Yields:|\3))"
 
@@ -123,8 +123,11 @@ def push(v: Optional[list[int]] = None):
     run("bash dev/scripts/sh/source.sh fmt")
     run("git add .")
 
-    if msg != "":
+    if msg == "":
+        msg = DE_PUSH_MSG
+    else:
         msg = "\n" + msg
+
     if v:
         msg = "\n".join(
             [

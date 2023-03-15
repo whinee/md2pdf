@@ -6,21 +6,22 @@
 
 <h2 id="legend"><b><a href="#legend">Legend</a></b></h2>
 
-<h3 id="legend-tags"><b><a href="#legend-tags">Tags</a></b></h3>
+<h2 id="legend-tags"><b><i><a href="#legend-tags">Tags</a></i></b></h2>
 
-- **feat**: Feature 
+- **feat**: Feature
+    - ***md***: Markdown Syntax/Feature Extension
+    - ***gui***: Graphical User Interface
 
 <h2 id="todo"><b><a href="#todo">Todo</a></b></h2>
 
-- [ ] [docs] 
-- [ ] [feat] n-column support
-- [ ] [feat] GUI
-- [ ] [feat] Custom Help Function (to only compute help page's width when help is actually called; the CLI is actually already fast enough that this might not be necessary, but is just a mere novelty)
+- [ ] [feat:md] n-column support
+- [ ] [feat:gui] GUI
+- [ ] [feat:md] Custom Help Function (to only compute help page's width when help is actually called; the CLI is actually already fast enough that this might not be necessary, but is just a mere novelty)
 
 <h2 id="in-progress"><b><a href="#in-progress">In Progress</a></b></h2>
 
-- [ ] Custom mermaid.js renderer (will be done after the GUI, as the HUI will be written in JS, and the rendered will be using JS too)
+- [ ] [feat:md] Custom mermaid.js renderer (will be done after the GUI, as the HUI will be written in JS, and the rendered will be using JS too)
 
 <h2 id="done"><b><a href="#done">Done</a></b></h2>
 
-- [x] Custom KaTex renderer (as the best one for Weasyprint use, [mbarkhau/markdown-katex](https://github.com/mbarkhau/markdown-katex) is so dang slow)
+- [x] [feat:md] Custom KaTex renderer (as the best one for Weasyprint use, [mbarkhau/markdown-katex](https://github.com/mbarkhau/markdown-katex) is so dang slow)

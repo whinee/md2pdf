@@ -4,19 +4,20 @@
 
 ### Tags
 
-- **feat**: Feature 
+- **feat**: Feature
+    - ***md***: Markdown Syntax/Feature Extension
+    - ***gui***: Graphical User Interface
 
 ## Todo
 
-- [ ] [docs] 
-- [ ] [feat] n-column support
-- [ ] [feat] GUI
-- [ ] [feat] Custom Help Function (to only compute help page's width when help is actually called; the CLI is actually already fast enough that this might not be necessary, but is just a mere novelty)
+- [ ] [feat:md] n-column support
+- [ ] [feat:gui] GUI
+- [ ] [feat:md] Custom Help Function (to only compute help page's width when help is actually called; the CLI is actually already fast enough that this might not be necessary, but is just a mere novelty)
 
 ## In Progress
 
-- [ ] Custom mermaid.js renderer (will be done after the GUI, as the HUI will be written in JS, and the rendered will be using JS too)
+- [ ] [feat:md] Custom mermaid.js renderer (will be done after the GUI, as the HUI will be written in JS, and the rendered will be using JS too)
 
 ## Done
 
-- [x] Custom KaTex renderer (as the best one for Weasyprint use, [mbarkhau/markdown-katex](https://github.com/mbarkhau/markdown-katex) is so dang slow)
+- [x] [feat:md] Custom KaTex renderer (as the best one for Weasyprint use, [mbarkhau/markdown-katex](https://github.com/mbarkhau/markdown-katex) is so dang slow)

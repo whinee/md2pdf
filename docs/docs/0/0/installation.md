@@ -128,7 +128,7 @@ brew install node
 
 <h2 id="linux"><b><a href="#linux">Linux</a></b></h2>
 
-<h3 id="linux-arch"><b><a href="#linux-arch">Arch</a></b></h3>
+<h2 id="linux-arch"><b><i><a href="#linux-arch">Arch</a></i></b></h2>
 
 1. Open your preferred terminal and run the following command:
 ```

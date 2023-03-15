@@ -2,13 +2,11 @@
     Considerations for Future Feature Implementation
 </h1>
 
+The headers are sorted depending on their status, priority, and whatnot
+
 
 <div class="toc"><h2 id="toc"><b><a href="#toc">Table of Contents</a></b></h2>
-<ul><li><a href="#page-breaks">Page Breaks</a></li><li><a href="#columns">Columns</a></li><li><a href="#gui">GUI</a></li></ul></div>
-
-<h2 id="page-breaks"><b><a href="#page-breaks">Page Breaks</a></b></h2>
-
-There is no plain markdown way to add pagebreak in a markdown file. However, I came across [this stackoverflow answer](https://stackoverflow.com/a/57578831) that mentions that the answer-er uses `<<<<>>>>` to denote pagebreak in their documents. And I liked that! And as such, I think I will implement just that in later versions of this program.
+<ul><li><a href="#columns">Columns</a></li><li><a href="#tables">Tables</a></li><li><a href="#css">CSS</a></li><li><a href="#gui">GUI</a></li><li><a href="#implemented-features">Implemented Features</a></li><li><a href="#page-breaks">Page Breaks</a></li></ul></div>
 
 <h2 id="columns"><b><a href="#columns">Columns</a></b></h2>
 
@@ -79,6 +77,20 @@ A solution I am considering at the time of writing is using a custom HTML tag ca
 ```
 
 And yes, the content inside each `col` tags will be interpreted as markdown.
+
+<h2 id="tables"><b><a href="#tables">Tables</a></b></h2>
+
+Despite the talk about the tables above, there is still a legitimate reason to use multi-line tables, such as shitty homeworks that requires such. And more often than not, these tables are multi-line.
+
+And as such, I have thought to actually implement interpreting content inside table cells as markdown, as discussed above. The rationale for this is that while it strays from the actual purpose of using HTML inside of markdown, this can ease up using multi-line tables.
+
+And yes, an option to turn this shitty feature off.
+
+I hate that I have to do these because of school works. No, this is the point of this whole damn thing: to make writing my home works more efficient. But I hate going to school. I barely have time to talk to my girlfriend. But what am I saying right here? Considering that nobody will be able to read this far in this nest of documentation, I doubt that someone will see this. But I digress.
+
+<h2 id="css"><b><a href="#css">CSS</a></b></h2>
+
+I have a really grand plan: to parameterize common CSS rulesets.
 
 <h2 id="gui"><b><a href="#gui">GUI</a></b></h2>
 
@@ -163,3 +175,16 @@ sequenceDiagram
         end
     end
 ```
+
+<h2 id="implemented-features"><b><a href="#implemented-features">Implemented Features</a></b></h2>
+
+<details>
+<summary>Hereunder this heading are implemented features.</summary>
+Now, why have not I put the implement features under this header? As it will break the link to other documents.
+</details>
+
+<h2 id="page-breaks"><b><a href="#page-breaks">Page Breaks</a></b></h2>
+
+> Implemented in 0.0
+
+There is no plain markdown way to add pagebreak in a markdown file. However, I came across [this stackoverflow answer](https://stackoverflow.com/a/57578831) that mentions that the answer-er uses `<<<<>>>>` to denote pagebreak in their documents. And I liked that! And as such, I think I will implement just that in later versions of this program.

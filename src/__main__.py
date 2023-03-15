@@ -1,7 +1,3 @@
-import warnings
-
-warnings.filterwarnings("ignore")
-
 try:
     from .cli import cli
 except ImportError:

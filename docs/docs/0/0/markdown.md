@@ -4,7 +4,7 @@
 
 
 <div class="toc"><h2 id="toc"><b><a href="#toc">Table of Contents</a></b></h2>
-<ul><li><a href="#base-implementation">Base Implementation</a></li><li><a href="#extended-syntax">Extended Syntax</a><ul><li><a href="#extended-syntax-math-expression">Math Expression</a></li></ul></li></ul></div>
+<ul><li><a href="#base-implementation">Base Implementation</a></li><li><a href="#extended-syntax">Extended Syntax</a><ul><li><a href="#extended-syntax-page-breaks">Page Breaks</a></li><li><a href="#extended-syntax-math-expression">Math Expression</a></li></ul></li></ul></div>
 
 <h2 id="base-implementation"><b><a href="#base-implementation">Base Implementation</a></b></h2>
 
@@ -18,7 +18,19 @@ And oh yes, this is an arguably messy implementation of Markdown, as opposed to 
 
 md2pdf extended the base implementation, and hereinunder are the details.
 
-<h3 id="extended-syntax-math-expression"><b><a href="#extended-syntax-math-expression">Math Expression</a></b></h3>
+<h2 id="extended-syntax-page-breaks"><b><i><a href="#extended-syntax-page-breaks">Page Breaks</a></i></b></h2>
+
+Page breaks can be denoted by the following:
+
+```md
+<<<<>>>>
+```
+
+It needs to be separated from the other blocks by at least a single new line (both before and after it) for it to work.
+
+For more information on how whi~nyaan! came up with the idea of page breaks, refer to [this link](considerations.md#page-breaks).
+
+<h2 id="extended-syntax-math-expression"><b><i><a href="#extended-syntax-math-expression">Math Expression</a></i></b></h2>
 
 [KaTeX](https://katex.org) expressions are supported in this program. You just need to surround it in a code block, with the language set as `math`. An example of this is the following:
 

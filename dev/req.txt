@@ -15,7 +15,9 @@ mkdocs-redirects
 msgpack
 mypy
 niet
+no_implicit_optional
 panflute
 pdoc3
 pypandoc
 python-frontmatter
+ruff

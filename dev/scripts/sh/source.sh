@@ -3,11 +3,11 @@
 # commands
 
 menu_fmt() { (
-    LIBCST_PARSER_TYPE=native no_implicit_optional dev
-    LIBCST_PARSER_TYPE=native no_implicit_optional src
-    t " Python Imports Sorted" "Sorting Python Imports Failed" isort -q --gitignore . &
-    t "    Markdown Formatted" "Formatting Markdown Failed" mdformat docs &
-    t "Python Files Formatted" "Formatting Python Files Failed" black -q . &
+    t "          no_implicit_optional" "   no_implicit_optional Failed" LIBCST_PARSER_TYPE=native no_implicit_optional dev
+    t "          no_implicit_optional" "   no_implicit_optional Failed" LIBCST_PARSER_TYPE=native no_implicit_optional src
+    t "         Python Imports Sorted" " Sorting Python Imports Failed" isort -q --gitignore . &
+    t "            Markdown Formatted" "    Formatting Markdown Failed" mdformat docs &
+    t "        Python Files Formatted" "Formatting Python Files Failed" black -q . &
     wait
 ); }
 

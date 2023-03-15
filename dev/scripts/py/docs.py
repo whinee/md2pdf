@@ -39,8 +39,7 @@ H1 = '<h1 align="center" style="font-weight: bold">\n    {}\n</h1>\n\n'
 H1_MD = H1 + "{}\n"
 H1_LINK_MD = H1.format('<a target="_blank" href="{}">{}</a>') + "{}\n"
 
-# Constants
-RE_MDSE = r"(?<=# {key} start\n).+(?=\n\s*# {key} end)"
+RE_MDSE_FMT = r"(?<=# {key} start\n).+(?=\n\s*# {key} end)"
 
 INFO_TPLS = {
     "site_name": [None, ["project_name"]],
@@ -52,6 +51,8 @@ INFO_TPLS = {
 }
 
 # Derived Constants
+H4_RE = re.compile(r"^####", re.MULTILINE).search
+
 VLS = VYML["ls"]
 
 PDOC = YML["pdoc"]
@@ -69,7 +70,6 @@ pdoc.link_inheritance(CONTEXT)
 pdoc.tpl_lookup = pdoc.TemplateLookup(directories=[PDOC["tpl"]])
 
 H1_STYLE = HA_RSTYLE[0]
-
 
 # Variable Initialization
 HA_STYLE = {}
@@ -339,7 +339,7 @@ def main(rmv: Dict[Any, Any] = {}):
             style_header_init(hls, pf_set_element()),
             doc=panflute.load(StringIO(md_data)),
         )
-        style_header(toc_ls, res_ls, "####" in md)(hls)
+        style_header(toc_ls, res_ls, bool(H4_RE))(hls)
 
         for k, v in res_ls:
             if not tp:
@@ -428,7 +428,7 @@ def main(rmv: Dict[Any, Any] = {}):
             op = f.format(*vd.values(), **vd)
         info_yml[k] = op
     mkdocs = re.sub(
-        RE_MDSE.format(key="info"),
+        RE_MDSE_FMT.format(key="info"),
         yaml.dump(info_yml, indent=2, sort_keys=False),
         mkdocs,
         0,
@@ -436,7 +436,7 @@ def main(rmv: Dict[Any, Any] = {}):
     )
 
     with open("mkdocs.yml", "w") as f:
-        f.write(re.sub(RE_MDSE.format(key="nav docs"), nd, mkdocs, 0, re.S))
+        f.write(re.sub(RE_MDSE_FMT.format(key="nav docs"), nd, mkdocs, 0, re.S))
     shutil.copy("mkdocs.yml", "mkdocs.bak.yml")
 
     run("mkdocs build")

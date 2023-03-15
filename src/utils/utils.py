@@ -6,7 +6,6 @@ import re
 import shutil
 import sys
 import unicodedata
-import warnings
 from datetime import datetime, timedelta
 from multiprocessing import Pool, pool
 from os import makedirs
@@ -33,8 +32,6 @@ except ImportError:
     from src.info import PSH
     from src.utils import exceptions, types
 
-
-warnings.filterwarnings("ignore")
 
 # Constants
 CATEGORIES: Final[set[str]] = {"Cn"}

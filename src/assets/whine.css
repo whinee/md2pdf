@@ -1,0 +1,17 @@
+/* This is the  */
+
+@import url("base.css");
+
+/* whine uses tables for naming her documents, but does not want them borders on tables */
+header table {
+    border-collapse: collapse !important;
+}
+
+header table, header th, header td {
+    border: none !important;
+}
+
+/* whine also does not want them table headers to be bold */
+header th {
+    font-weight: normal !important;
+}

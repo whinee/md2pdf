@@ -6,6 +6,7 @@ import shutil
 import signal
 import subprocess
 import urllib.parse
+from functools import partial
 from glob import glob
 from typing import Any, Generator
 
@@ -30,6 +31,15 @@ KATEX_CMD_NAME = "katex"
 FALLBACK_BIN_DIR = "/usr/local/bin"
 NPX_KATEX_FMT = f"{{}} --no-install {KATEX_CMD_NAME}"
 KATEX_OPTS = "-t -T -c 'f3626b' -F html".split()
+
+
+HTML_PAGE_BREAK = (
+    """<div class="pagebreak" style="clear: both; page-break-after: always;"></div>"""
+)
+PAGE_BREAK_REPLACE = partial(
+    re.compile(r"^<p>&lt;&lt;&lt;&lt;&gt;&gt;&gt;&gt;<\/p>", re.MULTILINE).sub,
+    repl=HTML_PAGE_BREAK,
+)
 
 SVG_XMLNS = (
     'xmlns="http://www.w3.org/2000/svg" '
@@ -191,11 +201,18 @@ class WhExtension(Extension):  # type: ignore[misc]
 
     def extendMarkdown(self, md: Markdown) -> None:
         md.registerExtension(self)
-        md.preprocessors.register(FencedBlockPreprocessor(md, self), "wh_ext_pre", 25)
-        md.postprocessors.register(FencedBlockPostprocessor(md, self), "wh_ext_post", 0)
+        md.preprocessors.register(
+            KatexFencedBlockPreprocessor(md, self), "wh_katex_pre", 25
+        )
+        md.postprocessors.register(
+            KatexFencedBlockPostprocessor(md, self), "wh_katex_post", 0
+        )
+        md.postprocessors.register(
+            GeneralFencedBlockPostprocessor(md, self), "wh_post", 0
+        )
 
 
-class FencedBlockPreprocessor(Preprocessor):  # type: ignore[misc]
+class KatexFencedBlockPreprocessor(Preprocessor):  # type: ignore[misc]
     def __init__(self, md: str, ext: WhExtension) -> None:
         super().__init__(md)
         self.ext: WhExtension = ext
@@ -243,7 +260,7 @@ class FencedBlockPreprocessor(Preprocessor):  # type: ignore[misc]
         return list(self._iter_out_lines(lines))
 
 
-class FencedBlockPostprocessor(Postprocessor):  # type: ignore[misc]
+class KatexFencedBlockPostprocessor(Postprocessor):  # type: ignore[misc]
     def __init__(self, md: str, ext: WhExtension) -> None:
         super().__init__(md)
         self.ext: WhExtension = ext
@@ -269,4 +286,14 @@ class FencedBlockPostprocessor(Postprocessor):  # type: ignore[misc]
                 text = text.replace("<p>" + marker + "</p>", html)
                 text = text.replace(marker, html)
 
+        return text
+
+
+class GeneralFencedBlockPostprocessor(Postprocessor):  # type: ignore[misc]
+    def __init__(self, md: str, ext: WhExtension) -> None:
+        super().__init__(md)
+        self.ext: WhExtension = ext
+
+    def run(self, text: str) -> str:
+        text = PAGE_BREAK_REPLACE(string=text)
         return text

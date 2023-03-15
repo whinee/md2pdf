@@ -2,9 +2,7 @@
 title: Considerations for Future Feature Implementation
 ---
 
-## Page Breaks
-
-There is no plain markdown way to add pagebreak in a markdown file. However, I came across [this stackoverflow answer](https://stackoverflow.com/a/57578831) that mentions that the answer-er uses `<<<<>>>>` to denote pagebreak in their documents. And I liked that! And as such, I think I will implement just that in later versions of this program.
+The headers are sorted depending on their status, priority, and whatnot
 
 ## Columns
 
@@ -75,6 +73,20 @@ A solution I am considering at the time of writing is using a custom HTML tag ca
 ```
 
 And yes, the content inside each `col` tags will be interpreted as markdown.
+
+## Tables
+
+Despite the talk about the tables above, there is still a legitimate reason to use multi-line tables, such as shitty homeworks that requires such. And more often than not, these tables are multi-line.
+
+And as such, I have thought to actually implement interpreting content inside table cells as markdown, as discussed above. The rationale for this is that while it strays from the actual purpose of using HTML inside of markdown, this can ease up using multi-line tables.
+
+And yes, an option to turn this shitty feature off.
+
+I hate that I have to do these because of school works. No, this is the point of this whole damn thing: to make writing my home works more efficient. But I hate going to school. I barely have time to talk to my girlfriend. But what am I saying right here? Considering that nobody will be able to read this far in this nest of documentation, I doubt that someone will see this. But I digress.
+
+## CSS
+
+I have a really grand plan: to parameterize common CSS rulesets.
 
 ## GUI
 
@@ -159,3 +171,16 @@ sequenceDiagram
         end
     end
 ```
+
+## Implemented Features
+
+<details>
+<summary>Hereunder this heading are implemented features.</summary>
+Now, why have not I put the implement features under this header? As it will break the link to other documents.
+</details>
+
+## Page Breaks
+
+> Implemented in 0.0
+
+There is no plain markdown way to add pagebreak in a markdown file. However, I came across [this stackoverflow answer](https://stackoverflow.com/a/57578831) that mentions that the answer-er uses `<<<<>>>>` to denote pagebreak in their documents. And I liked that! And as such, I think I will implement just that in later versions of this program.

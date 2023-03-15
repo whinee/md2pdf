@@ -43,6 +43,12 @@ docstrings
 venv
 recc
 Termux
+pagebreak
+pagebreaks
+ruleset
+rulesets
+c4ffein
+stackoverflow
 
 pababang
 panurong

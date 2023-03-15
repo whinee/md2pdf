@@ -1,5 +1,4 @@
 import json
-import warnings
 from typing import Any
 
 import msgpack
@@ -14,7 +13,6 @@ except ImportError:
     from src.utils.cd import CustomDict
     from src.utils.exceptions import c_exc_str
 
-warnings.filterwarnings("ignore")
 
 TYPES: dict[str, tuple[tuple[str, str], tuple[str, types.CallableAnyAny]]] = {
     "r": (

@@ -1,7 +1,6 @@
 import locale
 import os
 import platform
-import warnings
 from os import path
 from os.path import dirname, realpath
 from shutil import get_terminal_size
@@ -9,8 +8,6 @@ from sys import platform as PLATFORM
 from typing import Final
 
 import msgpack
-
-warnings.filterwarnings("ignore")
 
 # Constants
 DEF_STR = "c0VjUmVUX2NPZEUgYnkgd2hpX25l"
