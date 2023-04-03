@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 ENV=production &&
+    source pyenv/bin/activate &&
     (
-        just bootstrap &
         ([ "$ENV" = "development" ] && rm -rf dist/ squashfs-root/ tmp/ .AppImage) &
         wait
     ) &&
-    source pyenv/bin/activate &&
     mkdir tmp/ &&
     (
         wget -O ./tmp/python.AppImage "$(wget -qSO - "https://api.github.com/repos/niess/python-appimage/releases/tags/python3.10" 2>/dev/null | grep -E "browser_download_url.*x86_64" | cut -d '"' -f4 | tail -1)" >/dev/null &

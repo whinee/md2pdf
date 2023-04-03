@@ -21,6 +21,10 @@ scripts:
     path: '{{ver_dir}}/scripts/tpl/build_linux.sh'
     op_path: '{{ver_dir}}/scripts/op/build_linux.sh'
   
+  build_pypi:
+    path: '{{ver_dir}}/scripts/tpl/build_pypi.sh'
+    op_path: '{{ver_dir}}/scripts/op/build_pypi.sh'
+  
   pyproject:
     path: '{{ver_dir}}/scripts/tpl/pyproject.toml'
     op_path: pyproject.toml
