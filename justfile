@@ -162,7 +162,12 @@ __build platform:
 
 [private]
 _build type platform: gs
-    @ just "__{{type}}" "{{platform}}"
+    #!/usr/bin/env bash
+    if test ! -e pyenv; then
+        just bootstrap
+        source {{pyenv_activate}}
+    fi
+    just "__{{type}}" "{{platform}}"
 
 # Test Build
 [linux]
