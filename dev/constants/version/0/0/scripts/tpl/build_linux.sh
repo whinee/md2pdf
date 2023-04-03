@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 ENV=production &&
+    sudo apt install libfuse2 &&
     source pyenv/bin/activate &&
     (
         ([ "$ENV" = "development" ] && rm -rf dist/ squashfs-root/ tmp/ .AppImage) &

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "{{project_name}}"
+name = "{{pip_name}}"
 license = "MIT"
 version = "{{sver}}"
 description = ""

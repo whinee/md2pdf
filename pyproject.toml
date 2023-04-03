@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "md2pdf"
+name = "wh_m2p"
 license = "MIT"
 version = "0.0.1-alpha.0"
 description = ""
