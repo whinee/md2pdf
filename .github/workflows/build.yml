@@ -47,6 +47,7 @@ jobs:
         uses: taiki-e/install-action@just
       - name: Build
         run: |-
+          just bootstrap
           just pypi
       - name: Publish
         uses: pypa/gh-action-pypi-publish@master
@@ -79,6 +80,7 @@ jobs:
         uses: taiki-e/install-action@just
       - name: Build
         run: |-
+          just bootstrap
           just build
       - name: Upload md2pdf.AppImage
         uses: actions/upload-release-asset@v1
