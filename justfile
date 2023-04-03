@@ -167,7 +167,7 @@ _build type platform: gs
         just bootstrap
         source {{pyenv_activate}}
     fi
-    just "__{{type}}" "{{platform}}"
+    just "__{{type}}" "{{platform}}" | sh
 
 # Test Build
 [linux]
