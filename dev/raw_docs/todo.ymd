@@ -7,12 +7,14 @@
 - **feat**: Feature
     - ***md***: Markdown Syntax/Feature Extension
     - ***gui***: Graphical User Interface
+- **dev**: Developer Tools
 
 ## Todo
 
 - [ ] [feat:md] n-column support
 - [ ] [feat:gui] GUI
 - [ ] [feat:md] Custom Help Function (to only compute help page's width when help is actually called; the CLI is actually already fast enough that this might not be necessary, but is just a mere novelty)
+- [ ] [dev] Update powershell scripts to be up-to-date with the bash scripts
 
 ## In Progress
 

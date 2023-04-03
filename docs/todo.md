@@ -11,12 +11,14 @@
 - **feat**: Feature
     - ***md***: Markdown Syntax/Feature Extension
     - ***gui***: Graphical User Interface
+- **dev**: Developer Tools
 
 <h2 id="todo"><b><a href="#todo">Todo</a></b></h2>
 
 - [ ] [feat:md] n-column support
 - [ ] [feat:gui] GUI
 - [ ] [feat:md] Custom Help Function (to only compute help page's width when help is actually called; the CLI is actually already fast enough that this might not be necessary, but is just a mere novelty)
+- [ ] [dev] Update powershell scripts to be up-to-date with the bash scripts
 
 <h2 id="in-progress"><b><a href="#in-progress">In Progress</a></b></h2>
 

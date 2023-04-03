@@ -11,7 +11,7 @@
 <h3><b><a href="#func-c_exc" id="func-c_exc">c_exc</a></b></h3>
 
 ```python
-(cls: Type[BaseException]) ‑> Type[BaseException]
+(cls: type[BaseException]) ‑> type[BaseException]
 ```
 
     
@@ -37,7 +37,7 @@ This function also wraps the Exception with `c_exc_str` method, for adding the `
 <h3><b><a href="#func-c_exc_str" id="func-c_exc_str">c_exc_str</a></b></h3>
 
 ```python
-(cls: Type[BaseException]) ‑> Type[BaseException]
+(cls: type[BaseException]) ‑> type[BaseException]
 ```
 
     

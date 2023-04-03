@@ -2,8 +2,6 @@ name: Latest Commit Comment
 
 on:
   push:
-    paths:
-      - dev/raw_docs/latest-commit.mmd
   workflow_dispatch:
 
 jobs:

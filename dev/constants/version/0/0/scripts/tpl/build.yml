@@ -1,0 +1,91 @@
+name: Build
+on:
+  push:
+    paths:
+      - version.yml
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Python{{python_ver}}
+        uses: actions/setup-python@v1
+        with:
+          python-version: "{{python_ver}}"
+      - name: Build markdown
+        run: |-
+          python "dev/scripts/py/rn_md.py"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: {{ver}}
+          release_name: {{project_name}} release v{{ver}}
+          body_path: .md
+          draft: false
+          prerelease: {{prerel}}
+  pypi:
+    name: pypi
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Python{{python_ver}}
+        uses: actions/setup-python@v1
+        with:
+          python-version: "{{python_ver}}"
+      - name: Install just
+        uses: taiki-e/install-action@just
+      - name: Build
+        run: |-
+          just pypi
+      - name: Publish
+        uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_TOKEN }}
+      - name: Get Dist Filename
+        run: echo "dist=./dist/$(ls dist)" >> $GITHUB_ENV
+      - name: Upload ${{ needs.generate_output.outputs.myoutput }}
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.release.outputs.upload_url}}
+          asset_path:  ${{ env.dist }}
+          asset_name: {{project_name}}-sdist.tar.gz
+          asset_content_type: application/octet
+  linux:
+    name: Linux
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Python{{python_ver}}
+        uses: actions/setup-python@v1
+        with:
+          python-version: "{{python_ver}}"
+      - name: Install just
+        uses: taiki-e/install-action@just
+      - name: Build
+        run: |-
+          just build
+      - name: Upload {{project_name}}.AppImage
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{needs.release.outputs.upload_url}}
+          asset_path: ./tmp/{{project_name}}.AppImage
+          asset_name: {{project_name}}.AppImage
+          asset_content_type: application/octet

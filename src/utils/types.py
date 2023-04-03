@@ -1,8 +1,10 @@
-from typing import Any, Callable, Iterable, Sequence, TypeAlias
+from collections.abc import Callable, Iterable, Sequence
+from typing import Any, TypeAlias
 
 Args: TypeAlias = list[Any]
 CallableAny: TypeAlias = Callable[..., Any]
 CallableAnyAny: TypeAlias = Callable[[Any], Any]
+DictStrAny: TypeAlias = dict[str, Any]
 IterAny: TypeAlias = Iterable[Any]
 IterIterAny: TypeAlias = Iterable[Iterable[Any]]
 Kwargs: TypeAlias = dict[str, Any]

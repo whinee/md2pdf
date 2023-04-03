@@ -1,8 +1,9 @@
 import shlex
+from collections.abc import Iterable
 from itertools import cycle
 from os import makedirs, path
 from subprocess import call
-from typing import Any, Iterable, Optional
+from typing import Any, Optional
 
 # Constants
 
@@ -23,7 +24,7 @@ def dnn(fn: str, n: str) -> str:
 
 def inmd(p: str, ls: Optional[list[str]] = None):
     """
-    "If Not `path.isdir`, Make Directories"
+    "If Not `path.isdir`, Make Directories".
 
     Args:
         p (str): [description]
@@ -38,7 +39,8 @@ def inmd(p: str, ls: Optional[list[str]] = None):
 
 
 def ivnd(var: Any, de: Any) -> Any:
-    """If Var is None, return Default else var.
+    """
+    If Var is None, return Default else var.
 
     Args:
         var (Any): Variable to check if it is None.
@@ -70,7 +72,8 @@ def noop(*args, **kwargs):
 
 
 def vls_str(vls: list[str | int]) -> list[str]:
-    """Given the list of version numbers, convert them to their string representation both in modified semver form and semver-compliant form.
+    """
+    Given the list of version numbers, convert them to their string representation both in modified semver form and semver-compliant form.
 
     Args:
     - vls (`list[str | int]`): List of version numbers.

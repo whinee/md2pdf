@@ -17,9 +17,12 @@ whi~nyaan! ― 2023
 
 import os
 import typing
+from collections import abc
+from collections.abc import Callable, Sequence
+from functools import update_wrapper
 from pathlib import Path
 from textwrap import wrap
-from typing import Any, Callable, Final, Optional, Sequence, Type, TypeVar, overload
+from typing import Any, Final, Optional, TypeVar, Union, cast, overload
 
 import click
 import msgpack
@@ -61,23 +64,65 @@ TERMINAL_CLEARANCE: Final[int] = 10
 
 # Derived Constants
 CLICK_CMD_OPTIONS_EXAMPLE_INDICATOR_LEN: Final[int] = len(
-    CLICK_CMD_OPTIONS_EXAMPLE_INDICATOR
+    CLICK_CMD_OPTIONS_EXAMPLE_INDICATOR,
 )
 CMD: Final[dict[Any, Any]] = rcfg(f"{dnrp(__file__, 2)}/constants/cmd.mp")
 
 
+def show_help(ctx: click.Context, param: click.Parameter, value: str) -> None:
+    if value and not ctx.resilient_parsing:
+        click.utils.echo(ctx.get_help(), color=ctx.color)
+        ctx.exit()
+
+
 class Command(click.Command):
+    def __init__(
+        self,
+        name: Optional[str],
+        context_settings: Optional[dict[str, Any]] = None,
+        callback: Optional[Callable[..., Any]] = None,
+        params: Optional[list[click.core.Parameter]] = None,
+        help: Optional[str] = None,
+        epilog: Optional[str] = None,
+        short_help: Optional[str] = None,
+        options_metavar: Optional[str] = "[OPTIONS]",
+        add_help_option: bool = True,
+        no_args_is_help: bool = False,
+        hidden: bool = False,
+        deprecated: bool = False,
+    ) -> None:
+        super().__init__(name, context_settings)
+        #: the callback to execute when the command fires.  This might be
+        #: `None` in which case nothing happens.
+        self.callback = callback
+        #: the list of parameters for this command in the order they
+        #: should show up in the help page and execute.  Eager parameters
+        #: will automatically be handled before non eager ones.
+        self.name = name
+        self.params: list[click.core.Parameter] = params or []
+        self.help = help
+        self.epilog = epilog
+        self.options_metavar = options_metavar
+        self.short_help = short_help
+        self.add_help_option = add_help_option
+        self.no_args_is_help = no_args_is_help
+        self.hidden = hidden
+        self.deprecated = deprecated
+
+    def format_usage(
+        self,
+        ctx: click.Context,
+        formatter: click.formatting.HelpFormatter,
+    ) -> None:
+        pieces = self.collect_usage_pieces(ctx)
+        formatter.write_usage(self.name or ctx.command_path, " ".join(pieces))
+
     def get_help_option(self, ctx: click.Context) -> Optional[click.Option]:
         """Returns the help option object."""
         help_options = self.get_help_option_names(ctx)
 
         if not help_options or not self.add_help_option:
             return None
-
-        def show_help(ctx: click.Context, param: click.Parameter, value: str) -> None:
-            if value and not ctx.resilient_parsing:
-                click.utils.echo(ctx.get_help(), color=ctx.color)
-                ctx.exit()
 
         return click.Option(
             help_options,
@@ -89,19 +134,269 @@ class Command(click.Command):
         )
 
 
-class Group(click.Group):
+class MultiCommand(Command):
+    allow_extra_args = True
+    allow_interspersed_args = False
+
+    def __init__(  # noqa: C901
+        self,
+        name: Optional[str] = None,
+        invoke_without_command: bool = False,
+        no_args_is_help: Optional[bool] = None,
+        subcommand_metavar: Optional[str] = None,
+        chain: bool = False,
+        result_callback: Optional[Callable[..., Any]] = None,
+        **attrs: Any,
+    ) -> None:
+        super().__init__(name, **attrs)
+
+        if no_args_is_help is None:
+            no_args_is_help = not invoke_without_command
+
+        self.no_args_is_help = no_args_is_help
+        self.invoke_without_command = invoke_without_command
+
+        if subcommand_metavar is None:
+            if chain:
+                subcommand_metavar = "COMMAND1 [ARGS]... [COMMAND2 [ARGS]...]..."
+            else:
+                subcommand_metavar = "COMMAND [ARGS]..."
+
+        self.subcommand_metavar = subcommand_metavar
+        self.chain = chain
+        self._result_callback = result_callback
+
+        if self.chain:
+            for param in self.params:
+                if isinstance(param, click.Argument) and not param.required:
+                    raise RuntimeError(
+                        "Multi commands in chain mode cannot have"
+                        " optional arguments.",
+                    )
+
+    def to_info_dict(self, ctx: click.Context) -> dict[str, Any]:
+        info_dict = super().to_info_dict(ctx)
+        commands = {}
+
+        for name in self.list_commands(ctx):
+            command = self.get_command(ctx, name)
+
+            if command is None:
+                continue
+
+            sub_ctx = ctx._make_sub_context(command)
+
+            with sub_ctx.scope(cleanup=False):
+                commands[name] = command.to_info_dict(sub_ctx)
+
+        info_dict.update(commands=commands, chain=self.chain)
+        return info_dict
+
+    def collect_usage_pieces(self, ctx: click.Context) -> list[str]:
+        rv = super().collect_usage_pieces(ctx)
+        rv.append(self.subcommand_metavar)
+        return rv
+
+    def format_options(
+        self,
+        ctx: click.Context,
+        formatter: click.HelpFormatter,
+    ) -> None:
+        super().format_options(ctx, formatter)
+        self.format_commands(ctx, formatter)
+
+    def result_callback(
+        self,
+        replace: bool = False,
+    ) -> Callable[[click.core.F], click.core.F]:
+        def decorator(f: click.core.F) -> click.core.F:
+            old_callback = self._result_callback
+
+            if old_callback is None or replace:
+                self._result_callback = f
+                return f
+
+            def function(__value, *args, **kwargs):  # type: ignore
+                inner = old_callback(__value, *args, **kwargs)  # type: ignore
+                return f(inner, *args, **kwargs)
+
+            self._result_callback = rv = update_wrapper(cast(click.core.F, function), f)
+            return rv
+
+        return decorator
+
+    def format_commands(
+        self,
+        ctx: click.Context,
+        formatter: click.HelpFormatter,
+    ) -> None:
+        commands = []
+        for subcommand in self.list_commands(ctx):
+            cmd = self.get_command(ctx, subcommand)
+            if cmd is None:
+                continue
+            if cmd.hidden:
+                continue
+
+            commands.append((subcommand, cmd))
+
+        if len(commands):
+            limit = formatter.width - 6 - max(len(cmd[0]) for cmd in commands)
+
+            rows = []
+            for subcommand, cmd in commands:
+                help = cmd.get_short_help_str(limit)
+                rows.append((subcommand, help))
+
+            if rows:
+                with formatter.section("Commands"):
+                    formatter.write_dl(rows)
+
+    def parse_args(self, ctx: click.Context, args: list[str]) -> list[str]:
+        if not args and self.no_args_is_help and not ctx.resilient_parsing:
+            click.utils.echo(ctx.get_help(), color=ctx.color)
+            ctx.exit()
+
+        rest = super().parse_args(ctx, args)
+
+        if self.chain:
+            ctx.protected_args = rest
+            ctx.args = []
+        elif rest:
+            ctx.protected_args, ctx.args = rest[:1], rest[1:]
+
+        return ctx.args
+
+    def invoke(self, ctx: click.Context) -> Any:  # noqa: C901
+        def _process_result(value: Any) -> Any:
+            if self._result_callback is not None:
+                value = ctx.invoke(self._result_callback, value, **ctx.params)
+            return value  # noqa: RET504
+
+        if not ctx.protected_args:
+            if self.invoke_without_command:
+                with ctx:
+                    rv = super().invoke(ctx)
+                    return _process_result([] if self.chain else rv)
+            ctx.fail("Missing command.")
+
+        args = [*ctx.protected_args, *ctx.args]
+        ctx.args = []
+        ctx.protected_args = []
+
+        if not self.chain:
+            with ctx:
+                cmd_name, cmd, args = self.resolve_command(ctx, args)
+                assert cmd is not None
+                ctx.invoked_subcommand = cmd_name
+                super().invoke(ctx)
+                sub_ctx = cmd.make_context(cmd_name, args, parent=ctx)
+                with sub_ctx:
+                    return _process_result(sub_ctx.command.invoke(sub_ctx))
+
+        with ctx:
+            ctx.invoked_subcommand = "*" if args else None
+            super().invoke(ctx)
+
+            contexts = []
+            while args:
+                cmd_name, cmd, args = self.resolve_command(ctx, args)
+                assert cmd is not None
+                sub_ctx = cmd.make_context(
+                    cmd_name,
+                    args,
+                    parent=ctx,
+                    allow_extra_args=True,
+                    allow_interspersed_args=False,
+                )
+                contexts.append(sub_ctx)
+                args, sub_ctx.args = sub_ctx.args, []
+
+            rv = []
+            for sub_ctx in contexts:
+                with sub_ctx:
+                    rv.append(sub_ctx.command.invoke(sub_ctx))
+            return _process_result(rv)
+
+    def resolve_command(
+        self,
+        ctx: click.Context,
+        args: list[str],
+    ) -> tuple[Optional[str], Optional[Command], list[str]]:
+        cmd_name = click.utils.make_str(args[0])
+        original_cmd_name = cmd_name
+
+        cmd = self.get_command(ctx, cmd_name)
+
+        if cmd is None and ctx.token_normalize_func is not None:
+            cmd_name = ctx.token_normalize_func(cmd_name)
+            cmd = self.get_command(ctx, cmd_name)
+
+            if click.parser.split_opt(cmd_name)[0]:
+                self.parse_args(ctx, ctx.args)
+            ctx.fail("No such command {name!r}.".format(name=original_cmd_name))
+        return cmd_name if cmd else None, cmd, args[1:]
+
+    def get_command(self, ctx: click.Context, cmd_name: str) -> Optional[Command]:
+        raise NotImplementedError
+
+    def list_commands(self, ctx: click.Context) -> list[str]:
+        return []
+
+    def shell_complete(self, ctx: click.Context, incomplete: str):  # type: ignore[no-untyped-def]
+        from click.shell_completion import CompletionItem
+
+        results = [
+            CompletionItem(name, help=command.get_short_help_str())
+            for name, command in click.core._complete_visible_commands(ctx, incomplete)
+        ]
+        results.extend(super().shell_complete(ctx, incomplete))
+        return results
+
+
+class Group(MultiCommand):
+    command_class: Optional[type[Command]] = None
+    group_class: Optional[type["Group"] | type[type]] = None
+
+    def __init__(
+        self,
+        name: Optional[str] = None,
+        commands: Optional[Union[dict[str, Command], Sequence[Command]]] = None,
+        **attrs: Any,
+    ) -> None:
+        super().__init__(name, **attrs)
+
+        if commands is None:
+            commands = {}
+        elif isinstance(commands, abc.Sequence):
+            commands = {c.name: c for c in commands if c.name is not None}
+
+        #: The registered subcommands by their exported names.
+        self.commands: dict[str, Command] = commands
+
+    def add_command(self, cmd: Command, name: Optional[str] = None) -> None:
+        name = name or cmd.name
+        if name is None:
+            raise TypeError("Command has no name.")
+        click.core._check_multicommand(self, name, cmd, register=True)  # type: ignore[arg-type]
+        self.commands[name] = cmd
+
     @overload  # type: ignore[override]
     def command(self, __func: Callable[..., Any]) -> Command:
         ...
 
     @overload
     def command(
-        self, *args: Any, **kwargs: Any
+        self,
+        *args: Any,
+        **kwargs: Any,
     ) -> Callable[[Callable[..., Any]], Command]:
         ...
 
     def command(
-        self, *args: Any, **kwargs: Any
+        self,
+        *args: Any,
+        **kwargs: Any,
     ) -> Callable[[Callable[..., Any]], Command] | Command:
         if self.command_class and kwargs.get("cls") is None:
             kwargs["cls"] = self.command_class
@@ -125,6 +420,56 @@ class Group(click.Group):
 
         return decorator
 
+    @overload
+    def group(self, __func: Callable[..., Any]) -> "Group":
+        ...
+
+    @overload
+    def group(
+        self,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Callable[[Callable[..., Any]], "Group"]:
+        ...
+
+    def group(  # noqa: C901
+        self,
+        *args: Any,
+        **kwargs: Any,
+    ) -> Union[Callable[[Callable[..., Any]], "Group"], "Group"]:
+        from click.decorators import group
+
+        func: Optional[Callable] = None  # type: ignore[type-arg]
+
+        if args and callable(args[0]):
+            assert (
+                len(args) == 1 and not kwargs
+            ), "Use 'group(**kwargs)(callable)' to provide arguments."
+            (func,) = args
+            args = ()
+
+        if self.group_class is not None and kwargs.get("cls") is None:
+            if self.group_class is type:
+                kwargs["cls"] = type(self)
+            else:
+                kwargs["cls"] = self.group_class
+
+        def decorator(f: Callable[..., Any]) -> "Group":
+            cmd: Group = group(*args, **kwargs)(f)
+            self.add_command(cmd)
+            return cmd
+
+        if func is not None:
+            return decorator(func)
+
+        return decorator
+
+    def get_command(self, ctx: click.Context, cmd_name: str) -> Optional[Command]:
+        return self.commands.get(cmd_name)
+
+    def list_commands(self, ctx: click.Context) -> list[str]:
+        return sorted(self.commands)
+
 
 CmdType = TypeVar("CmdType", bound=Command)
 
@@ -147,15 +492,15 @@ def custom_command(
 @overload
 def custom_command(
     name: Optional[str] = None,
-    cls: Type[CmdType] = ...,  # type: ignore
+    cls: type[CmdType] = ...,  # type: ignore
     **attrs: Any,
 ) -> Callable[..., CmdType]:
     ...
 
 
-def custom_command(
+def custom_command(  # noqa: C901
     name: str | Callable[..., Any] | None = None,
-    cls: Optional[Type[Command]] = None,
+    cls: Optional[type[Command]] = None,
     **attrs: Any,
 ) -> Command | Callable[..., Command]:
     func: Optional[Callable[..., Any]] = None
@@ -214,7 +559,7 @@ def command_group(name: str | Callable[..., Any] | None = None, **attrs: Any) ->
 
 
 # Base CLI Logic
-class cao:
+class CAO:
     """Returns wrappers for a click command evaluated from the given arguments."""
 
     def __init__(self, group: Group) -> None:
@@ -255,7 +600,7 @@ class cao:
                 c_arg_type, c_arg_help, c_arg_example = fill_ls(ls=v["help"], length=3)
                 c_arg_example = "\nEx.: {c_arg_example}" if c_arg_example else ""
                 c_arg_help_ls.append(
-                    (f"<{arg_name}>", c_arg_type, f"{c_arg_help}{c_arg_example}")
+                    (f"<{arg_name}>", c_arg_type, f"{c_arg_help}{c_arg_example}"),
                 )
 
         click_kwargs: dict[str, dict[str, list[str]] | str] = dict(
@@ -268,7 +613,7 @@ class cao:
         )
 
         def inner(
-            func: Callable[..., Any]
+            func: Callable[..., Any],
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
             op: Callable[..., Any] = self.group.command(
                 *(self.cmd["args"] or []),
@@ -297,7 +642,7 @@ class cao:
             click_kwargs[arg_name] = dict(kw, **(v["kwargs"] or {}))
 
         def inner(
-            func: Callable[[Any], Any]
+            func: Callable[[Any], Any],
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
             for i in list(click_args.keys()):
                 func = click.argument(*click_args[i], **click_kwargs[i])(func)
@@ -305,7 +650,9 @@ class cao:
 
         return inner
 
-    def options(self) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+    def options(
+        self,
+    ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
         """
         The options wrapper.
 
@@ -371,7 +718,8 @@ class cao:
             raise exceptions.CLIExceptions.TerminalTooThin(maxlen_opts_help_clearance)
 
         opt_the_fn = self.option_the(
-            maxlen_type_string, maxlen_opts_help
+            maxlen_type_string,
+            maxlen_opts_help,
         )  # Option [type, help, and example] parser
 
         for opt_name, v in opts.items():
@@ -403,7 +751,7 @@ class cao:
             click_kwargs[opt_name] = kw
 
         def inner(
-            func: Callable[[Any], Any]
+            func: Callable[[Any], Any],
         ) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
             for i in list(click_args.keys()):
                 func = click.option(*click_args[i], **click_kwargs[i])(func)
@@ -411,11 +759,15 @@ class cao:
 
         return inner
 
-    def option_the(
-        self, maxlen_type_string: int, maxlen_opts_help: int
+    def option_the(  # noqa: C901
+        self,
+        maxlen_type_string: int,
+        maxlen_opts_help: int,
     ) -> Callable[..., tuple[str, str, str]]:
-        def inner(
-            opt_name: str, kw: dict[str, Any], vh: dict[str, str]
+        def inner(  # noqa: C901
+            opt_name: str,
+            kw: dict[str, Any],
+            vh: dict[str, str],
         ) -> tuple[str, str, str]:
             # Primary Variables
             o_type: str = vh["type"]
@@ -470,7 +822,7 @@ class cao:
                         replace_whitespace=False,
                     )
                     o_example_ls.append(
-                        "\n".join([ils[0], *[indent + i for i in ils[1:]]])
+                        "\n".join([ils[0], *[indent + i for i in ils[1:]]]),
                     )
                 o_example = "\n" + "\n".join(o_example_ls)
             else:
@@ -523,10 +875,10 @@ def command(
     - `Callable[[Callable[..., Any]], Callable[..., Any]]`
     """
 
-    return cao(group).wrap
+    return CAO(group).wrap
 
 
-def select(
+def select(  # noqa: C901
     message: str,
     choices: Sequence[str | Choice | dict[str, Any]] | dict[str, Any],
     default: Optional[Any] = None,
@@ -544,12 +896,12 @@ def select(
     class _CEQ(ExtQuestion):  # type: ignore[misc]
         pass
 
-    _LANG_C = globals.LANG_C
-    if _LANG_C.get("en"):
-        _LANG_C = globals.LANG_C["en"]
+    _lang_c = globals.LANG_C
+    if _lang_c.get("en"):
+        _lang_c = globals.LANG_C["en"]
 
     if instruction is None:
-        instruction = _LANG_C["cli"]["prompt"]["list_instruction"]
+        instruction = _lang_c["cli"]["prompt"]["list_instruction"]
 
     if qmark is None:
         qmark = DEFAULT_QUESTION_PREFIX
@@ -611,7 +963,7 @@ def select(
                     (
                         "class:answer",
                         "".join([token[1] for token in choice]),
-                    )
+                    ),
                 )
             else:
                 tokens.append(("class:answer", choice))
@@ -650,7 +1002,6 @@ def select(
     @bindings.add(Keys.Any)
     def other(event: KeyPressEvent) -> None:
         """Disallow inserting other text."""
-        pass
 
     err, res = _CEQ(
         Application(
@@ -658,7 +1009,7 @@ def select(
             key_bindings=bindings,
             style=style,
             **utils.used_kwargs(kwargs, Application.__init__),
-        )
+        ),
     ).ask()
 
     if err and cd:
@@ -736,7 +1087,8 @@ def get_stg(path: str, **kwargs: types.Kwargs) -> Optional[Any]:
 if globals.CFG_PATH == "":
     for i in Path(os.path.join(dnrp(__file__, 2), "constants", "lang")).rglob("*.mp"):  # type: ignore[assignment]
         globals.LANG_C[os.path.splitext(i.name)[0]] = msgpack.unpackb(
-            i.read_bytes(), use_list=True
+            i.read_bytes(),
+            use_list=True,
         )
 
     match PLATFORM:
@@ -750,5 +1102,5 @@ if globals.CFG_PATH == "":
 else:
     lang: str = de_rcfg()["lang"]
     globals.LANG_C = rcfg(
-        os.path.join(dnrp(__file__, 2), "constants", "lang", lang + ".mp")
+        os.path.join(dnrp(__file__, 2), "constants", "lang", lang + ".mp"),
     )

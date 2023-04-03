@@ -51,7 +51,7 @@ Notes:
 <h3><b><a href="#class-PDFGenerator" id="class-PDFGenerator">PDFGenerator</a></b></h3>
 
 ```python
-(*, main_html: str, stylesheets: list[str], first_page_header_html=builtins.str, first_page_footer_html=builtins.str, header_html: str, footer_html: str, base_url: str, size: str, margin: list[str])
+(*, main_html: str, stylesheets: list[str], first_page_header_html: str, first_page_footer_html: str, header_html: str, footer_html: str, base_url: str, size: str, margin: list[str])
 ```
 
     

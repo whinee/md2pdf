@@ -23,10 +23,11 @@ md_vars:
     project_name: md2pdf
     repo_name: md2pdf
     command_name: m2p
-    pip_name: wh-m2p
+    pip_name: wh_m2p
     site: m2p.whinyaan.xyz
     organization: whinee
     author: whi~nyaan!
+    author_clean: whitespace_negative
     user: whinee
     year: 2023
     codacy_id: ad76078b89514f75ba385a19efe19941
@@ -48,22 +49,13 @@ rules:
     #   - "src='./assets"
     # "](https://{{site}}/assets":
     #   - "](./assets"
-    'src="http://{{site}}/assets':
-      - 'src="./assets'
-    "src='http://{{site}}/assets":
-      - "src='./assets"
-    "](http://{{site}}/assets":
-      - "](./assets"
 
-requirements:
-  dev: dev/req.txt
-  prod: requirements.txt
-
-development:
-  venv:
-    requirements:
-      - prod
-      - dev
+    'src="/assets':
+      - 'src="/docs/assets'
+    "src='/assets":
+      - "src='/docs/assets"
+    "](/assets":
+      - "](/docs/assets"
 
 license:
   year: 2023

@@ -12,10 +12,10 @@ from weasyprint import CSS, HTML
 formatter = logging.Formatter("%(name)s - %(levelname)s - %(message)s")
 
 handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.WARNING)
+handler.setLevel(logging.INFO)
 
 logger = logging.getLogger("weasyprint")
-logger.setLevel(logging.WARNING)
+logger.setLevel(logging.INFO)
 
 handler.setFormatter(formatter)
 logger.addHandler(handler)
@@ -76,7 +76,7 @@ def calc_margin(margin: list[float], header_height: int, footer_height: int) -> 
     return " ".join(f"{i}px" for i in margin)
 
 
-def margin_preprocessor(margin: list[str]) -> list[float]:
+def margin_preprocessor(margin: list[str]) -> list[float]:  # noqa: C901
     if (not (isinstance(margin, list) or isinstance(margin, tuple))) or (
         len(margin) not in list(range(1, 4 + 1))
     ):
@@ -103,7 +103,7 @@ def margin_preprocessor(margin: list[str]) -> list[float]:
     return op
 
 
-def get_element(boxes, element):
+def get_element(boxes, element):  # type: ignore[no-untyped-def]
     """
     Given a set of boxes representing the elements of a PDF page in a DOM-like way, find the box which is named `element`.
 
@@ -133,14 +133,14 @@ class PDFGenerator:
         *,
         main_html: str,
         stylesheets: list[str],
-        first_page_header_html=str,
-        first_page_footer_html=str,
+        first_page_header_html: str,
+        first_page_footer_html: str,
         header_html: str,
         footer_html: str,
         base_url: str,
         size: str,
         margin: list[str],
-    ):
+    ) -> None:
         """
         Initialize PDF Generator.
 
@@ -182,8 +182,12 @@ class PDFGenerator:
         self.margin = margin_preprocessor(margin)
         self.overlay_layout = OVERLAY_LAYOUT_TPL % size
 
-    def _compute_element(
-        self, element: str, element_string: str, page: int, pages: int
+    def _compute_element(  # type: ignore[no-untyped-def]
+        self,
+        element: str,
+        element_string: str,
+        page: int,
+        pages: int,
     ):
         """
         Compute element in HTML.
@@ -204,12 +208,12 @@ class PDFGenerator:
                 CSS(
                     string="footer, header {margin:"
                     + " ".join(f"{i}px" for i in self.margin)
-                    + ";}"
+                    + ";}",
                 ),
                 CSS(string=self.overlay_layout),
                 CSS(string=COMPUTE_ELEMENT_HF_TPL.format(page, pages)),
                 *self.stylesheets,
-            ]
+            ],
         )
         element_page = element_doc.pages[0]
         element_body = get_element(element_page._page_box.all_children(), "body")
@@ -217,7 +221,9 @@ class PDFGenerator:
         return element_body
 
     def _compute_overlay_element(
-        self, element: str, element_string: Optional[str]
+        self,
+        element: str,
+        element_string: Optional[str],
     ) -> int:
         """
         Compute overlay element.
@@ -237,7 +243,7 @@ class PDFGenerator:
             element_height = element_html.height
         return ceil(element_height)
 
-    def _apply_overlay_on_main(self, main_doc):  # type: ignore[no-untyped-def]
+    def _apply_overlay_on_main(self, main_doc) -> None:  # type: ignore[no-untyped-def]
         for page_number, page in enumerate(main_doc.pages, start=1):
             page_body = get_element(page._page_box.all_children(), "body")
             if page_number == 1:
@@ -249,11 +255,17 @@ class PDFGenerator:
 
             if header:
                 page_body.children += self._compute_element(
-                    "header", header, page_number, len(main_doc.pages)
+                    "header",
+                    header,
+                    page_number,
+                    len(main_doc.pages),
                 ).all_children()
             if footer:
                 page_body.children += self._compute_element(
-                    "footer", footer, page_number, len(main_doc.pages)
+                    "footer",
+                    footer,
+                    page_number,
+                    len(main_doc.pages),
                 ).all_children()
 
     def render_pdf(self) -> bytes:
@@ -284,13 +296,13 @@ class PDFGenerator:
                         size=self.size,
                         margin=comp_margin,
                         first_margin=comp_first_margin,
-                    )
+                    ),
                 ),
                 *self.stylesheets,
-            ]
+            ],
         )
 
         self._apply_overlay_on_main(main_doc)
-        pdf = main_doc.write_pdf()
 
+        pdf: bytes = main_doc.write_pdf()
         return pdf

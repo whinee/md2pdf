@@ -2,12 +2,13 @@ import json
 import os
 import re
 import shutil
+from collections.abc import Callable
 from functools import partial
 from io import StringIO
 from os import listdir
 from os.path import dirname as dn
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Optional
 
 import frontmatter
 import panflute
@@ -16,7 +17,7 @@ import pypandoc
 import yaml
 from mako.template import Template
 
-from .md_vars import VYML, YML
+from .md_vars import VYML, YML, init
 from .utils import cycle_2ls, inmd, noop, repl, run
 
 # Constants
@@ -51,7 +52,7 @@ INFO_TPLS = {
 }
 
 # Derived Constants
-H4_RE = re.compile(r"^####", re.MULTILINE).search
+H5_RE = re.compile(r"^#####", re.MULTILINE).search
 
 VLS = VYML["ls"]
 
@@ -103,9 +104,12 @@ yaml.add_representer(str, str_presenter)
 
 # Functions
 def dd(
-    od: Dict[str, List[str]], *dicts: List[Dict[str, List[str]]]
-) -> Dict[str, List[str]]:
+    od: dict[str, list[str]],
+    *dicts: list[dict[str, list[str]]],
+) -> dict[str, list[str]]:
     for d in dicts:
+        if d is None:
+            continue
         for a, v in d.items():
             od[a] = [*(od.get(a, []) or []), *v]
     return od
@@ -142,9 +146,10 @@ def get_header_id(h: panflute.Header) -> str:
     return TOMD_RS("-".join(HTI_RF(elem_str(h).lower().strip())).replace(" ", "-"))
 
 
-def pf_set_element():
-    ld = -1
+ld = -1
 
+
+def pf_set_element():
     def inner(d: list[Any], lvl: int, elem, og_lvl: Optional[int] = None):
         global ld
         if og_lvl is None:
@@ -168,14 +173,14 @@ def pfelem2md(elem, doc):
                 "pandoc-api-version": doc.to_json()["pandoc-api-version"],
                 "meta": {},
                 "blocks": [elem.to_json()],
-            }
+            },
         ),
         to="md",
         format="json",
     )
 
 
-def rules_fn(rules: Dict[Any, Any]) -> Dict[str, List[str]]:
+def rules_fn(rules: dict[Any, Any]) -> dict[str, list[str]]:
     return dd({"": rules.get("del", [])}, rules["repl"])
 
 
@@ -194,7 +199,7 @@ def sh_ltf_inner(toc_ls, res_ls, elem, iid) -> None:
         [
             pfelem2md(elem, elem.doc),
             HW.format(n=level, id=iid, title=fs.format(a)),
-        ]
+        ],
     )
 
 
@@ -213,11 +218,11 @@ def sh_inner(toc_ls, res_ls, elem, iid) -> None:
         [
             pfelem2md(elem, elem.doc),
             HW.format(n=level, id=iid, title=HA_DEF_STYLE.format(a)),
-        ]
+        ],
     )
 
 
-def style_header(toc_ls, res_ls, lower_than_four):
+def style_header(toc_ls, res_ls, lower_than_four) -> Callable[..., None]:
     if lower_than_four:
         _si = partial(sh_ltf_inner, toc_ls, res_ls)
     else:
@@ -228,7 +233,7 @@ def style_header(toc_ls, res_ls, lower_than_four):
         if parent is not None:
             id_ls = [parent]
         if not isinstance(item, list):
-            _si(item, "-".join(id_ls + [get_header_id(item.content)]))
+            _si(item, "-".join([*id_ls, get_header_id(item.content)]))
         else:
             if len(item) >= 1:
                 k = item.pop(0)
@@ -240,7 +245,7 @@ def style_header(toc_ls, res_ls, lower_than_four):
                     for i in v:
                         inner(i, iid)
                 else:
-                    for i in [k] + item:
+                    for i in [k, *item]:
                         inner(i, "-".join(id_ls) if id_ls else None)
 
     return inner
@@ -271,7 +276,7 @@ def yield_text(mod):
         for idx, i in enumerate(ls[::-1]):
             header.append(f'[{i}]({"../" * idx}{i}.md)')
         header = ".".join(
-            [f"[{m}](" + "../" * (len(ls) - 1) + "index.md)"] + header[::-1]
+            [f"[{m}](" + "../" * (len(ls) - 1) + "index.md)"] + header[::-1],
         )
 
         if sum := mod.supermodule:
@@ -285,7 +290,7 @@ def yield_text(mod):
             v = "/".join(v.split("/")[5:])
             smls.append(f"- [{k}]({v})")
         sm = '\n\n## **<a href="#sub" id="sub">Sub-modules</a>**\n\n{}\n'.format(
-            "\n".join(smls)
+            "\n".join(smls),
         )
 
         idx = """# **{}**{}{}""".format(
@@ -298,13 +303,13 @@ def yield_text(mod):
             f.write(idx)
 
 
-def main(rmv: Dict[Any, Any] = {}):
+def main(rmv: dict[Any, Any] = {}):
     docs_pdir = DOCS["op"]
     rmv_r = rmv["rules"]
     rmv_mv = rmv["md_vars"]
     rmv_mv_g = rmv_mv["global"]
 
-    # del_gen()
+    init()
 
     for rip in list(IDF.rglob("*.ymd")):
         fm = {}
@@ -339,7 +344,7 @@ def main(rmv: Dict[Any, Any] = {}):
             style_header_init(hls, pf_set_element()),
             doc=panflute.load(StringIO(md_data)),
         )
-        style_header(toc_ls, res_ls, bool(H4_RE))(hls)
+        style_header(toc_ls, res_ls, bool(H5_RE))(hls)
 
         for k, v in res_ls:
             if not tp:
@@ -379,7 +384,7 @@ def main(rmv: Dict[Any, Any] = {}):
         tpl_rd = mytemplate.render(
             **{
                 "cwd": dn(ip),
-            }
+            },
         )
         with open(op, "w") as f:
             f.write(tpl_rd)
@@ -392,16 +397,17 @@ def main(rmv: Dict[Any, Any] = {}):
     with open(os.path.join(docs_pdir, op_base, "README.md"), "w") as f:
         f.write(
             H1.format("All Version")
-            + "\n".join(f"- [Version {u}.x.x.x]({u}/README.md)" for u in u_ls)
+            + "\n".join(f"- [Version {u}.x.x.x]({u}/README.md)" for u in u_ls),
         )
     for u in u_ls:
         d_ls = sorted(listdir(os.path.join(base, u)), reverse=True)
         with open(
-            os.path.join(os.path.join(docs_pdir, op_base, u), "README.md"), "w"
+            os.path.join(os.path.join(docs_pdir, op_base, u), "README.md"),
+            "w",
         ) as f:
             f.write(
                 H1.format(f"Version {u}.x.x.x")
-                + "\n".join(f"- [Version {u}.{d}.x.x]({d}/README.md)" for d in d_ls)
+                + "\n".join(f"- [Version {u}.{d}.x.x]({d}/README.md)" for d in d_ls),
             )
         for d in d_ls:
             ndd[f"{u}.{d}"] = os.path.join(op_base, u, d)
@@ -416,7 +422,7 @@ def main(rmv: Dict[Any, Any] = {}):
 
     nd = "\n".join([f"    - {i}" for i in nd.strip().split("\n")][::-1])
 
-    with open("mkdocs.yml", "r") as f:
+    with open("mkdocs.yml") as f:
         mkdocs = f.read()
 
     info_yml = {}

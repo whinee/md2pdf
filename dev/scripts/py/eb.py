@@ -13,7 +13,7 @@ def merge_dict(dict1, dict2):
             dict1[key] = dict2[key]
 
     for key, val in dict2.items():
-        if not key in dict1:
+        if key not in dict1:
             dict1[key] = val
 
     return dict1

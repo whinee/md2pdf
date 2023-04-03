@@ -6,6 +6,7 @@ import re
 import shutil
 import sys
 import unicodedata
+from collections.abc import Callable, Generator
 from datetime import datetime, timedelta
 from multiprocessing import Pool, pool
 from os import makedirs
@@ -13,7 +14,7 @@ from os.path import dirname as dn
 from os.path import realpath as rp
 from re import Pattern
 from time import strftime, strptime
-from typing import Any, Callable, Final, Generator, Optional
+from typing import Any, Final, Optional
 
 import arrow
 from questionary.constants import (
@@ -39,7 +40,7 @@ CATEGORIES: Final[set[str]] = {"Cn"}
 # Derived Constants
 ALL_CHARS: Final[Generator[str, None, None]] = (chr(i) for i in range(sys.maxunicode))
 CCHARS: Final[str] = "".join(
-    map(chr, itertools.chain(range(0x00, 0x20), range(0x7F, 0xA0)))
+    map(chr, itertools.chain(range(0x00, 0x20), range(0x7F, 0xA0))),
 )
 CCHARS_RE: Final[Pattern[str]] = re.compile("[%s]" % re.escape(CCHARS))
 
@@ -72,10 +73,10 @@ class CallbackGetResult:
 class ExtInquirerControl(InquirerControl):  # type: ignore[misc]
     answer_text = "Answer"
 
-    def _get_choice_tokens(self) -> list[Any]:
+    def _get_choice_tokens(self) -> list[Any]:  # noqa: C901
         tokens: list[Any] = []
 
-        def append(index: int, choice: Choice) -> None:
+        def append(index: int, choice: Choice) -> None:  # noqa: C901
             # use value to check if option has been selected
             selected = choice.value in self.selected_options
 
@@ -95,7 +96,7 @@ class ExtInquirerControl(InquirerControl):  # type: ignore[misc]
             elif choice.disabled:  # disabled
                 if isinstance(choice.title, list):
                     tokens.append(
-                        ("class:selected" if selected else "class:disabled", "- ")
+                        ("class:selected" if selected else "class:disabled", "- "),
                     )
                     tokens.extend(choice.title)
                 else:
@@ -103,7 +104,7 @@ class ExtInquirerControl(InquirerControl):  # type: ignore[misc]
                         (
                             "class:selected" if selected else "class:disabled",
                             "- {}".format(choice.title),
-                        )
+                        ),
                     )
 
                 tokens.append(
@@ -112,9 +113,9 @@ class ExtInquirerControl(InquirerControl):  # type: ignore[misc]
                         "{}".format(
                             ""
                             if isinstance(choice.disabled, bool)
-                            else " ({})".format(choice.disabled)
+                            else " ({})".format(choice.disabled),
                         ),
-                    )
+                    ),
                 )
             else:
                 shortcut = choice.get_shortcut_title() if self.use_shortcuts else ""  # type: ignore[no-untyped-call]
@@ -138,11 +139,11 @@ class ExtInquirerControl(InquirerControl):  # type: ignore[misc]
                     tokens.extend(choice.title)
                 elif selected:
                     tokens.append(
-                        ("class:selected", "{}{}".format(shortcut, choice.title))
+                        ("class:selected", "{}{}".format(shortcut, choice.title)),
                     )
                 elif index == self.pointed_at:
                     tokens.append(
-                        ("class:highlighted", "{}{}".format(shortcut, choice.title))
+                        ("class:highlighted", "{}{}".format(shortcut, choice.title)),
                     )
                 else:
                     tokens.append(("class:text", "{}{}".format(shortcut, choice.title)))
@@ -296,7 +297,10 @@ def file_exists(fp: str) -> str:
 
 
 def fill_ls(
-    *, ls: types.SequenceAny, length: int, filler: Optional[Any] = None
+    *,
+    ls: types.SequenceAny,
+    length: int,
+    filler: Optional[Any] = None,
 ) -> types.SequenceAny:
     """
     Fill given list (`ls`) with `filler` up to `length`.
@@ -337,7 +341,8 @@ def inmd(p: str, ls: Optional[list[str]] = None) -> str:
 
 
 def iter_ls_with_items(
-    ls: types.ListAny, *items: types.ListAny
+    ls: types.ListAny,
+    *items: types.ListAny,
 ) -> Generator[tuple[Any, ...], None, None]:
     for i in ls:
         yield i, *items
@@ -359,7 +364,7 @@ def ivnd(var: Any, de: Any) -> Any:
     return var
 
 
-def le(expr: str) -> Any:
+def le(expr: str) -> Optional[Any]:
     """
     Literal Evaluation.
 
@@ -375,7 +380,6 @@ def le(expr: str) -> Any:
 
 def noop(*args: types.ListAny, **kwargs: dict[str, Any]) -> None:
     """No operation."""
-    pass
 
 
 def noop_single_kwargs(arg: Any) -> Any:
@@ -425,7 +429,9 @@ def run_mp_star(func: types.CallableAny, iterable: types.IterIterAny) -> types.L
 
 
 def run_mp_qir(
-    func: types.CallableAny, iterable: types.IterAny, callback: types.CallableAny
+    func: types.CallableAny,
+    iterable: types.IterAny,
+    callback: types.CallableAny,
 ) -> None:
     """
     Run `multiprocessing.Pool().map_async()`, and quit in return.
@@ -439,14 +445,18 @@ def run_mp_qir(
     with Pool() as pool:
         for i in iterable:
             pool.apply_async(
-                func, args=(i,), callback=PoolTerminate(pool, callback).inner
+                func,
+                args=(i,),
+                callback=PoolTerminate(pool, callback).inner,
             )
         pool.close()
         pool.join()
 
 
 def run_mp_star_qir(
-    func: types.CallableAny, iterable: types.IterIterAny, callback: types.CallableAny
+    func: types.CallableAny,
+    iterable: types.IterIterAny,
+    callback: types.CallableAny,
 ) -> None:
     """
     Run `multiprocessing.Pool().starmap_async()`, and quit in return.
@@ -469,7 +479,8 @@ def run_mp_qgr(func: types.CallableAny, iterable: types.IterAny) -> types.TupleA
 
 
 def run_mp_star_qgr(
-    func: types.CallableAny, iterable: types.IterIterAny
+    func: types.CallableAny,
+    iterable: types.IterIterAny,
 ) -> types.TupleAny:
     res_cb = CallbackGetResult()
     run_mp_star_qir(func, iterable, res_cb.callback)
@@ -503,7 +514,7 @@ def str2int(s: str) -> Optional[int]:
     """
     if s[0] in ("-", "+") and s[1:].isdecimal():
         return int(s)
-    elif s.isdecimal():
+    if s.isdecimal():
         return int(s)
     return None
 
@@ -544,10 +555,10 @@ def squery(
             yield (sequence_matcher.ratio(), search_value)
 
 
-def which_ls(
+def which_ls(  # noqa: C901
     cmd: str,
     mode: Optional[int] = os.F_OK | os.X_OK,
-    path: Optional[str] = os.environ.get("PATH", None),
+    path: Optional[str] = os.environ.get("PATH", None),  # noqa: B008
 ) -> Optional[types.TupleStr]:
     """
     Given a command, mode, and a PATH string, return the path which conforms to the given mode on the PATH, or None if there is no such file.

@@ -7,11 +7,11 @@ First off, thanks for taking the time to contribute! ❤️
 All types of contributions are encouraged and valued. See the [Table of Contents](#toc) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions. 🎉
 
 And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
+
 - Star the project
 - Tweet about it
 - Refer this project in your project's README
 - Mention the project at local meetups and tell your friends/colleagues
-
 
 
 <div class="toc"><h2 id="toc"><b><a href="#toc">Table of Contents</a></b></h2>
@@ -24,7 +24,6 @@ This project and everyone participating in it is governed by the
 By participating, you are expected to uphold this code. Please report unacceptable behavior
 to <>.
 
-
 <h2 id="i-have-a-question"><b><a href="#i-have-a-question">I Have a Question</a></b></h2>
 
 > If you want to ask a question, we assume that you have read the available [Latest Documentation (0.0.x.x)](docs/0/0/index.md).
@@ -34,7 +33,7 @@ Before you ask a question, it is best to search for existing [Issues](https://gi
 If you then still feel the need to ask a question and need clarification, we recommend the following:
 
 - Open an [Issue](https://github.com/whinee/md2pdf/issues/new).
-- Provide as much context as you can about what you're running into. 
+- Provide as much context as you can about what you're running into.
 - Provide the following information:
     - OS name and version
         If in Linux, include linux distribution and kernel version; and
@@ -44,7 +43,8 @@ We will then take care of the issue as soon as possible.
 
 <h2 id="i-want-to-contribute"><b><a href="#i-want-to-contribute">I Want To Contribute</a></b></h2>
 
-> <h2 id="i-want-to-contribute-legal-notice"><b><i><a href="#i-want-to-contribute-legal-notice">Legal Notice</a></i></b></h2>
+<h2 id="i-want-to-contribute-legal-notice"><b><i><a href="#i-want-to-contribute-legal-notice">Legal Notice</a></i></b></h2>
+
 > When contributing to this project, you must agree that you have authored 100% of the content, that you have the necessary rights to the content and that the content you contribute may be provided under the project license.
 
 <h2 id="i-want-to-contribute-reporting-bugs"><b><i><a href="#i-want-to-contribute-reporting-bugs">Reporting Bugs</a></i></b></h2>
@@ -83,7 +83,6 @@ Once it's filed:
 - If the team is able to reproduce the issue, it will be marked `needs-fix`, as well as possibly other tags (such as `critical`), and the issue will be left to be [implemented by someone](#your-first-code-contribution).
 
 <!-- You might want to create an issue template for bugs and errors that can be used as a guide and that defines the structure of the information to be included. If you do so, reference it here in the description. -->
-
 
 <h2 id="i-want-to-contribute-suggesting-enhancements"><b><i><a href="#i-want-to-contribute-suggesting-enhancements">Suggesting Enhancements</a></i></b></h2>
 
@@ -135,7 +134,7 @@ The fewer things you change, the easier it will be for the team to see what you 
 
     This leads to huge numbers of unnecessarily changed lines of code.
 
-- Running a linter not listed in [the linters currently used by the project](docs/0/0/getting-startedindex.md)
+- Running a linter not listed in [the linters currently used by the project](docs/0/0/getting-started.md)
 - Don't unnecessarily introduce new tools or dependencies. I'm sure you have your
    favorites. But don't force them on me or other contributors. Stick to those
    that are absolutely required, or come with the language.
@@ -153,7 +152,7 @@ This repository does not enforce a style guide on commits. However, it is highly
 
 <h2 id="style-guides-code"><b><i><a href="#style-guides-code">Code</a></i></b></h2>
 
-This project uses the following linters for the 
+This project uses the following linters for the
 
 <h2 id="join-the-project-team"><b><a href="#join-the-project-team">Join The Project Team</a></b></h2>
 <!-- TODO -->

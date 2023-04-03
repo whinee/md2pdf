@@ -55,11 +55,15 @@ class CustomDict(dict):
         if len(path_ls) > 1:
             if tc.__mro__[-2] is dict:
                 return self._dir(
-                    path.replace(f"{key}/", ""), cdict[key], de, idx + 1, og_path
+                    path.replace(f"{key}/", ""),
+                    cdict[key],
+                    de,
+                    idx + 1,
+                    og_path,
                 )
             raise CDTypeError(
                 f'`{"/".join(og_path.split("/")[:idx])}` is a {tc.__name__}'
-                + ", expected dictionary."
+                + ", expected dictionary.",
             )
         else:
             try:
@@ -67,7 +71,7 @@ class CustomDict(dict):
             except (CDKeyError, CDTypeError):  # type: ignore
                 if de is None:
                     raise CDKeyError(
-                        f'`{"/".join(og_path.split("/")[:idx + 1])}` cannot be found.'
+                        f'`{"/".join(og_path.split("/")[:idx + 1])}` cannot be found.',
                     )
                 return de
 
@@ -85,7 +89,8 @@ class CustomDict(dict):
         idx: Optional[int] = None,
         og_path: Optional[str] = None,
     ) -> dict[Any, Any] | list[Any]:
-        """Internal function to insert a value into a dictionary or list.
+        """
+        Internal function to insert a value into a dictionary or list.
 
         Args:
             path (str): The path to the value.
@@ -121,7 +126,11 @@ class CustomDict(dict):
             else:
                 if ((tck is list) and (len(path_ls) == 2)) or (tc.__mro__[-2] is dict):
                     op = self._insert(
-                        path.replace(f"{key}/", ""), value, cdict[key], idx + 1, og_path
+                        path.replace(f"{key}/", ""),
+                        value,
+                        cdict[key],
+                        idx + 1,
+                        og_path,
                     )
                     if tc.__mro__[-2] is dict:
                         cdict[key] = op
@@ -137,7 +146,8 @@ class CustomDict(dict):
             return cdict
 
     def insert(self, path: str, value: Any) -> None:
-        """Insert a value into a dictionary or list.
+        """
+        Insert a value into a dictionary or list.
 
         Args:
             path (str): The path to the value.
@@ -153,7 +163,8 @@ class CustomDict(dict):
         idx: Optional[int] = None,
         og_path: Optional[str] = None,
     ) -> dict[Any, Any] | list[Any]:
-        """Internal function to modify a value.
+        """
+        Internal function to modify a value.
 
         Args:
             path (str): The path to the value.
@@ -189,7 +200,11 @@ class CustomDict(dict):
             else:
                 if ((tck is list) and (len(path_ls) == 2)) or (tc.__mro__[-2] is dict):
                     op = self._insert(
-                        path.replace(f"{key}/", ""), value, cdict[key], idx + 1, og_path
+                        path.replace(f"{key}/", ""),
+                        value,
+                        cdict[key],
+                        idx + 1,
+                        og_path,
                     )
                     if tc.__mro__[-2] is dict:
                         cdict[key] = op
@@ -202,7 +217,8 @@ class CustomDict(dict):
             return cdict
 
     def modify(self, path: str, value: Any) -> None:
-        """Insert a value into a dictionary or list.
+        """
+        Insert a value into a dictionary or list.
 
         Args:
             path (str): The path to the value.

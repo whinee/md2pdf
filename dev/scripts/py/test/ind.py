@@ -23,8 +23,9 @@ def main():
     tr = {PROV: Provider(PROV).test()}
 
     def str_presenter(dumper, data):
-        """configures yaml for dumping multiline strings
-        Ref: https://stackoverflow.com/questions/8640959/how-can-i-control-what-scalar-form-pyyaml-uses-for-my-data
+        """
+        configures yaml for dumping multiline strings
+        Ref: https://stackoverflow.com/questions/8640959/how-can-i-control-what-scalar-form-pyyaml-uses-for-my-data.
         """
         if data.count("\n") > 0:
             return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")

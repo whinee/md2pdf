@@ -23,7 +23,7 @@ def bullet_list(node: RenderTreeNode, context: RenderContext) -> str:
             formatted_lines.append(
                 f"{marker_type}{first_line_indent}{first_line}"
                 if first_line
-                else marker_type
+                else marker_type,
             )
             for line in line_iterator:
                 formatted_lines.append(f"{indent}{line}" if line else "")

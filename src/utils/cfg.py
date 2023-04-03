@@ -14,7 +14,13 @@ except ImportError:
     from src.utils.exceptions import c_exc_str
 
 
-TYPES: dict[str, tuple[tuple[str, str], tuple[str, types.CallableAnyAny]]] = {
+TYPES: dict[
+    str,
+    tuple[
+        tuple[str | tuple[str] | tuple[str, str], tuple[str, types.CallableAnyAny]],
+        ...,
+    ],
+] = {
     "r": (
         (("yaml", "yml"), ("r", lambda x: yaml.safe_load(x))),
         (("mp"), ("rb", lambda x: msgpack.unpackb(x, raw=False, use_list=True))),
@@ -67,7 +73,8 @@ def dcfg(value: dict[str, Any], ext: str) -> str:
 
     for k, v in TYPES["w"]:
         if ext in k:
-            return v[1](value)
+            op: str = v[1](value)
+            return op
     raise ExtensionNotSupported(ext)
 
 

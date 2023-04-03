@@ -2,12 +2,25 @@
     "python.defaultInterpreterPath": "pyenv/bin/python",
     "autoDocstring.customTemplatePath": "dev/constants/tpl/autodoc.mustache",
     "djlint.configuration": "dev/cfg/djlint.json",
-    "coddx.taskBoard.fileList": "dev/raw_docs/TODO.ymd",
-    "vscode-yaml-sort.useCustomSortRecursively": true,
     "git.ignoreLimitWarning": true,
     "python.linting.flake8Enabled": false,
     "python.linting.mypyEnabled": true,
     "python.linting.enabled": true,
+    "python.analysis.exclude": [
+        "**/__pycache__/**",
+        "**/*.egg-info/**",
+        ".mypy_cache/**",
+        "node_modules/**",
+        ".history/**",
+        "tmp/**"
+    ],
+    "files.associations": {
+        "*.ymd": "markdown",
+        "*.mmd": "markdown",
+        "*.yml": "yaml",
+        "*.just": "just"
+    },
+    // "vscode-yaml-sort.useCustomSortRecursively": true,
     // "vscode-yaml-sort.customSortKeywords_1": [
     //     "phrase",
     //     "description",

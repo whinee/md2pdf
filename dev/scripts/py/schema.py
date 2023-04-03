@@ -18,12 +18,15 @@ TD = {
 
 # Derived Constants
 UT_RE = re.compile(r"(\w+)(?:\[)?")
-UT = lambda x: UT_RE.match(x).group(1)
+
+
+def UT(x):
+    return UT_RE.match(x).group(1)
 
 
 @c_exc_str
 class VersionNotFound(ValueError):
-    def __init__(self, name: str, v: str):
+    def __init__(self, name: str, v: str) -> None:
         self.name = name
         self.v = v
         self.msg = f"Version {v} not found in {name}"

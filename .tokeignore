@@ -1,0 +1,10 @@
+dev/raw_docs/**
+dev/site/**
+dev/scripts/**
+src/katex/**
+docs/**
+*.sh
+.sh
+
+dev/constants/tpl/**
+src/assets/**

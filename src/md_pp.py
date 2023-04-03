@@ -6,9 +6,10 @@ import shutil
 import signal
 import subprocess
 import urllib.parse
+from collections.abc import Generator
 from functools import partial
 from glob import glob
-from typing import Any, Generator
+from typing import Any
 
 from markdown import Markdown
 from markdown.extensions import Extension
@@ -86,7 +87,7 @@ PKG_BIN_DIR = os.path.join(PROJ_ABS_PATH, "katex", "bin")
 KATEX_CMD_PARTS: list[str] = []
 
 
-def _get_bin_cmd() -> str:
+def _get_bin_cmd() -> str:  # noqa: C901
     if bin := shutil.which(KATEX_CMD_NAME):
         return bin
 
@@ -103,7 +104,8 @@ def _get_bin_cmd() -> str:
             try:
                 npx_cmd = NPX_KATEX_FMT.format(i)
                 output_data = subprocess.check_output(
-                    [*npx_cmd.split(), "--version"], stderr=subprocess.STDOUT
+                    [*npx_cmd.split(), "--version"],
+                    stderr=subprocess.STDOUT,
                 )
                 output_text = output_data.decode("utf-8")
                 if SEMVER_RE.match(output_text.strip()) is None:
@@ -114,7 +116,7 @@ def _get_bin_cmd() -> str:
             except OSError:
                 continue
 
-    raise exceptions.KatexExceptions.NotFound()
+    raise exceptions.KatexExceptions.NotFound
 
 
 def get_bin_cmd() -> list[str]:
@@ -122,7 +124,8 @@ def get_bin_cmd() -> list[str]:
         bin_cmd: list[str] = bin.split()
         if "npx" in bin:
             output_data = subprocess.check_output(
-                [*bin_cmd, "--version"], stderr=subprocess.STDOUT
+                [*bin_cmd, "--version"],
+                stderr=subprocess.STDOUT,
             )
             if SEMVER_RE.match(output_data.decode("utf-8").strip()) is not None:
                 return bin_cmd
@@ -132,8 +135,8 @@ def get_bin_cmd() -> list[str]:
     cfg = de_rcfg()
     cfg["katex_bin"] = bin
     de_wcfg(cfg)
-    bin_cmd: list[str] = bin.split()  # type: ignore[no-redef]
-    return bin_cmd
+    op: list[str] = bin.split()
+    return op
 
 
 def htmlsvg2img(html: str) -> str:
@@ -157,8 +160,7 @@ def katex2html(marker: str, tex: str) -> tuple[str, str]:  # type: ignore[return
             KATEX_CMD_PARTS,
             input=tex.encode("utf-8"),
             bufsize=-1,
-            stderr=subprocess.PIPE,
-            stdout=subprocess.PIPE,
+            capture_output=True,
         )
         ret_code = proc.returncode
         stdout = proc.stdout.decode("utf-8")
@@ -170,13 +172,13 @@ def katex2html(marker: str, tex: str) -> tuple[str, str]:  # type: ignore[return
                 + f"code {ret_code} ({signame})"
             )
             raise Exception(err_msg)
-        elif ret_code > 0:
+        if ret_code > 0:
             errout = proc.stderr.decode("utf-8")
             output = (stdout + "\n" + errout).strip()
             err_msg = f"Error processing '{tex}': {output}"
             raise Exception(err_msg)
         return marker, htmlsvg2img(stdout)
-    except Exception:  # nosec B110
+    except Exception:  # noqa: BLE001
         pass
 
 
@@ -199,16 +201,22 @@ class WhExtension(Extension):  # type: ignore[misc]
     def reset(self) -> None:
         self.math_blocks.clear()
 
-    def extendMarkdown(self, md: Markdown) -> None:
+    def extendMarkdown(self, md: Markdown) -> None:  # noqa: N802
         md.registerExtension(self)
         md.preprocessors.register(
-            KatexFencedBlockPreprocessor(md, self), "wh_katex_pre", 25
+            KatexFencedBlockPreprocessor(md, self),
+            "wh_katex_pre",
+            25,
         )
         md.postprocessors.register(
-            KatexFencedBlockPostprocessor(md, self), "wh_katex_post", 0
+            KatexFencedBlockPostprocessor(md, self),
+            "wh_katex_post",
+            0,
         )
         md.postprocessors.register(
-            GeneralFencedBlockPostprocessor(md, self), "wh_post", 0
+            GeneralFencedBlockPostprocessor(md, self),
+            "wh_post",
+            0,
         )
 
 
@@ -228,7 +236,10 @@ class KatexFencedBlockPreprocessor(Preprocessor):  # type: ignore[misc]
         self.ext.math_blocks[marker_tag] = block_text
         return indent_text + marker_tag
 
-    def _iter_out_lines(self, lines: list[str]) -> Generator[str, None, None]:
+    def _iter_out_lines(  # noqa: C901
+        self,
+        lines: list[str],
+    ) -> Generator[str, None, None]:
         is_in_math_fence = False
         expected_close_fence = "```"
 
@@ -243,13 +254,12 @@ class KatexFencedBlockPreprocessor(Preprocessor):  # type: ignore[misc]
                     yield marker_tag
                 else:
                     block_lines.append(line)
+            elif math_fence_match := BLOCK_START_RE.match(line):
+                is_in_math_fence = True
+                prefix = math_fence_match.group(1)
+                expected_close_fence = prefix + math_fence_match.group(2)
             else:
-                if math_fence_match := BLOCK_START_RE.match(line):
-                    is_in_math_fence = True
-                    prefix = math_fence_match.group(1)
-                    expected_close_fence = prefix + math_fence_match.group(2)
-                else:
-                    yield line
+                yield line
 
         # unclosed block
         if block_lines:
@@ -295,5 +305,4 @@ class GeneralFencedBlockPostprocessor(Postprocessor):  # type: ignore[misc]
         self.ext: WhExtension = ext
 
     def run(self, text: str) -> str:
-        text = PAGE_BREAK_REPLACE(string=text)
-        return text
+        return PAGE_BREAK_REPLACE(string=text)

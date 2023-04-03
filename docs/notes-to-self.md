@@ -4,11 +4,41 @@
 
 Look, whi_ne, I have written this for you.
 
-Please, do I humbly plead you, do not ever forgot to read this before pushing changes to Github.
+Please, do I humbly plead you, do not ever forgot to read this before pushing changes to Github. Or like, just look at this once in a while. This is your holy bible.
 
 
 <div class="toc"><h2 id="toc"><b><a href="#toc">Table of Contents</a></b></h2>
-<ul><li><a href="#versioning-system">Versioning System</a><ul><li><a href="#versioning-system-version-bump-guides">Version Bump Guides</a></li></ul></li><li><a href="#changelog">Changelog</a></li><li><a href="#documentation">Documentation</a></li></ul></div>
+<ul><li><a href="#file-naming-conventions">File Naming Conventions</a><ul><li><a href="#file-naming-conventions-markdown">Markdown</a></li><li><a href="#file-naming-conventions-python">Python</a></li></ul></li><li><a href="#file-contents-naming-conventions">File Contents Naming Conventions</a><ul><li><a href="#file-contents-naming-conventions-python">Python</a><ul><li><a href="#file-contents-naming-conventions-python-dos">DOs</a></li><li><a href="#file-contents-naming-conventions-python-don-ts">DON’Ts</a></li></ul></li></ul></li><li><a href="#versioning-system">Versioning System</a><ul><li><a href="#versioning-system-version-bump-guides">Version Bump Guides</a></li></ul></li><li><a href="#changelog">Changelog</a></li><li><a href="#documentation">Documentation</a></li></ul></div>
+
+<h2 id="file-naming-conventions"><b><a href="#file-naming-conventions">File Naming Conventions</a></b></h2>
+
+<h2 id="file-naming-conventions-markdown"><b><i><a href="#file-naming-conventions-markdown">Markdown</a></i></b></h2>
+
+For markdown files
+
+<h2 id="file-naming-conventions-python"><b><i><a href="#file-naming-conventions-python">Python</a></i></b></h2>
+
+**DOs**
+
+- PEP 8 recommends using lowercase letters for module names
+
+<h2 id="file-contents-naming-conventions"><b><a href="#file-contents-naming-conventions">File Contents Naming Conventions</a></b></h2>
+
+<h2 id="file-contents-naming-conventions-python"><b><i><a href="#file-contents-naming-conventions-python">Python</a></i></b></h2>
+
+Hereunder is the summary of [PEP 8 naming conventions](https://peps.python.org/pep-0008/#naming-conventions).
+
+<h2 id="file-contents-naming-conventions-python-dos"><a href="#file-contents-naming-conventions-python-dos">DOs</a></h2>
+
+- Use lowercase letters for variable and function names, and separate words with underscores (_).
+- Use uppercase letters for constant variables, and separate words with underscores (_).
+- Use **CamelCase** notation for naming classes.
+- Prefix private variables and functions with a single underscore (_), and use double underscores (__) for name mangling.
+
+<h2 id="file-contents-naming-conventions-python-don-ts"><a href="#file-contents-naming-conventions-python-don-ts">DON’Ts</a></h2>
+
+- Avoid using single-character variable names except for counters and iterators.
+- Avoid using names that have special meaning in Python, such as "list" or "str".
 
 <h2 id="versioning-system"><b><a href="#versioning-system">Versioning System</a></b></h2>
 
@@ -16,7 +46,12 @@ Look, you have made your own versioning system based off semver 2.0.0. Use it pr
 
 Given a version number `user`.`dev`.`minor`.`patch`, increment the:
 
-- `user` version when you make any changes to the user interface/experience. This does not include improvements on loading times, despite being well within the user experience umbrella.
+- `user` version when you make any changes to the user interface/experience.
+
+    Hereunder are exceptions for user experience changes that invokes a `user` version bump:
+
+    - Performance gains (that might improve )
+
 - `dev` version when you make incompatible API changes,
 - `minor` version when you add functionality in a backwards compatible manner, and
 - `patch` version when you make backwards compatible bug fixes.

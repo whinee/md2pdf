@@ -1,32 +1,8 @@
-shit me not
-sflkhfskl
-
-asfas
-asfa
-
-
-
-asf
-
-asf
-
-
-as
-
 ```math
-\Delta H=\Delta E + P\Delta V
+% \f is defined as #1f(#2) using the macro
+\f\relax{x} = \int_{-\infty}^\infty
+    \f\hat\xi\,e^{2 \pi i \xi x}
+    \,d\xi
 ```
 
-<td>
-    ```math
-    \Delta H=\Delta E + P\Delta V
-    ```
-
-    whereas:
-
-    <ul>
-        <li>Delta E means internal energy</li>
-        <li>P means pressure (constant)</li>
-        <li>$Delta V means volume</li>
-    </ul>
-</td>
+## Math Scaryyyy

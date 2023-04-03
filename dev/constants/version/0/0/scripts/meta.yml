@@ -1,0 +1,26 @@
+variables:
+  global:
+    python_ver: '3.10' # python version
+    python_ver_nd: '310' # python version, no dot
+  local:
+    desktop:
+      categories: 'Office'
+
+matrix: {}
+
+scripts:
+  build_yml:
+    path: '{{ver_dir}}/scripts/tpl/build.yml'
+    op_path: .github/workflows/build.yml
+
+  desktop:
+    path: '{{ver_dir}}/scripts/tpl/.desktop'
+    op_path: '{{ver_dir}}/scripts/op/.desktop'
+
+  build_linux:
+    path: '{{ver_dir}}/scripts/tpl/build_linux.sh'
+    op_path: '{{ver_dir}}/scripts/op/build_linux.sh'
+  
+  pyproject:
+    path: '{{ver_dir}}/scripts/tpl/pyproject.toml'
+    op_path: pyproject.toml

@@ -1,13 +1,11 @@
-import os
 import re
 from functools import partial
 from os import path
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Optional, TypeAlias, Union
 
 import inquirer
 
-from . import docs, scripts
 from .cd import CustomDict
 from .cfg import rcfg, wcfg
 from .md_vars import RMDV, VYML, vrcfg
@@ -38,7 +36,24 @@ PROJECT_CFG = vrcfg("project")
 INIT_FILE = PROJECT_CFG["init_file"]
 GLOBAL = RMDV["md_vars"]["global"]
 
+# Types
+DOD_TYPE: TypeAlias = str | dict[str, Union[str, "DOD_TYPE"]]
 
+
+# Modules
+def scripts_mod(*args, **kwargs) -> None:
+    from .scripts import main
+
+    main(*args, **kwargs)
+
+
+def docs_mod(*args, **kwargs) -> None:
+    from .docs import main
+
+    main(*args, **kwargs)
+
+
+# Functions
 def _mod_ds(desc, match):
     indent = match.group(2)
     fl, *op = desc.strip().split("\n")
@@ -61,21 +76,22 @@ def mod_ds(script: str, function: str, desc: str):
         f.write(op)
 
 
-def mod_ds_cfg(script: str, function: str, dod: str | dict):
+def mod_ds_cfg(script: Optional[str], function: Optional[str], dod: DOD_TYPE) -> None:
     if isinstance(dod, dict):
-        if script:
+        if isinstance(script, str) and isinstance(function, str):
             script += "/" + function
-        elif function:
+        elif isinstance(function, str):
             script = function
         for k, v in dod.items():
             mod_ds_cfg(script, k, v)
-    elif isinstance(dod, str):
+    elif isinstance(script, str) and isinstance(function, str) and isinstance(dod, str):
         mod_ds(script + ".py", function, dod)
     else:
-        raise TypeError(f"{type(dod)} not allowed.")
+        if not (isinstance(dod, dict) or isinstance(dod, str)):
+            raise TypeError(f"Type {type(dod)} not allowed.")
 
 
-def cc():
+def cc() -> None:
     const_dir = PROJECT_CFG["const_dir"]
     lang_path = PROJECT_CFG["lang_dir"].format(const_dir=const_dir)
 
@@ -100,27 +116,24 @@ def cc():
         mod_ds_cfg(None, None, ds_cfg)
 
 
-def docs_fn() -> None:
+def docs() -> None:
     cc()
-    scripts.main()
+    scripts_mod()
 
-    docs.main(RMDV)
-
-
-def source(cmd: str):
-    run(f"bash dev/scripts/sh/source.sh {cmd}")
+    docs_mod(RMDV)
 
 
-def push(v: Optional[list[int]] = None):
-    """Push changes to the remote repository. Pass version list of numbers to add
+def push(v: Optional[list[int]] = None) -> None:
+    """
+    Push changes to the remote repository. Pass version list of numbers to add.
 
     Args:
     - v (`list[int]`, optional): _description_. Defaults to `None`.
     """
     msg = inquirer.text(message="Enter commit message", default="")
 
-    docs_fn()
-    run("bash dev/scripts/sh/source.sh fmt")
+    docs()
+    run("just lint")
     run("git add .")
 
     if msg == "":
@@ -134,7 +147,7 @@ def push(v: Optional[list[int]] = None):
                 "VERSION BUMP: ",
                 msg,
                 f"Release notes: https://{GLOBAL['site']}/changelog#{'-'.join([str(i) for i in v])} or `docs/latest release notes.md`",
-            ]
+            ],
         )
 
     run(PUSH_CMD.format(msg))
@@ -142,7 +155,8 @@ def push(v: Optional[list[int]] = None):
 
 
 def dcomp(x: int) -> list[int]:
-    """Given a number x, return a list of times a prime factor of x occured.
+    """
+    Given a number x, return a list of times a prime factor of x occured.
 
     Args:
         x (int): Number to get the prime factors of.
@@ -156,7 +170,7 @@ def dcomp(x: int) -> list[int]:
         for idx, i in enumerate(primes):
             if x % i == 0:
                 factors[idx] += 1
-                x = x / i
+                x = int(x / i)
                 break
             else:
                 pass
@@ -164,7 +178,8 @@ def dcomp(x: int) -> list[int]:
 
 
 def _set_ver(vls: list[int]) -> None:
-    """Set version, and write to file.
+    """
+    Set version, and write to file.
 
     Args:
         vls (list[int]): Version list.
@@ -173,14 +188,15 @@ def _set_ver(vls: list[int]) -> None:
     const_mp = rcfg(const_path)
     op_ls = [vls, *vls_str(vls)]
 
-    wcfg("version.yml", {k: v for k, v in zip(["ls", "str", "sv"], op_ls)})
+    wcfg("version.yml", dict(zip(["ls", "str", "sv"], op_ls)))
     for k, v in zip(["vls", "__version__", "hver"], op_ls):
         const_mp[k] = v
     wcfg(const_path, const_mp)
 
 
 def vfn(answers: list[Any], current: str) -> bool:
-    """Validation Function for version bump prompt. Check if given string to the prompt matches the regex for version.
+    """
+    Validation Function for version bump prompt. Check if given string to the prompt matches the regex for version.
 
     Args:
     - answers (`list[Any]`): Unused, list of answers from the previous prompts.
@@ -192,17 +208,23 @@ def vfn(answers: list[Any], current: str) -> bool:
     Returns:
     `bool`: True, if the given string to the prompt matches the regex for version.
     """
-    x, y = VLS_STR_RE.match(current).span()
-    vls = current[x:y].strip().split(" ")
-    if len(vls) == 6:
-        _set_ver([int(i) for i in vls])
-        return True
 
-    raise Exception("Invalid version digits")
+    match = VLS_STR_RE.match(current)
+    if match is None:
+        raise Exception("Invalid version digits")
+
+    x, y = match.span()
+    vls = current[x:y].strip().split(" ")
+    if len(vls) != 6:
+        raise Exception("Invalid version digits")
+
+    _set_ver([int(i) for i in vls])
+    return True
 
 
 def vlir(idx: int, vls: list[int]) -> list[int]:
-    """Version Lower than Index will be Reset
+    """
+    Version Lower than Index will be Reset.
 
     Args:
         idx (int): Index to compare to.
@@ -221,7 +243,8 @@ def vlir(idx: int, vls: list[int]) -> list[int]:
 
 
 def _bump(idx: int) -> list[int]:
-    """Bump's inner function. Given the index of the version part to bump, bump the said part and output that.
+    """
+    Bump's inner function. Given the index of the version part to bump, bump the said part and output that.
 
     Args:
         idx (int): Index to bump.
@@ -244,8 +267,8 @@ def _bump(idx: int) -> list[int]:
     return _vls
 
 
-def bump():
-    """Bump program's version"""
+def bump() -> None:
+    """Bump program's version."""
     while True:
         choices = []
         for idx, k in enumerate(VERSIONS_NAME):
@@ -256,7 +279,7 @@ def bump():
         )
         _vls = _bump(idx)
         print(
-            f"    This will bump the version from {vls_str(VLS)[0]} to {vls_str(_vls)[0]} ({VERSIONS_NAME[idx]} bump). "
+            f"    This will bump the version from {vls_str(VLS)[0]} to {vls_str(_vls)[0]} ({VERSIONS_NAME[idx]} bump). ",
         )
         match inquirer.list_input(
             message="Are you sure?",
@@ -278,36 +301,35 @@ def bump():
                 pass
 
 
-def main(choice: Optional[str] = None):
-    """Main function.
+def main(choice: str) -> None:
+    """
+    Main function.
 
     Args:
-    - choice (`str`, optional): Subcommand to run. Left empty to prompt the user. Defaults to `None`.
+    - choice (`str`): Subcommand to run.
     """
-    match choice or inquirer.list_input(
-        message="What action do you want to take",
-        choices=[
-            ["Copy constants", "cc"],
-            ["Generate documentation", "docs"],
-            ["Push to github", "push"],
-            ["Bump a version", "bump"],
-            ["Generate scripts", "gs"],
-            ["Set the version manually", "set_ver"],
-        ],
-    ):
+    match choice:
+        case "ver":
+            for k, v in zip(
+                ["Version       ", "Semver Version"],
+                vls_str(VLS),
+                strict=True,
+            ):
+                print(f"{k}: {v}")
         case "cc":
             cc()
         case "docs":
-            docs_fn()
+            docs()
         case "push":
             push()
         case "gs":
-            scripts.main()
+            scripts_mod()
         case "bump":
             bump()
         case "set_ver":
             inquirer.text(
-                message="Enter version digits seperated by spaces", validate=vfn
+                message="Enter version digits seperated by spaces",
+                validate=vfn,
             )
         case _:
-            source(choice)
+            print(f"menu: {choice} is not in the menu.")

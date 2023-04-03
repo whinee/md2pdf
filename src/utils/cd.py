@@ -1,7 +1,8 @@
 import re
+from collections.abc import Sized
 from enum import Enum
 from functools import partial
-from typing import Any, Optional, Sized
+from typing import Any, Optional
 
 try:
     from .info import DEF_STR
@@ -41,7 +42,7 @@ class CustomDict(dict):  # type: ignore[type-arg]
             return CustomDict(op)
         return op
 
-    def traverse(
+    def traverse(  # noqa: C901
         self,
         path: str,
         elem: dict[str, Any] | Sized,
@@ -129,7 +130,7 @@ class CustomDict(dict):  # type: ignore[type-arg]
                     )
                 return 0, elem[key]  # type: ignore[index]
             return 1, {"key": key}
-        elif isinstance(elem, list) or isinstance(elem, tuple):
+        if isinstance(elem, list) or isinstance(elem, tuple):
             if len(key) < 0:
                 raise CDExceptions.API.KeyError(
                     "index expected as an integer",
@@ -215,8 +216,8 @@ def test() -> None:
 
     # fmt: off
     test = CustomDict({"a": ("shit", "me", {"not": {"lol": [
-        "why", "you", ["ask", "?", "cuz", {"why": "naught"}]]
-    }},)})
+        "why", "you", ["ask", "?", "cuz", {"why": "naught"}]],
+    }})})
     assert test.dir(f"a/-1/not/lol/+2/{0-1}/why") == "naught"
     # fmt: on
 

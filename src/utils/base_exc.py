@@ -1,4 +1,5 @@
-from typing import Callable, Optional, Type
+from collections.abc import Callable
+from typing import Optional
 
 try:
     from . import types
@@ -8,7 +9,7 @@ except ImportError:
     from src.utils.style import S, pp
 
 
-def c_exc_str(cls: Type[BaseException]) -> Type[BaseException]:
+def c_exc_str(cls: type[BaseException]) -> type[BaseException]:
     """
     Decorator to add the __str__ method to an exception.
 
@@ -39,7 +40,7 @@ def c_exc_str(cls: Type[BaseException]) -> Type[BaseException]:
     return cls
 
 
-def c_exc(cls: Type[BaseException]) -> Type[BaseException]:
+def c_exc(cls: type[BaseException]) -> type[BaseException]:
     """
     Decorator to raise a custom exception.
 
@@ -58,13 +59,15 @@ def c_exc(cls: Type[BaseException]) -> Type[BaseException]:
     else:
         exc = Exception
 
-    def __init__(
-        self: Type[BaseException], message: str, details: Optional[str] = None
+    def init(
+        self: type[BaseException],
+        message: str,
+        details: Optional[str] = None,
     ) -> None:
         self.message = message
         if details is not None:
             self.details = details
         exc(self.message)
 
-    cls.__init__ = __init__  # type: ignore[assignment, attr-defined, misc, no-any-return]
+    cls.__init__ = init  # type: ignore[assignment, attr-defined, misc, no-any-return]
     return c_exc_str(cls)

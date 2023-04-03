@@ -81,7 +81,7 @@ Custom dictionary.
 <h3><a href="#class-CustomDict-func-traverse" id="class-CustomDict-func-traverse">traverse</a></h3>
 
 ```python
-(self, path: str, elem: Union[dict[str, Any], Sized], sep: str, idx: int = 0, og_path: str | None = None) ‑> Union[tuple[int, Union[Any, dict[str, int]]], Any]
+(self, path: str, elem: dict[str, typing.Any] | collections.abc.Sized, sep: str, idx: int = 0, og_path: str | None = None) ‑> Union[tuple[int, Union[Any, dict[str, int]]], Any]
 ```
 
     

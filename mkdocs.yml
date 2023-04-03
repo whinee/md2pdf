@@ -70,10 +70,10 @@ extra:
 
 plugins:
   - search
-  - minify:
-      minify_html: true
-      minify_css: true
-      minify_js: true
+  # - minify:
+  #     minify_html: true
+  #     minify_css: true
+  #     minify_js: true
 
 nav:
   - Home: /

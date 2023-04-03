@@ -4,7 +4,7 @@ from markdown import markdown
 from weasyprint import CSS
 
 try:
-    from .info import TW
+    from .info import PROJECT_NAME, TW
     from .md_pp import WhExtension
     from .pdfgenerator import PDFGenerator
     from .utils import exceptions
@@ -36,7 +36,10 @@ MD_HF_EXT: Final[list[str]] = ["extra"]
 MD_HF_EXT_CFG: Final[dict[str, Any]] = {}
 
 
-@command_group(context_settings={"help_option_names": ["-h", "--help"]})
+@command_group(
+    name=PROJECT_NAME,
+    context_settings={"help_option_names": ["-h", "--help"]},
+)
 def cli(**kwargs: dict[str, Any]) -> None:
     """Main command group."""
 
@@ -44,7 +47,7 @@ def cli(**kwargs: dict[str, Any]) -> None:
 ccli = command(cli)
 
 
-def mc(raw_MD: str, MD_path: str, hf: bool | None = None) -> str | None:
+def mc(raw_md: str, md_path: str, hf: bool | None = None) -> str | None:
     """
     Markdown chooser.
 
@@ -52,8 +55,8 @@ def mc(raw_MD: str, MD_path: str, hf: bool | None = None) -> str | None:
 
     Args:
     ----
-    - raw_MD (`str`): Raw Markdown string.
-    - MD_path (`str`): Path to Markdown file.
+    - raw_md (`str`): Raw Markdown string.
+    - md_path (`str`): Path to Markdown file.
 
     Returns:
     -------
@@ -62,16 +65,20 @@ def mc(raw_MD: str, MD_path: str, hf: bool | None = None) -> str | None:
 
     if hf is None:
         hf = False
-    if (raw_MD is None) and MD_path is not None:
-        with open(file_exists(MD_path), "r") as f:
-            raw_MD = f.read()
-    if raw_MD is not None:
-        return markdown(raw_MD, extensions=MD_HF_EXT if hf else MD_EXT, extension_configs=MD_HF_EXT_CFG if hf else MD_EXT_CFG)  # type: ignore[no-any-return]
+    if (raw_md is None) and md_path is not None:
+        with open(file_exists(md_path)) as f:
+            raw_md = f.read()
+    if raw_md is not None:
+        return markdown(raw_md, extensions=MD_HF_EXT if hf else MD_EXT, extension_configs=MD_HF_EXT_CFG if hf else MD_EXT_CFG)  # type: ignore[no-any-return]
     return ""
 
 
 def hmc(
-    raw_HTML: str, HTML_path: str, raw_MD: str, MD_path: str, hf: bool | None = None
+    raw_html: str,
+    html_path: str,
+    raw_md: str,
+    md_path: str,
+    hf: bool | None = None,
 ) -> str:
     """
     HTML or Markdown chooser.
@@ -79,26 +86,25 @@ def hmc(
     Return first argument that is not `None` and convert it into HTML, if it is not already.
 
     Args:
-    - raw_HTML (`str`): Raw HTML string.
-    - HTML_path (`str`): Path to HTML file.
-    - raw_MD (`str`): Raw Markdown string.
-    - MD_path (`str`): Path to Markdown file.
+    - raw_html (`str`): Raw HTML string.
+    - html_path (`str`): Path to HTML file.
+    - raw_md (`str`): Raw Markdown string.
+    - md_path (`str`): Path to Markdown file.
 
     Returns:
     `string`: Raw HTML string.
     """
 
-    if raw_HTML is not None:
-        return raw_HTML
-    elif HTML_path:
-        with open(file_exists(HTML_path)) as f:
+    if raw_html is not None:
+        return raw_html
+    if html_path:
+        with open(file_exists(html_path)) as f:
             return f.read()
-    else:
-        return mc(raw_MD, MD_path, hf)
+    return mc(raw_md, md_path, hf)
 
 
 @ccli
-def convert(  # type: ignore[no-untyped-def]
+def convert(  # type: ignore[no-untyped-def]  # noqa: C901
     # Input Arguments
     pdf,
     md_raw,
@@ -168,7 +174,11 @@ def convert(  # type: ignore[no-untyped-def]
 
     ## Convert Header and Footer to HTML (if it is not already)
     raw_header = hmc(
-        html_header_raw, html_header_path, md_header_raw, md_header_path, True
+        html_header_raw,
+        html_header_path,
+        md_header_raw,
+        md_header_path,
+        True,
     )
     raw_first_page_header = hmc(
         html_first_page_header_raw,
@@ -180,7 +190,11 @@ def convert(  # type: ignore[no-untyped-def]
     if raw_first_page_header is None:
         raw_first_page_header = raw_header
     raw_footer = hmc(
-        html_footer_raw, html_footer_path, md_footer_raw, md_footer_path, True
+        html_footer_raw,
+        html_footer_path,
+        md_footer_raw,
+        md_footer_path,
+        True,
     )
     raw_first_page_footer = hmc(
         html_first_page_footer_raw,

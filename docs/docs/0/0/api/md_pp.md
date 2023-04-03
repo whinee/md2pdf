@@ -216,8 +216,6 @@ Keyword arguments:
 
 * md: The Markdown instance.
 
-* md_globals: Global variables in the markdown module namespace.
-
     
 
     

@@ -1,0 +1,9 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Icon=logo
+Terminal=true
+Name={{project_name}}
+Exec={{project_name}}
+Comment={{desc}}
+Categories={{categories}}

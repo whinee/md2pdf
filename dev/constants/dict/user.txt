@@ -49,6 +49,15 @@ ruleset
 rulesets
 c4ffein
 stackoverflow
+choco
+katex
+pyenv
+libexec
+noconfirm
+pacman
+Syyu
+offmychest
+weasyprint
 
 pababang
 panurong

@@ -29,7 +29,10 @@ class GeneralExceptions:
         @c_exc_str
         class Arguments:
             def __init__(
-                self, parameter: str, argument: Any, specification: str
+                self,
+                parameter: str,
+                argument: Any,
+                specification: str,
             ) -> None:
                 """
                 Raised when a parameter is required to be of specification, but is not followed.
@@ -48,7 +51,9 @@ class GeneralExceptions:
     @c_exc_str
     class PrerequisiteNotFound:
         def __init__(
-            self, prerequisite: str, inst_instruction: Optional[str] = None
+            self,
+            prerequisite: str,
+            inst_instruction: Optional[str] = None,
         ) -> None:
             """
             Raised when a prerequisite is needed by the program, but is not installed in the machine.
@@ -107,7 +112,12 @@ class CDExceptions:
         @c_exc_str
         class IndexError(IndexError):  # type: ignore[misc]
             def __init__(
-                self, sep: str, og_path: str, idx: int, ls_idx: int, len_iter: int
+                self,
+                sep: str,
+                og_path: str,
+                idx: int,
+                ls_idx: int,
+                len_iter: int,
             ) -> None:
                 self.message = "sized iterable index out of range"
                 self.details = f"""`{sep.join(og_path.split(sep)[:idx])}`:

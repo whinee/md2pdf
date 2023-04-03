@@ -1,0 +1,9 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Icon=logo
+Terminal=true
+Name=md2pdf
+Exec=md2pdf
+Comment=Markdown to PDF converter
+Categories=Office

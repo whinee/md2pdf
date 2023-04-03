@@ -25,7 +25,11 @@ class MainPlugin(BasePlugin):
     # def on_config(self, config: MkDocsConfig) -> Optional[Config]:
 
     def on_env(
-        self, env: jinja2.Environment, *, config: MkDocsConfig, files: Files
+        self,
+        env: jinja2.Environment,
+        *,
+        config: MkDocsConfig,
+        files: Files,
     ) -> Optional[jinja2.Environment]:
         env.filters["get_toc"] = get_toc
         return env

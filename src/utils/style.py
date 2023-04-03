@@ -110,7 +110,10 @@ def split_text(t: str) -> list[str]:
 
 
 def text(
-    t: str, *args: list[Any], ca: Optional[bool] = None, **kwargs: dict[str, Any]
+    t: str,
+    *args: list[Any],
+    ca: Optional[bool] = None,
+    **kwargs: dict[str, Any],
 ) -> Group:
     fn = partial(Text, *args, **kwargs)
     op = []
@@ -153,7 +156,10 @@ for k, v in COLORS.items():
 
 
 def pp(
-    t: Any, ca: Optional[bool] = None, *args: list[Any], **kwargs: dict[str, Any]
+    t: Any,
+    ca: Optional[bool] = None,
+    *args: list[Any],
+    **kwargs: dict[str, Any],
 ) -> None:
     """
     Center rich printable objects, then pretty print it.
@@ -196,7 +202,7 @@ class ct:
         box = getattr(rich.box, stb.pop("box"))
 
         new_cols = []
-        for title, col in zip(cols, itertools.cycle(stb.pop("columns"))):
+        for title, col in zip(cols, itertools.cycle(stb.pop("columns")), strict=False):
             attr = {}
             for i in ["header_style", "style"]:
                 attr[i] = getattr(C, col[i])

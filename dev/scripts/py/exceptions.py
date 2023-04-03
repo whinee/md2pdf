@@ -1,5 +1,6 @@
 def c_exc_str(cls: Exception) -> Exception:
-    """Decorator to add the __str__ method to an exception.
+    """
+    Decorator to add the __str__ method to an exception.
 
     Args:
         cls (BaseException): The exception to add the __str__ method to.
@@ -12,7 +13,8 @@ def c_exc_str(cls: Exception) -> Exception:
 
 
 def c_exc(cls: Exception | object) -> Exception:
-    """Decorator to raise a custom exception.
+    """
+    Decorator to raise a custom exception.
 
     This function gives the class an __init__ function that raises the exception.
     If the class does not inherit from any Exception, it will be automatically inherit from Exception.

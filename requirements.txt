@@ -1,7 +1,8 @@
 rich
-
 arrow
-markdown2
+click
+markdown
+msgpack
 pyyaml
 questionary
 tabulate

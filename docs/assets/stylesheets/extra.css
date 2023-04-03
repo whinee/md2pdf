@@ -40,3 +40,19 @@ nav div.toc ul {
     margin-left: 0px !important;
     padding-left: 15px !important;
 }
+
+h1 {
+    font-size: 200%;
+}
+
+h2 {
+    font-size: 180%;
+}
+
+h3 {
+    font-size: 160%;
+}
+
+h4 {
+    font-size: 140%;
+}

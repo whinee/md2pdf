@@ -1,0 +1,47 @@
+#!/bin/bash
+
+set -e
+
+if [ -n "$DEBUG" ]; then
+    env
+    set -x
+fi
+
+THIS="$0"
+
+if [ -z "$APPDIR" ]; then
+    path="$(dirname "$(readlink -f "${THIS}")")"
+    while [[ "$path" != "" && ! -e "$path" ]]; do
+        path=${path%/*}
+    done
+    APPDIR="$path"
+fi
+
+gui() {
+    echo "not yet implemented"
+    exit 1
+}
+
+cli() {
+    "$APPDIR/opt/python3.10/bin/python3.10" "$APPDIR/main.py" "$@"
+}
+
+if [ $# -eq 0 ]; then
+    cli "$@"
+else
+    case "$1" in
+    gui) gui ;;
+    cli)
+        shift
+        cli "$@"
+        ;;
+    help)
+        help
+        exit 0
+        ;;
+    *)
+        cli "$@"
+        exit 1
+        ;;
+    esac
+fi

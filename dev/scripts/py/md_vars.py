@@ -54,10 +54,12 @@ def vrcfg(file: str):
     return rcfg(os.path.join(*VER_DIR, f"{file}.yml"))
 
 
-if os.path.isdir("docs"):
-    shutil.rmtree("docs")
-    os.makedirs("docs")
-shutil.copytree("dev/raw_docs/assets/", "docs/assets/")
+def init() -> None:
+    if os.path.isdir("docs"):
+        shutil.rmtree("docs")
+        os.makedirs("docs")
+    shutil.copytree("dev/raw_docs/assets/", "docs/assets/")
+
 
 if LICENSE["cholder"]:
     for c, mp in LICENSE["cholder"].items():
@@ -71,13 +73,17 @@ if LICENSE["cholder"]:
                         project=project,
                         user=user,
                         year=pm["year"],
-                    )
+                    ),
                 )
     if len(cholder_ls) > 1:
         cholder_ls[-2] += f", and {cholder_ls[-1]}"
         del cholder_ls[-1]
     cholder = M_CHOLDER_TPL.format(
-        mc=", ".join(cholder_ls), org=ORG, project=PN, user=USER, year=LICENSE["year"]
+        mc=", ".join(cholder_ls),
+        org=ORG,
+        project=PN,
+        user=USER,
+        year=LICENSE["year"],
     )
 else:
     cholder = S_CHOLDER_TPL.format(user=USER, year=LICENSE["year"])
