@@ -29,13 +29,13 @@ title: '{{project_name}}'
         <img alt="wakatime" src="https://wakatime.com/badge/user/{{wakatime_user_id}}/project/{{wakatime_project_id}}.svg?style=for-the-badge">
     </a>
     <a href="https://app.codacy.com/gh/{{organization}}/{{repo_name}}/dashboard">
-        <img alt="Codacy Badge" src="https://img.shields.io/codacy/grade/{{codacy_id}}?style=for-the-badge">
+        <img alt="Codacy Badge" src="https://img.shields.io/codacy/grade/{{codacy_id}}?style=for-the-badge&logo=data:image/png;base64,{{code_b64}}">
     </a>
     <a href="https://github.com/{{organization}}/{{repo_name}}/releases">
-        <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/{{organization}}/{{repo_name}}?include_prereleases&style=for-the-badge">
+        <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/{{organization}}/{{repo_name}}?include_prereleases&style=for-the-badge&logo=data:image/png;base64,{{package_b64}}">
     </a>
     <a href="https://github.com/{{organization}}/{{repo_name}}/releases">
-        <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/{{organization}}/{{repo_name}}/test.yml?branch=main&label=Build&style=for-the-badge">
+        <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/{{organization}}/{{repo_name}}/build.yml?branch=main&label=Build&style=for-the-badge&logo=data:image/png;base64,{{rocket_b64}}">
     </a>
 </p>
 <p align="center">
@@ -53,9 +53,11 @@ title: '{{project_name}}'
 
 ---
 
+Website: [{{site}}](https://{{site}})
+
 Github: [github.com/{{organization}}/{{repo_name}}](https://github.com/{{organization}}/{{repo_name}})
 
-Website: [{{site}}](https://{{site}})
+PyPi: [pypi.org/project/{{pip_name}}](https://pypi.org/project/{{pip_name}}/)
 
 ---
 

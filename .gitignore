@@ -6,7 +6,7 @@ squashfs-root/
 **/tmp/
 
 # User-defined Ignored Files
-m2p.yml
+md2pdf.yml
 tr.yml
 yarn.lock
 yarn-error.log

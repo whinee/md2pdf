@@ -2,12 +2,12 @@ import base64
 import os
 import shutil
 from datetime import date
+from glob import glob
 
 from .cfg import rcfg
 from .utils import vls_str
 
 # Constants
-ICONS = ["issues", "forks", "stars", "contributors", "license", "code"]
 LANGS = ["python", "html", "yaml"]
 OS = ["linux", "win"]
 
@@ -45,8 +45,8 @@ cholder_ls = []
 
 
 # Functions
-def b64(name: str) -> str:
-    with open(f"./docs/assets/images/icons/{name}", "rb") as f:
+def b64(fn: str) -> str:
+    with open(fn, "rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
 
 
@@ -94,14 +94,14 @@ global_append = {
     "cholder": cholder,
 }
 
-for k, v in zip(["vls", "ver", "sver"], [VLS, *vls_str(VLS)]):
+for k, v in zip(["vls", "ver", "sver"], [VLS, *vls_str(VLS)], strict=True):
     global_append[k] = v
 
 for idx, i in enumerate(["user", "dev", "minor", "patch", "pri", "prv"]):
     global_append[f"ver_{i}"] = str(VLS[idx])
 
-for i in ICONS:
-    global_append[f"{i}_b64"] = b64(f"{i}.png")
+for i in glob("dev/raw_docs/assets/images/icons/*.png"):
+    global_append[f"{os.path.splitext(os.path.basename(i))[0]}_b64"] = b64(i)
 
 for k, v in vrcfg("lang/en").dir("text/common/info").items():
     global_append[k] = v["str"]
