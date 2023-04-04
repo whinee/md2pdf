@@ -1,3 +1,9 @@
+<p align="center">
+    <a href="https://github.com/whinee/md2pdf">
+        <img alt="logo" src="/assets/images/icons/logo.png">
+    </a>
+</p>
+
 <h1 align="center" style="font-weight: bold">
     md2pdf
 </h1>
@@ -6,6 +12,15 @@
 <h2 align="center" style="font-weight: bold">
     Markdown to PDF converter
 </h2>
+
+---
+
+<!-- Motto section. Preferably 2-5 sentences long. -->
+<h4 align="center">
+For writing faster? No. For writing with *class*? Yusss
+</h4>
+
+---
 
 <p align="center">
     <a href="https://github.com/whinee/md2pdf/issues">
@@ -43,13 +58,6 @@
         <img src="https://invidget.switchblade.xyz/JbAtUxGcJZ">
     </a>
 </p>
-
----
-
-<!-- Motto section. Preferably 2-5 sentences long. -->
-<h4 align="center">
-For writing faster? No. For writing with *class*? Yusss
-</h4>
 
 ---
 

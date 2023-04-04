@@ -1,11 +1,26 @@
----
-title: '{{project_name}}'
----
+<p align="center">
+    <a href="https://github.com/{{organization}}/{{repo_name}}">
+        <img alt="logo" src="/docs/assets/images/icons/logo.png">
+    </a>
+</p>
+
+<h1 align="center" style="font-weight: bold">
+    {{project_name}}
+</h1>
 
 <!-- Description. Preferably 1 sentence long. -->
 <h2 align="center" style="font-weight: bold">
     {{desc}}
 </h2>
+
+---
+
+<!-- Motto section. Preferably 2-5 sentences long. -->
+<h4 align="center">
+{{motto}}
+</h4>
+
+---
 
 <p align="center">
     <a href="https://github.com/{{organization}}/{{repo_name}}/issues">
@@ -43,13 +58,6 @@ title: '{{project_name}}'
         <img src="https://invidget.switchblade.xyz/{{dc_inv}}">
     </a>
 </p>
-
----
-
-<!-- Motto section. Preferably 2-5 sentences long. -->
-<h4 align="center">
-{{motto}}
-</h4>
 
 ---
 
