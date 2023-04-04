@@ -36,7 +36,7 @@ MD_VARS = YML["md_vars"]
 VER_DIR = ["dev", "constants", "version", *[str(_) for _ in VLS[0:2]]]
 GLOBAL = MD_VARS["global"]
 
-PN = GLOBAL["project_name"]
+RN = GLOBAL["repo_name"]
 ORG = GLOBAL["organization"]
 USER = GLOBAL["user"]
 
@@ -81,7 +81,7 @@ if LICENSE["cholder"]:
     cholder = M_CHOLDER_TPL.format(
         mc=", ".join(cholder_ls),
         org=ORG,
-        project=PN,
+        project=RN,
         user=USER,
         year=LICENSE["year"],
     )
@@ -102,6 +102,11 @@ for idx, i in enumerate(["user", "dev", "minor", "patch", "pri", "prv"]):
 
 for i in glob("dev/raw_docs/assets/images/icons/*.png"):
     global_append[f"{os.path.splitext(os.path.basename(i))[0]}_b64"] = b64(i)
+
+for i in glob("dev/raw_docs/assets/images/icons/*.png"):
+    global_append[
+        f"{os.path.splitext(os.path.basename(i))[0]}_link"
+    ] = f"https://raw.githubusercontent.com/{ORG}/{RN}/main/{i}"
 
 for k, v in vrcfg("lang/en").dir("text/common/info").items():
     global_append[k] = v["str"]

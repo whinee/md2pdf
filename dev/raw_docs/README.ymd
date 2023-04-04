@@ -9,19 +9,19 @@ title: '{{project_name}}'
 
 <p align="center">
     <a href="https://github.com/{{organization}}/{{repo_name}}/issues">
-        <img src="https://img.shields.io/github/issues/{{organization}}/{{repo_name}}.svg?style=for-the-badge&logo=data:image/png;base64,{{issues_b64}}">
+        <img src="https://img.shields.io/github/issues/{{organization}}/{{repo_name}}.svg?style=for-the-badge&logo=data:image/png;base64,{{issues_link}}">
     </a>
     <a href="https://github.com/{{organization}}/{{repo_name}}/network/members">
-        <img src="https://img.shields.io/github/forks/{{organization}}/{{repo_name}}.svg?style=for-the-badge&logo=data:image/png;base64,{{forks_b64}}">
+        <img src="https://img.shields.io/github/forks/{{organization}}/{{repo_name}}.svg?style=for-the-badge&logo=data:image/png;base64,{{forks_link}}">
     </a>
     <a href="https://github.com/{{organization}}/{{repo_name}}/stargazers">
-        <img src="https://img.shields.io/github/stars/{{organization}}/{{repo_name}}.svg?style=for-the-badge&logo=data:image/png;base64,{{stars_b64}}">
+        <img src="https://img.shields.io/github/stars/{{organization}}/{{repo_name}}.svg?style=for-the-badge&logo=data:image/png;base64,{{stars_link}}">
     </a>
     <a href="https://github.com/{{organization}}/{{repo_name}}/graphs/contributors">
-        <img src="https://img.shields.io/github/contributors/{{organization}}/{{repo_name}}.svg?style=for-the-badge&logo=data:image/png;base64,{{contributors_b64}}">
+        <img src="https://img.shields.io/github/contributors/{{organization}}/{{repo_name}}.svg?style=for-the-badge&logo=data:image/png;base64,{{contributors_link}}">
     </a>
     <a href="https://{{site}}/license.html">
-        <img src="https://img.shields.io/badge/LICENSE-A31F34?style=for-the-badge&logoWidth=25&logo=data:image/png;base64,{{license_b64}}">
+        <img src="https://img.shields.io/badge/LICENSE-A31F34?style=for-the-badge&logoWidth=25&logo=data:image/png;base64,{{license_link}}">
     </a>
 </p>
 <p align="center">
@@ -29,13 +29,13 @@ title: '{{project_name}}'
         <img alt="wakatime" src="https://wakatime.com/badge/user/{{wakatime_user_id}}/project/{{wakatime_project_id}}.svg?style=for-the-badge">
     </a>
     <a href="https://app.codacy.com/gh/{{organization}}/{{repo_name}}/dashboard">
-        <img alt="Codacy Badge" src="https://img.shields.io/codacy/grade/{{codacy_id}}?style=for-the-badge&logo=data:image/png;base64,{{code_b64}}">
+        <img alt="Codacy Badge" src="https://img.shields.io/codacy/grade/{{codacy_id}}?style=for-the-badge&logo=data:image/png;base64,{{code_link}}">
     </a>
     <a href="https://github.com/{{organization}}/{{repo_name}}/releases">
-        <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/{{organization}}/{{repo_name}}?include_prereleases&style=for-the-badge&logo=data:image/png;base64,{{package_b64}}">
+        <img alt="GitHub release (latest by date including pre-releases)" src="https://img.shields.io/github/v/release/{{organization}}/{{repo_name}}?include_prereleases&style=for-the-badge&logo=data:image/png;base64,{{package_link}}">
     </a>
     <a href="https://github.com/{{organization}}/{{repo_name}}/releases">
-        <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/{{organization}}/{{repo_name}}/build.yml?branch=main&label=Build&style=for-the-badge&logo=data:image/png;base64,{{rocket_b64}}">
+        <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/{{organization}}/{{repo_name}}/build.yml?branch=main&label=Build&style=for-the-badge&logo=data:image/png;base64,{{rocket_link}}">
     </a>
 </p>
 <p align="center">
