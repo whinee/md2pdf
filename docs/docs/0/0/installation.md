@@ -77,7 +77,7 @@
 15. Copy the following text:
 
     ```sh
-    python3 -m pip install wh_m2p
+    python3 -m pip install wh-m2p
     ```
 
     Then, repeat step 12.
@@ -135,7 +135,7 @@ Then doing the following steps:
 4. Install md2pdf by running the following command:
 
     ```sh
-    python3 -m pip install wh_m2p
+    python3 -m pip install wh-m2p
     ```
 
 Congratulations, you can now use md2pdf by running the following:
@@ -226,7 +226,7 @@ python3 -m md2pdf
 3. Finally, install md2pdf by running the following command:
 
     ```sh
-    python3 -m pip install wh_m2p
+    python3 -m pip install wh-m2p
     ```
 
 Congratulations, you can now use md2pdf by running the following:

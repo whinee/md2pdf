@@ -23,7 +23,7 @@ md_vars:
     project_name: md2pdf
     repo_name: md2pdf
     command_name: m2p
-    pip_name: wh_m2p
+    pip_name: wh-m2p
     site: m2p.whinyaan.xyz
     organization: whinee
     author: whi~nyaan!

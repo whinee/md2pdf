@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "wh_m2p"
+name = "wh-m2p"
 license = "MIT"
 version = "0.0.1-alpha.0"
 description = ""
