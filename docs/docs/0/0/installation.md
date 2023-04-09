@@ -20,29 +20,29 @@
 
 2. Press `Win`. An interface should pop up as shown below:
 
-    ![1](/assets/images/prerequisites/python/windows/1.png)
+    ![1](/docs/assets/images/prerequisites/python/windows/1.png)
 
 3. Search for settings by typing "`Settings`" in the text field as shown below:
 
-    ![2](/assets/images/prerequisites/python/windows/2.png)
+    ![2](/docs/assets/images/prerequisites/python/windows/2.png)
 
     Press `Enter`.
 
 4. A window should pop up as shown below:
 
-    ![3](/assets/images/prerequisites/python/windows/3.png)
+    ![3](/docs/assets/images/prerequisites/python/windows/3.png)
 
     Press "`Apps`" in the selection below.
 
 5. You should be redirected to "`Apps & Features`" as shown below:
 
-    ![4](/assets/images/prerequisites/python/windows/4.png)
+    ![4](/docs/assets/images/prerequisites/python/windows/4.png)
 
     Below the subtitle "`Apps & Features`", press the hyperlink "`App execution aliases`".
 
 6. You should be redirected to "`App execution aliases`" as shown below:
 
-    ![5](/assets/images/prerequisites/python/windows/5.png)
+    ![5](/docs/assets/images/prerequisites/python/windows/5.png)
 
     Toggle the "`App installer`" for both "`python.exe`" and "`python3.exe`". Exit the settings app.
 
@@ -50,13 +50,13 @@
 
 8. A window with a title `Run` should appear. Focus to the said window in the `Open:` text field by hovering the mouse towards the said text field and left-clicking the mouse and type `powershell` as shown below:
 
-    ![](/assets/images/run_box_ps.png)
+    ![](/docs/assets/images/run_box_ps.png)
 
 9. Press `Ctrl` + `Shift` + `Enter` (Press `Ctrl`, `Shift`, and `Enter` keys simultaneously).
 
 10. A window with a title `User Account Control` should appear as shown below:
 
-    ![](/assets/images/UAC_ps.png)
+    ![](/docs/assets/images/UAC_ps.png)
 
 11. Focus to the said window and press the `Yes` button by hovering the mouse towards the said button and left-clicking the mouse. A window named `Administrator: Windows Powershell` should pop-up.
 
@@ -100,7 +100,7 @@ Then doing the following steps:
 
 2. A window with a title `Run` should appear. Focus to the said window in the `Open:` text field by hovering the mouse towards the said text field and left-clicking the mouse and type `powershell` as shown below:
 
-    ![](/assets/images/run_box_ps.png)
+    ![](/docs/assets/images/run_box_ps.png)
 
 3. Press `Enter`.
 

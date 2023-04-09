@@ -1,5 +1,5 @@
 <h1 align="center" style="font-weight: bold">
-    0.0.x.x
+    Version 0.0.x.x
 </h1>
 
 - [Markdown Implementation](markdown.md)

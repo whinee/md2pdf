@@ -8,7 +8,7 @@
 
 <h2 id="doing"><b><a href="#doing">Doing</a></b></h2>
 
-- Starting packaging the whole thing up for release
+- Polishing features for future stable releases
 
 <h2 id="what-is-this"><b><a href="#what-is-this">What is this?</a></b></h2>
 

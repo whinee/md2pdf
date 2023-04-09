@@ -2,7 +2,7 @@ import json
 import os
 import re
 import shutil
-from collections.abc import Callable
+from collections.abc import Callable, Generator
 from functools import partial
 from io import StringIO
 from os import listdir
@@ -17,7 +17,7 @@ import pypandoc
 import yaml
 from mako.template import Template
 
-from .md_vars import VYML, YML, init
+from .md_vars import VYML, YML
 from .utils import cycle_2ls, inmd, noop, repl, run
 
 # Constants
@@ -32,23 +32,29 @@ ul{
 </style>
 """
 
-AW = '<a href="#{id}">{content}</a>'
+AW = '<a href="#{id}">{content}</a>'  # A tag
 HW = '<h{n} id="{id}">{title}</h{n}>\n'
-HA_DEF_STYLE = "<b>{}</b>"
-HA_RSTYLE = [HA_DEF_STYLE, "<b><i>{}</i></b>", "{}", "<i>{}</i>"]
+HA_DEF_STYLE = "<b>{}</b>"  # Header All Default Style
+HA_RSTYLE = [
+    HA_DEF_STYLE,
+    "<b><i>{}</i></b>",
+    "{}",
+    "<i>{}</i>",
+]  # Header All Repeated Style
 H1 = '<h1 align="center" style="font-weight: bold">\n    {}\n</h1>\n\n'
 H1_MD = H1 + "{}\n"
 H1_LINK_MD = H1.format('<a target="_blank" href="{}">{}</a>') + "{}\n"
+SMH = '\n\n## **<a href="#sub" id="sub">Sub-modules</a>**\n\n{}\n'  # sub-module heading
 
-RE_MDSE_FMT = r"(?<=# {key} start\n).+(?=\n\s*# {key} end)"
+RE_MDSE_FMT = r"(?<=# \[DO NOT MODIFY\] {key} start\n).+(?=\n\s*# {key} end)"
 
-INFO_TPLS = {
-    "site_name": [None, ["project_name"]],
-    "site_url": ["https://{}", ["site"]],
-    "repo_url": ["https://github.com/{}/{}", ["organization", "repo_name"]],
-    "site_description": [None, ["long_desc"]],
-    "site_author": [None, ["author"]],
-    "copyright": ["Copyright &copy; {} {}", ["year", "author"]],
+INFO_TPLS: dict[str, tuple[None, list[str]] | tuple[str, list[str]]] = {
+    "site_name": (None, ["project_name"]),
+    "site_url": ("https://{}", ["site"]),
+    "repo_url": ("https://github.com/{}/{}", ["organization", "repo_name"]),
+    "site_description": (None, ["long_desc"]),
+    "site_author": (None, ["author"]),
+    "copyright": ("Copyright &copy; {} {}", ["year", "author"]),
 }
 
 # Derived Constants
@@ -60,7 +66,16 @@ PDOC = YML["pdoc"]
 MAKO = YML["mako"]
 DOCS = YML["docs"]
 
-IDF = Path(DOCS["input"])
+DOCS_INPUT = DOCS["input"]  # Docs Input Directory
+DOCS_IP_DOCS = os.path.join(DOCS_INPUT, DOCS["docs"])  # Docs Input Docs Directory
+DOCS_OP = DOCS["op"]  # Docs Output Directory
+DOCS_OP_TMP = DOCS["op_tmp"]  # Docs Temporary Output Directory
+DOCS_OP_SITE = DOCS["op_site"]  # Docs Site Output Directory
+DOCS_OP_DOCS = os.path.join(DOCS_OP, DOCS["docs"])  # Docs Outpot Docs Directory
+
+MKDOCS_MOD_DOCS = {"docs_dir": DOCS_OP_TMP, "site_dir": DOCS_OP_SITE}
+with open("mkdocs.yml") as f:
+    MKDOCS_YML = f.read()
 
 HTI_RF = re.compile(r"[\s\d\w]+", re.MULTILINE | re.DOTALL | re.UNICODE).findall
 TOMD_RS = partial(re.compile("-{2,}").sub, "-")
@@ -68,7 +83,7 @@ TOMD_RS = partial(re.compile("-{2,}").sub, "-")
 CONTEXT = pdoc.Context()
 PROJECT = pdoc.Module(PDOC["project"], context=CONTEXT)
 pdoc.link_inheritance(CONTEXT)
-pdoc.tpl_lookup = pdoc.TemplateLookup(directories=[PDOC["tpl"]])
+pdoc.tpl_lookup = pdoc.TemplateLookup(directories=PDOC["tpl"])
 
 H1_STYLE = HA_RSTYLE[0]
 
@@ -82,7 +97,7 @@ class Constants:
 
 
 # Function Initialization
-def str_presenter(dumper, data: str):
+def str_presenter(dumper, data: str) -> Any:
     if len(data.splitlines()) > 1:  # check for multiline string
         return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
     return dumper.represent_scalar("tag:yaml.org,2002:str", data)
@@ -96,13 +111,20 @@ for i, j in cycle_2ls(range(HA_VNS, HA_VNE + 1), HA_RSTYLE):
     if j == H1_STYLE:
         hs += 1
     HA_STYLE[i] = [hs, j]
-# pprint(HA_STYLE)
 
+ld = -1
 
 yaml.add_representer(str, str_presenter)
 
 
 # Functions
+def mkdocs_mod(key: str, repl_str: str | list[Any] | dict[str, Any]) -> None:
+    global MKDOCS_YML
+    if not isinstance(repl_str, str):
+        repl_str = yaml.dump(repl_str, indent=2, sort_keys=False).rstrip()
+    MKDOCS_YML = re.sub(RE_MDSE_FMT.format(key=key), repl_str, MKDOCS_YML, 0, re.S)
+
+
 def dd(
     od: dict[str, list[str]],
     *dicts: list[dict[str, list[str]]],
@@ -115,26 +137,24 @@ def dd(
     return od
 
 
-def docs_dir(mn: str, absolute: bool = True, api=False) -> str:
+def pdoc_dir(mn: str) -> str:
+    """mn: module name."""
     mls = mn.split(".")
     if (len(mls) == 1) and (PDOC["project"] == mls[0]):
         mls[0] = "index"
     elif (len(mls) >= 2) and (PDOC["project"] == mls[0]):
         del mls[0]
-    rel_ls = [*[str(i) for i in VLS[0:2]], *mls[:-1], f"{mls[-1]}.md"]
-    if api:
-        rel_ls.insert(2, "api")
-        rel_ls.insert(0, "docs")
-    rel = os.path.join(*rel_ls)
-    abs = os.path.join(PDOC["op"], rel)
+
+    abs = os.path.join(
+        DOCS_OP_DOCS, *[str(i) for i in VLS[0:2]], "api", *mls[:-1], f"{mls[-1]}.md",
+    )
+
     inmd(abs)
-    if absolute:
-        return abs
-    else:
-        return rel
+
+    return abs
 
 
-def elem_str(elem) -> str:
+def elem_str(elem: panflute.Inline) -> str:
     op = []
     for i in elem.walk(noop):
         if isinstance(i, panflute.Str):
@@ -146,11 +166,8 @@ def get_header_id(h: panflute.Header) -> str:
     return TOMD_RS("-".join(HTI_RF(elem_str(h).lower().strip())).replace(" ", "-"))
 
 
-ld = -1
-
-
-def pf_set_element():
-    def inner(d: list[Any], lvl: int, elem, og_lvl: Optional[int] = None):
+def pf_set_element() -> Callable[..., None]:
+    def inner(d: list[Any], lvl: int, elem, og_lvl: Optional[int] = None) -> None:
         global ld
         if og_lvl is None:
             og_lvl = lvl
@@ -166,7 +183,7 @@ def pf_set_element():
     return inner
 
 
-def pfelem2md(elem, doc):
+def pfelem2md(elem, doc) -> str:
     return pypandoc.convert_text(
         json.dumps(
             {
@@ -184,7 +201,9 @@ def rules_fn(rules: dict[Any, Any]) -> dict[str, list[str]]:
     return dd({"": rules.get("del", [])}, rules["repl"])
 
 
-def sh_ltf_inner(toc_ls, res_ls, elem, iid) -> None:
+def sh_ltf_inner(
+    toc_ls: list[str], res_ls: list[list[str]], elem: panflute.Header, iid: str,
+) -> None:
     op = []
     for i in elem.content.walk(noop):
         if isinstance(i, panflute.Str):
@@ -203,7 +222,9 @@ def sh_ltf_inner(toc_ls, res_ls, elem, iid) -> None:
     )
 
 
-def sh_inner(toc_ls, res_ls, elem, iid) -> None:
+def sh_inner(
+    toc_ls: list[str], res_ls: list[list[str]], elem: panflute.Header, iid: str,
+) -> None:
     op = []
     for i in elem.content.walk(noop):
         if isinstance(i, panflute.Str):
@@ -222,7 +243,9 @@ def sh_inner(toc_ls, res_ls, elem, iid) -> None:
     )
 
 
-def style_header(toc_ls, res_ls, lower_than_four) -> Callable[..., None]:
+def style_header(
+    toc_ls: list[str], res_ls: list[list[str]], lower_than_four: bool,
+) -> Callable[..., None]:
     if lower_than_four:
         _si = partial(sh_ltf_inner, toc_ls, res_ls)
     else:
@@ -251,118 +274,119 @@ def style_header(toc_ls, res_ls, lower_than_four) -> Callable[..., None]:
     return inner
 
 
-def style_header_init(hls, se):
-    def inner(elem, doc):
+def style_header_init(hls, se) -> Callable[..., None]:
+    def inner(elem: panflute.Element, doc: panflute.Doc) -> None:
         if isinstance(elem, panflute.Header):
             se(hls, elem.level - 2, elem)
 
     return inner
 
 
-def yield_text(mod):
+def yield_text(mod: pdoc.Module) -> Generator[Any, None, None]:
     yield mod.name, mod.text()
     sm = {}
     for submod in mod.submodules():
-        sm[submod.name] = docs_dir(submod.name, api=True)
+        sm[submod.name] = pdoc_dir(submod.name)
         yield from yield_text(submod)
 
-    if sm:
-        header = []
-        idx_path = docs_dir(mod.name, api=True)
+    if not sm:
+        return
 
-        print(f"Generating {idx_path}")
+    header_ls: list[str] = []
+    idx_path = pdoc_dir(mod.name)
 
-        m, *ls = mod.name.split(".")
-        for idx, i in enumerate(ls[::-1]):
-            header.append(f'[{i}]({"../" * idx}{i}.md)')
-        header = ".".join(
-            [f"[{m}](" + "../" * (len(ls) - 1) + "index.md)"] + header[::-1],
-        )
+    print(f"Generating {idx_path}")
 
-        if sum := mod.supermodule:
-            docs_dir(sum.name, api=True)
-            sum = f'\n\n## **<a href="#super" id="super">Super-module</a>**\n- [{sum.name}](index.md)\n'
+    m, *ls = mod.name.split(".")
+    for idx, i in enumerate(ls[::-1]):
+        header_ls.append(f'[{i}]({"../" * idx}{i}.md)')
+    header = ".".join(
+        [f"[{m}](" + "../" * (len(ls) - 1) + "index.md)"] + header_ls[::-1],
+    )
+
+    if sum := mod.supermodule:
+        pdoc_dir(sum.name)
+        sum = f'\n\n## **<a href="#super" id="super">Super-module</a>**\n- [{sum.name}](index.md)\n'
+    else:
+        sum = ""
+
+    smls = []
+    for k, v in sm.items():
+        v = "/".join(v.split("/")[5:])
+        smls.append(f"- [{k}]({v})")
+
+    idx = """# **{}**{}{}""".format(
+        header,
+        sum,
+        SMH.format("\n".join(smls)),
+    )
+
+    with open(idx_path, "w") as f:
+        f.write(idx)
+
+
+def ymd2md(
+    rmv_rm: dict[str, dict[str, list[str]]],
+    rmv_mv_g: dict[str, str],
+    rmv_mv_l: dict[str, dict[str, str]],
+    rip: Path,
+) -> None:
+    fm = {}
+    hls: list[Any] = []
+    toc_ls: list[str] = []
+    res_ls: list[list[str]] = []
+    tp = False
+
+    out = os.path.join(DOCS_OP, *rip.parts[2:-1], f"{rip.stem}.md")
+
+    print(f"Generating {out}")
+
+    rf = frontmatter.load(rip)
+    md = repl(rf.content, rules_fn(rmv_rm))
+    md_data: str = pypandoc.convert_text(md, "json", format="md")
+    d = dict(  # type: ignore[call-overload]
+        rmv_mv_g,
+        **rmv_mv_l.get(rip.stem, {}),
+    )
+
+    if title := rf.get("title"):
+        fm["title"] = title
+        if link := rf.get("link"):
+            md = H1_LINK_MD.format(link, title, md)
         else:
-            sum = ""
+            md = H1_MD.format(title, md)
 
-        smls = []
-        for k, v in sm.items():
-            v = "/".join(v.split("/")[5:])
-            smls.append(f"- [{k}]({v})")
-        sm = '\n\n## **<a href="#sub" id="sub">Sub-modules</a>**\n\n{}\n'.format(
-            "\n".join(smls),
-        )
+    for k, v in d.items():
+        md = md.replace("{{" + k + "}}", str(v))
 
-        idx = """# **{}**{}{}""".format(
-            header,
-            sum,
-            sm,
-        )
+    panflute.run_filter(
+        style_header_init(hls, pf_set_element()),
+        doc=panflute.load(StringIO(md_data)),
+    )
+    style_header(toc_ls, res_ls, bool(H5_RE))(hls)
 
-        with open(idx_path, "w") as f:
-            f.write(idx)
+    for k, v in res_ls:
+        if not tp:
+            toc_html = pypandoc.convert_text("\n".join(toc_ls), "html", format="md")
+            toc_html = toc_html.replace(">\n<", "><").strip().replace("\n", " ")
+            v = '\n<div class="toc">' + TOC_H2 + toc_html + "</div>\n\n" + v
+            tp = True
+        md = md.replace(k, v, 1)
+
+    with open(inmd(out), "w") as f:
+        f.write(md)
 
 
-def main(rmv: dict[Any, Any] = {}):
-    docs_pdir = DOCS["op"]
-    rmv_r = rmv["rules"]
-    rmv_mv = rmv["md_vars"]
-    rmv_mv_g = rmv_mv["global"]
-
-    init()
-
-    for rip in list(IDF.rglob("*.ymd")):
-        fm = {}
-        hls = []
-        toc_ls = []
-        res_ls = []
-        tp = False
-
-        out = os.path.join(docs_pdir, *rip.parts[2:-1], f"{rip.stem}.md")
-
-        print(f"Generating {out}")
-
-        rf = frontmatter.load(rip)
-        md = repl(rf.content, rules_fn(rmv_r))
-        md_data = pypandoc.convert_text(md, "json", format="md")
-        d = dict(
-            rmv_mv_g,
-            **rmv_mv.dir(f"local/{rip.stem}", {}),
-        )
-
-        if title := rf.get("title"):
-            fm["title"] = title
-            if link := rf.get("link"):
-                md = H1_LINK_MD.format(link, title, md)
-            else:
-                md = H1_MD.format(title, md)
-
-        for k, v in d.items():
-            md = md.replace("{{" + k + "}}", str(v))
-
-        panflute.run_filter(
-            style_header_init(hls, pf_set_element()),
-            doc=panflute.load(StringIO(md_data)),
-        )
-        style_header(toc_ls, res_ls, bool(H5_RE))(hls)
-
-        for k, v in res_ls:
-            if not tp:
-                toc_html = pypandoc.convert_text("\n".join(toc_ls), "html", format="md")
-                toc_html = toc_html.replace(">\n<", "><").strip().replace("\n", " ")
-                v = '\n<div class="toc">' + TOC_H2 + toc_html + "</div>\n\n" + v
-                tp = True
-            md = md.replace(k, v, 1)
-
-        with open(inmd(out), "w") as f:
-            f.write(md)
-
+def src_docs() -> None:
     for module_name, yt in yield_text(PROJECT):
-        _dd = docs_dir(module_name, api=True)
+        _dd = pdoc_dir(module_name)
         print(f"Generating {_dd}")
         with open(_dd, "w") as f:
             f.write(yt)
 
+
+def mako2md() -> None:
+    # Initialize Variables
     makos = []
 
     for g in MAKO["gen"]["glob"]:
@@ -379,53 +403,53 @@ def main(rmv: dict[Any, Any] = {}):
     for ip in makos:
         pip = Path(ip)
         stem = "README" if pip.stem == "index" else pip.stem
-        op = os.path.join(docs_pdir, *pip.parts[2:-1], f"{stem}.md")
+        op = os.path.join(DOCS_OP, *pip.parts[2:-1], f"{stem}.md")
         mytemplate = Template(filename=ip)
-        tpl_rd = mytemplate.render(
-            **{
-                "cwd": dn(ip),
-            },
-        )
+        tpl_rd = mytemplate.render(cwd=dn(ip))
         with open(op, "w") as f:
             f.write(tpl_rd)
 
-    op_base = "docs"
-    base = "dev/raw_docs/docs"
 
+def ver_docs() -> str:
     ndd = {}
-    u_ls = sorted(listdir(base), reverse=True)
-    with open(os.path.join(docs_pdir, op_base, "README.md"), "w") as f:
+    u_ls = sorted(listdir(DOCS_IP_DOCS), reverse=True)
+    with open(os.path.join(DOCS_OP_DOCS, "README.md"), "w") as f:
         f.write(
             H1.format("All Version")
             + "\n".join(f"- [Version {u}.x.x.x]({u}/README.md)" for u in u_ls),
         )
     for u in u_ls:
-        d_ls = sorted(listdir(os.path.join(base, u)), reverse=True)
+        d_ls = sorted(listdir(os.path.join(DOCS_IP_DOCS, u)), reverse=True)
         with open(
-            os.path.join(os.path.join(docs_pdir, op_base, u), "README.md"),
+            os.path.join(DOCS_OP_DOCS, u, "README.md"),
             "w",
         ) as f:
             f.write(
                 H1.format(f"Version {u}.x.x.x")
                 + "\n".join(f"- [Version {u}.{d}.x.x]({d}/README.md)" for d in d_ls),
             )
+
         for d in d_ls:
-            ndd[f"{u}.{d}"] = os.path.join(op_base, u, d)
+            with open(os.path.join(DOCS_IP_DOCS, u, d, "index.mmd")) as f:
+                md_op = f.read()
+
+            with open(os.path.join(DOCS_OP_DOCS, u, d, "README.md"), "w") as f:
+                f.write(H1.format(f"Version {u}.{d}.x.x") + md_op)
+
+            ndd[f"{u}.{d}"] = os.path.join(DOCS_OP, u, d)
 
     lk = list(ndd.keys())[-1]
     ndd[f"{lk} (Current)"] = ndd.pop(lk)
 
-    new_ndd = {}
-    for k, v in reversed(ndd.items()):
-        new_ndd[k] = v
-    nd = yaml.dump(new_ndd, default_flow_style=False)
+    nd = yaml.dump(dict(reversed(ndd.items())), default_flow_style=False)
+    return "\n".join([f"    - {i}" for i in nd.strip().split("\n")][::-1])
 
-    nd = "\n".join([f"    - {i}" for i in nd.strip().split("\n")][::-1])
 
-    with open("mkdocs.yml") as f:
-        mkdocs = f.read()
-
+def mkdocs_build(rmv_mv_g: dict[str, str], rmv_rs) -> None:
     info_yml = {}
+
+    nd = ver_docs()
+
     for k, (f, kls) in INFO_TPLS.items():
         vd = {i: rmv_mv_g.get(i, None) for i in kls}
         if f is None:
@@ -433,16 +457,58 @@ def main(rmv: dict[Any, Any] = {}):
         else:
             op = f.format(*vd.values(), **vd)
         info_yml[k] = op
-    mkdocs = re.sub(
-        RE_MDSE_FMT.format(key="info"),
-        yaml.dump(info_yml, indent=2, sort_keys=False),
-        mkdocs,
-        0,
-        re.S,
-    )
+
+    # Modify `mkdocs.yml`
+    mkdocs_mod("info", info_yml)
+    mkdocs_mod("dir", MKDOCS_MOD_DOCS)
+    mkdocs_mod("nav docs", nd)
 
     with open("mkdocs.yml", "w") as f:
-        f.write(re.sub(RE_MDSE_FMT.format(key="nav docs"), nd, mkdocs, 0, re.S))
+        f.write(MKDOCS_YML)
     shutil.copy("mkdocs.yml", "mkdocs.bak.yml")
 
+    for dirpath, _, filenames in os.walk(DOCS_OP):
+        for filename in filenames:
+            input_path = os.path.join(dirpath, filename)
+            with open(input_path) as f:
+                contents = f.read()
+                contents = repl(contents, rules_fn(rmv_rs))
+                # Modify the contents of the file here
+
+            # Create output directory if it doesn't exist
+            output_subdir = os.path.join(DOCS_OP_TMP, os.path.relpath(dirpath, DOCS_OP))
+            os.makedirs(output_subdir, exist_ok=True)
+
+            output_path = os.path.join(output_subdir, filename)
+            with open(output_path, "w") as f:
+                f.write(contents)
+
     run("mkdocs build")
+
+    shutil.rmtree(DOCS_OP_TMP)
+
+
+def main(rmv: dict[Any, Any]) -> None:
+    # Derived Constants
+    rmv_r = rmv["rules"]
+    rmv_mv = rmv["md_vars"]
+
+    rmv_rm = rmv_r["md"]
+    rmv_rs = rmv_r["site"]
+    rmv_mv_g = rmv_mv["global"]
+    rmv_mv_l = rmv_mv["local"]
+
+    if os.path.isdir(DOCS_OP):
+        shutil.rmtree(DOCS_OP)
+    ymd2md_fn = partial(ymd2md, rmv_rm, rmv_mv_g, rmv_mv_l)
+    for rip in list(Path(DOCS_INPUT).rglob("*.ymd")):
+        ymd2md_fn(rip)
+    src_docs()
+    mako2md()
+    if os.path.isdir(DOCS_OP_TMP):
+        shutil.rmtree(DOCS_OP_TMP)
+    shutil.copytree(
+        os.path.join(DOCS_INPUT, "assets"), os.path.join(DOCS_OP_TMP, "assets"),
+    )
+    mkdocs_build(rmv_mv_g, rmv_rs)
+    shutil.copytree(os.path.join(DOCS_INPUT, "assets"), os.path.join(DOCS_OP, "assets"))

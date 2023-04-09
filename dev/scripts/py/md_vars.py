@@ -1,6 +1,5 @@
 import base64
 import os
-import shutil
 from datetime import date
 from glob import glob
 
@@ -52,13 +51,6 @@ def b64(fn: str) -> str:
 
 def vrcfg(file: str):
     return rcfg(os.path.join(*VER_DIR, f"{file}.yml"))
-
-
-def init() -> None:
-    if os.path.isdir("docs"):
-        shutil.rmtree("docs")
-        os.makedirs("docs")
-    shutil.copytree("dev/raw_docs/assets/", "docs/assets/")
 
 
 if LICENSE["cholder"]:

@@ -1,18 +1,36 @@
-# Do Not Modify!
-# info start
+# This file is modifed by `dev/scripts/py/docs.py` before running `mkdocs build`
+# Please 
+
+# [DO NOT MODIFY] info start
 site_name: md2pdf
 site_url: https://m2p.whinyaan.xyz
 repo_url: https://github.com/whinee/md2pdf
 site_description: None
 site_author: whi~nyaan!
 copyright: Copyright &copy; 2023 whi~nyaan!
-
 # info end
 
+# [DO NOT MODIFY] dir start
+docs_dir: tmp/docs
 site_dir: dev/site
+# dir end
 
 extra_css:
   - assets/stylesheets/extra.css
+
+nav:
+  - Home: /
+  - Frequently Asked Questions: /faq
+  - License Agreement: /license
+  - Changelog: /changelog
+  - Latest Bump: /latest-bump
+  - Latest Commit: /latest-commit
+  - Notes to self: /notes-to-self
+
+  - Documentation:
+  # [DO NOT MODIFY] nav docs start
+    - 0.0 (Current): docs/0/0
+  # nav docs end
 
 theme:
   name: material
@@ -21,7 +39,7 @@ theme:
   search_index_only: true
   language: en
   favicon: assets/favicon.png
-  logo: assets/images/icons/logo-min.svg
+  logo: assets/images/icons/logo-min.svg 
 
   font:
     text: Roboto
@@ -70,22 +88,3 @@ extra:
 
 plugins:
   - search
-  # - minify:
-  #     minify_html: true
-  #     minify_css: true
-  #     minify_js: true
-
-nav:
-  - Home: /
-  - Frequently Asked Questions: /faq
-  - License Agreement: /license
-  - Changelog: /changelog
-  - Latest Bump: /latest-bump
-  - Latest Commit: /latest-commit
-  - Notes to self: /notes-to-self
-
-  # Do Not Modify!
-  - Documentation:
-  # nav docs start
-    - 0.0 (Current): docs/0/0
-  # nav docs end

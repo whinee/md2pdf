@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/whinee/md2pdf">
-        <img alt="logo" src="/assets/images/icons/logo.png">
+        <img alt="logo" src="/docs/assets/images/icons/logo.png">
     </a>
 </p>
 

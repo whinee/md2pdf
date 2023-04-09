@@ -1,5 +1,5 @@
 import shlex
-from collections.abc import Iterable
+from collections.abc import Iterable, Sized
 from itertools import cycle
 from os import makedirs, path
 from subprocess import call
@@ -11,18 +11,23 @@ PR = ["alpha", "beta", "rc"]
 
 
 # Functions
-def cycle_2ls(a: list[Any], b: list[Any]) -> Iterable:
-    return zip(a, cycle(b)) if len(a) > len(b) else zip(cycle(a), b)
+def cycle_2ls(a: Sized, b: Sized) -> Iterable[Any]:
+    op: Iterable[Any] = (
+        zip(a, cycle(b), strict=False)
+        if len(a) > len(b)
+        else zip(cycle(a), b, strict=False)
+    )
+    return op
 
 
-def dnn(fn: str, n: str) -> str:
+def dnn(fn: str, n: int) -> str:
     op = fn
     for _ in range(n):
         op = path.dirname(op)
     return op
 
 
-def inmd(p: str, ls: Optional[list[str]] = None):
+def inmd(p: str, ls: Optional[list[str]] = None) -> str:
     """
     "If Not `path.isdir`, Make Directories".
 

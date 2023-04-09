@@ -1,11 +1,15 @@
 docs:
   input: dev/raw_docs
+  docs: docs # relative to `input`
   op: docs
+  op_tmp: tmp/docs
+  op_site: dev/site
 
 pdoc:
   project: src
   op: docs
-  tpl: dev/constants/tpl/pdoc
+  tpl:
+    - dev/constants/tpl/pdoc
 
 mako:
   gen:
@@ -41,21 +45,25 @@ md_vars:
   local: {}
 
 rules:
-  del:
-  repl:
-    # 'src="https://{{site}}/assets':
-    #   - 'src="./assets'
-    # "src='https://{{site}}/assets":
-    #   - "src='./assets"
-    # "](https://{{site}}/assets":
-    #   - "](./assets"
+  md: 
+    del:
+    repl:
+  site:
+    del:
+    repl:
+      # 'src="https://{{site}}/assets':
+      #   - 'src="./assets'
+      # "src='https://{{site}}/assets":
+      #   - "src='./assets"
+      # "](https://{{site}}/assets":
+      #   - "](./assets"
 
-    'src="/assets':
-      - 'src="/docs/assets'
-    "src='/assets":
-      - "src='/docs/assets"
-    "](/assets":
-      - "](/docs/assets"
+      'src="/assets':
+        - 'src="/docs/assets'
+      "src='/assets":
+        - "src='/docs/assets"
+      "](/assets":
+        - "](/docs/assets"
 
 license:
   year: 2023
