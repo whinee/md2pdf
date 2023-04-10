@@ -186,8 +186,8 @@ Check the [LICENSE](LICENSE.md) for more details.
 
 - [Frequently Asked Questions](faq.md)
 - [License Agreement](license.md)
-- [Latest Documentation (0.0.x.x)](docs/0/0/index.md)
-- [All Documentation](docs/index.md)
+- [Latest Documentation (0.0.x.x)](docs/0/0/README.md)
+- [All Documentation](docs/README.md)
 - [Changelog](changelog.md)
 - [Latest Bump](latest-bump.md)
 - [Latest Commit](latest-commit.md)
