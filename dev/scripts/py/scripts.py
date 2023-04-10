@@ -23,9 +23,6 @@ VER_DIR = f"dev/constants/version/{VLS[0]}/{VLS[1]}"
 
 SCRIPTS = rcfg(f"{VER_DIR}/scripts/meta.yml")
 
-with open("requirements.txt") as f:
-    REQ = f.read().split("\n")
-
 PG = {
     "prerel": not (VLS[-2] == 3),
     "ver_dir": VER_DIR,

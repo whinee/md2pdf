@@ -1,26 +1,12 @@
-<p align="center">
-    <a href="https://github.com/whinee/md2pdf">
-        <img alt="logo" src="/docs/assets/images/icons/logo.png">
-    </a>
-</p>
-
 <h1 align="center" style="font-weight: bold">
     md2pdf
 </h1>
 
-<!-- Description. Preferably 1 sentence long. -->
-<h2 align="center" style="font-weight: bold">
-    Markdown to PDF converter
-</h2>
-
----
-
-<!-- Motto section. Preferably 2-5 sentences long. -->
-<h4 align="center">
-For writing faster? No. For writing with *class*? Yusss
-</h4>
-
----
+<p align="center">
+    <a href="https://github.com/whinee/md2pdf">
+        <img alt="logo" src="/docs/assets/images/banner.png">
+    </a>
+</p>
 
 <p align="center">
     <a href="https://github.com/whinee/md2pdf/issues">
@@ -79,7 +65,7 @@ Interested in commissioning projects? Inquire through Discord(<a target="_blank"
 
 <h2 id="important"><b><a href="#important">Important</a></b></h2>
 
-md2pdf is still in Unreleased Alpha Development Stage.
+md2pdf is still in Development Stage.
 
 Using the program at this stage is not recommended.
 

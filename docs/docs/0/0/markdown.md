@@ -20,7 +20,7 @@ md2pdf extended the base implementation, and hereinunder are the details.
 
 <h2 id="extended-syntax-page-breaks"><b><i><a href="#extended-syntax-page-breaks">Page Breaks</a></i></b></h2>
 
-Page breaks can be denoted by the following:
+Page breaks is denoted by the following:
 
 ```md
 <<<<>>>>
@@ -28,7 +28,7 @@ Page breaks can be denoted by the following:
 
 It needs to be separated from the other blocks by at least a single new line (both before and after it) for it to work.
 
-For more information on how whi~nyaan! came up with the idea of page breaks, refer to [this link](considerations.md#page-breaks).
+For more information on how whi~nyaan! came up with the idea of page breaks, refer to [this link](../../../considerations.md#page-breaks).
 
 <h2 id="extended-syntax-math-expression"><b><i><a href="#extended-syntax-math-expression">Math Expression</a></i></b></h2>
 

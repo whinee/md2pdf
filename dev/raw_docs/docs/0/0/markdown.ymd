@@ -16,7 +16,7 @@ And oh yes, this is an arguably messy implementation of Markdown, as opposed to 
 
 ### Page Breaks
 
-Page breaks can be denoted by the following:
+Page breaks is denoted by the following:
 
 ```md
 <<<<>>>>
@@ -24,7 +24,7 @@ Page breaks can be denoted by the following:
 
 It needs to be separated from the other blocks by at least a single new line (both before and after it) for it to work.
 
-For more information on how {{author}} came up with the idea of page breaks, refer to [this link](considerations.md#page-breaks).
+For more information on how {{author}} came up with the idea of page breaks, refer to [this link](../../../considerations.md#page-breaks).
 
 ### Math Expression
 

@@ -157,45 +157,15 @@ python3 -m md2pdf
 1. Open your preferred terminal and run the following command to install the prerequisites:
 
     ```sh
-    curl -q 'https://proget.makedeb.org/debian-feeds/prebuilt-mpr.pub' | gpg --dearmor | sudo tee /usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg 1> /dev/null
-    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/prebuilt-mpr-archive-keyring.gpg] https://proget.makedeb.org prebuilt-mpr $(lsb_release -cs)" | sudo tee /etc/apt/sources.list.d/prebuilt-mpr.list
     sudo apt update -y
-    sudo apt install -y just nodejs python3-pip
+    sudo apt install -y python3-pip
     ```
 
-2. Then, install katex with npm by running the following command:
+2. Finally, install md2pdf by running the following command:
 
     ```sh
-    npm install katex
+    python3 -m pip install wh-m2p
     ```
-
-3. <font color="#2aba0f">[RECOMMENDED]</font> Change directory to desired one
-
-    It is recommended to change directory to where you want to fiddle around with the project at, by replacing the `<dir>` in the following text to your desired directory in your machine, and running it as a command:
-
-    ```sh
-    cd <dir>
-    ```
-
-4. Clone the repository by running the following command:
-
-    ```sh
-    git clone https://github.com/whinee/md2pdf
-    ```
-
-5. Finally, bootstrap your development environment by running the following command:
-
-    ```sh
-    just bootstrap
-    ```
-
-6. Every time you open the terminal, run the following command:
-
-    ```sh
-    just dev
-    ```
-
-    It should give you instructions on what to do.
 
 Congratulations, you can now use md2pdf by running the following:
 
@@ -217,13 +187,7 @@ python3 -m md2pdf
     sudo pacman -Syyu --noconfirm python
     ```
 
-2. Then, install katex with npm by running the following command:
-
-    ```sh
-    npm install katex
-    ```
-
-3. Finally, install md2pdf by running the following command:
+2. Finally, install md2pdf by running the following command:
 
     ```sh
     python3 -m pip install wh-m2p

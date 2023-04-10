@@ -146,7 +146,11 @@ def pdoc_dir(mn: str) -> str:
         del mls[0]
 
     abs = os.path.join(
-        DOCS_OP_DOCS, *[str(i) for i in VLS[0:2]], "api", *mls[:-1], f"{mls[-1]}.md",
+        DOCS_OP_DOCS,
+        *[str(i) for i in VLS[0:2]],
+        "api",
+        *mls[:-1],
+        f"{mls[-1]}.md",
     )
 
     inmd(abs)
@@ -202,7 +206,10 @@ def rules_fn(rules: dict[Any, Any]) -> dict[str, list[str]]:
 
 
 def sh_ltf_inner(
-    toc_ls: list[str], res_ls: list[list[str]], elem: panflute.Header, iid: str,
+    toc_ls: list[str],
+    res_ls: list[list[str]],
+    elem: panflute.Header,
+    iid: str,
 ) -> None:
     op = []
     for i in elem.content.walk(noop):
@@ -223,7 +230,10 @@ def sh_ltf_inner(
 
 
 def sh_inner(
-    toc_ls: list[str], res_ls: list[list[str]], elem: panflute.Header, iid: str,
+    toc_ls: list[str],
+    res_ls: list[list[str]],
+    elem: panflute.Header,
+    iid: str,
 ) -> None:
     op = []
     for i in elem.content.walk(noop):
@@ -244,7 +254,9 @@ def sh_inner(
 
 
 def style_header(
-    toc_ls: list[str], res_ls: list[list[str]], lower_than_four: bool,
+    toc_ls: list[str],
+    res_ls: list[list[str]],
+    lower_than_four: bool,
 ) -> Callable[..., None]:
     if lower_than_four:
         _si = partial(sh_ltf_inner, toc_ls, res_ls)
@@ -508,7 +520,8 @@ def main(rmv: dict[Any, Any]) -> None:
     if os.path.isdir(DOCS_OP_TMP):
         shutil.rmtree(DOCS_OP_TMP)
     shutil.copytree(
-        os.path.join(DOCS_INPUT, "assets"), os.path.join(DOCS_OP_TMP, "assets"),
+        os.path.join(DOCS_INPUT, "assets"),
+        os.path.join(DOCS_OP_TMP, "assets"),
     )
     mkdocs_build(rmv_mv_g, rmv_rs)
     shutil.copytree(os.path.join(DOCS_INPUT, "assets"), os.path.join(DOCS_OP, "assets"))
