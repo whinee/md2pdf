@@ -17,7 +17,6 @@ tar -xzf katex.tar.gz -C tmp/katex --strip-components=1
 rm -rf katex.tar.gz
 
 cd tmp/katex/
-rm -f .yarnrc.yml
 npm install --no-optional --no-lockfile --no-package-lock --no-save --omit=optional &
 npm install pkg commander --no-optional --no-lockfile --no-package-lock --no-audit --no-fund --omit=optional &
 wait

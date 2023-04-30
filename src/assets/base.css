@@ -121,7 +121,7 @@ body>ul, body>ol {
 
 /* If list is inside a list, add a margin to left */
 li ol li, li ul li {
-    margin-left: 0.5in;
+    margin-left: 0.25in;
 }
 
 /* If an ordered and unordered list is the only child, apply no margin */
@@ -191,6 +191,7 @@ sub, sup {
 table {
     width: 100%;
     border-collapse: collapse;
+    margin: 1em 0
 }
 
 h1:not(:first-child) {
@@ -203,7 +204,15 @@ table, th, td {
 
 table p {
     line-height: 100%;
-    margin: 0;
+    margin: 8px 0;
+}
+
+table p:first-child {
+    margin: 0 0 8px;
+}
+
+table p:last-child {
+    margin: 8px 0 0;
 }
 
 th {

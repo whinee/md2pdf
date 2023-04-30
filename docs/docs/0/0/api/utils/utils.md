@@ -320,7 +320,7 @@ Return the first argument that is not `None`, else return `None`.
 <h3><b><a href="#func-run_mp_qir" id="func-run_mp_qir">run_mp_qir</a></b></h3>
 
 ```python
-(func: collections.abc.Callable[..., typing.Any], iterable: collections.abc.Iterable[typing.Any], callback: collections.abc.Callable[..., typing.Any]) ‑> None
+(func: collections.abc.Callable[..., typing.Any], iterable: collections.abc.Iterable[typing.Any], callback: Optional[collections.abc.Callable[..., typing.Any]] = None) ‑> None
 ```
 
     
@@ -358,7 +358,7 @@ This function requires the given function to return a bool, or an iterable with 
 <h3><b><a href="#func-run_mp_star_qir" id="func-run_mp_star_qir">run_mp_star_qir</a></b></h3>
 
 ```python
-(func: collections.abc.Callable[..., typing.Any], iterable: collections.abc.Iterable[collections.abc.Iterable[typing.Any]], callback: collections.abc.Callable[..., typing.Any]) ‑> None
+(func: collections.abc.Callable[..., typing.Any], iterable: collections.abc.Iterable[collections.abc.Iterable[typing.Any]], callback: Optional[collections.abc.Callable[..., typing.Any]] = None) ‑> None
 ```
 
     
@@ -443,7 +443,7 @@ If given string is decimal, convert string to integer, else return False.
 <h3><b><a href="#func-which_ls" id="func-which_ls">which_ls</a></b></h3>
 
 ```python
-(cmd: str, mode: Optional[int] = 1, path: str | None = '/home/whine/whi_ne/3/projects/personal/tools/md2pdf-rewrite/pyenv/bin:/home/whine/bin:/home/whine/whi_ne/2/.local/share:/home/whine/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin') ‑> Union[tuple[str], tuple[str, ...], ForwardRef(None)]
+(cmd: str, mode: Optional[int] = 1, path: str | None = '/home/whine/whi_ne/3/projects/personal/tools/md2pdf-rewrite/pyenv/bin:/home/whine/bin:/home/whine/whi_ne/2/.local/share:/home/whine/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/whine/.dotnet/tools:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin') ‑> Union[tuple[str], tuple[str, ...], ForwardRef(None)]
 ```
 
     

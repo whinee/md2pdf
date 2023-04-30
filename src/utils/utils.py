@@ -431,7 +431,7 @@ def run_mp_star(func: types.CallableAny, iterable: types.IterIterAny) -> types.L
 def run_mp_qir(
     func: types.CallableAny,
     iterable: types.IterAny,
-    callback: types.CallableAny,
+    callback: Optional[types.CallableAny] = None,
 ) -> None:
     """
     Run `multiprocessing.Pool().map_async()`, and quit in return.
@@ -456,7 +456,7 @@ def run_mp_qir(
 def run_mp_star_qir(
     func: types.CallableAny,
     iterable: types.IterIterAny,
-    callback: types.CallableAny,
+    callback: Optional[types.CallableAny] = None,
 ) -> None:
     """
     Run `multiprocessing.Pool().starmap_async()`, and quit in return.

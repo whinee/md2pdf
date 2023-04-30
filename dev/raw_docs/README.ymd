@@ -21,7 +21,7 @@
     <a href="https://github.com/{{organization}}/{{repo_name}}/graphs/contributors">
         <img src="https://img.shields.io/github/contributors/{{organization}}/{{repo_name}}.svg?style=for-the-badge&logo=data:image/png;base64,{{contributors_b64}}">
     </a>
-    <a href="https://{{site}}/license.html">
+    <a href="license.md">
         <img src="https://img.shields.io/badge/LICENSE-A31F34?style=for-the-badge&logoWidth=25&logo=data:image/png;base64,{{license_b64}}">
     </a>
 </p>
@@ -96,7 +96,7 @@ Follow [this link](docs/{{ver_user}}/{{ver_dev}}/installation.md) to install {{p
 
 ## Getting Started
 
-Visit [this link](docs/{{ver_user}}/{{ver_dev}}/getting-started) to get started. The instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+Visit [this link](getting-started.md) to get started. The instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ## Advantages
 

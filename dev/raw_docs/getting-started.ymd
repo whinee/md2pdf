@@ -40,7 +40,7 @@ title: Developing {{project_name}}
 
     ![5](/docs/assets/images/prerequisites/python/windows/5.png)
 
-    Toggle the "`App installer`" for both "`python.exe`" and "`python3.exe`". Exit the settings app.
+    Turn off the "`App installer`" for both "`python.exe`" and "`python3.exe`". Afterwards, exit the settings app.
 
 7. Press `Windows` + `R` (Press `Windows` and `R` keys simultaneously)
 
