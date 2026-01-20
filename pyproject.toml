@@ -44,7 +44,7 @@ questionary = "^1.10.0"
 tabulate = "^0.9.0"
 yachalk = "^0.1.5"
 pypandoc = "^1.11"
-weasyprint = "^58.1"
+weasyprint = ">=58.1,<69.0"
 
 [tool.poetry.group.dev]
 optional = true
